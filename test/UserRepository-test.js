@@ -8,6 +8,7 @@ describe('UserRepository', function() {
   let user1;
   let user2;
   let user3;
+  let users;
   let userRepository;
   beforeEach(() => {
     user1 = new User({
@@ -51,8 +52,9 @@ describe('UserRepository', function() {
         33
       ]
     })
-    userRepository = new UserRepository();
-    userRepository.users.push(user1, user2, user3);
+    users = [user1, user2, user3]
+    userRepository = new UserRepository(users);
+    //userRepository.users.push(user1, user2, user3);
   })
   it('should be a function', function() {
     expect(UserRepository).to.be.a('function');
@@ -60,6 +62,11 @@ describe('UserRepository', function() {
   it('should be an instance of user repository', function() {
     expect(userRepository).to.be.an.instanceof(UserRepository);
   });
+  it('should take in an array as an argument' , function() {
+    expect(Array.isArray(users)).to.equal(true)
+    let testUserRepo = new UserRepository(users);
+    expect(testUserRepo.users).to.deep.equal(users);
+  })
   it('should hold an array of users', function() {
     expect(userRepository.users).to.deep.equal([user1, user2, user3]);
     expect(userRepository.users.length).to.equal(3);
