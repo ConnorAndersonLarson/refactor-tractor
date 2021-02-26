@@ -70,7 +70,7 @@ class UserRepository {
   }
   calculateAverageDailyWater(date) {
     let todaysDrinkers = this.users.filter(user => {
-      return user.addDailyOunces(date) > 0;
+      return user.hydration.addDailyOunces(date) > 0;
     });
     let sumDrankOnDate = todaysDrinkers.reduce((sum, drinker) => {
       return sum += drinker.addDailyOunces(date);

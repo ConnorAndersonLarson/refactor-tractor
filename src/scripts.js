@@ -25,9 +25,9 @@ activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
 
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+// hydrationData.forEach(hydration => {
+//   hydration = new Hydration(hydration, userRepository);
+// });
 
 sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
@@ -35,6 +35,7 @@ sleepData.forEach(sleep => {
 
 let user = userRepository.users[0];
 let todayDate = "2019/09/22";
+updateRecords()
 user.findFriendsNames(userRepository.users);
 
 let dailyOz = document.querySelectorAll('.daily-oz');
@@ -106,6 +107,10 @@ mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+
+updateRecords() {
+  user.hydration.updateHydration();
+}
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -184,7 +189,7 @@ function updateTrendingStepDays() {
 }
 
 for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  dailyOz[i].innerText = user.hydration.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
 
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
@@ -195,9 +200,16 @@ dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;
+// hydrationUserOuncesToday.innerText = user.hydration.ouncesRecord.find(hydration => {
+//   return hydration.userID === user.id && hydration.date === todayDate;
+// }).numOunces;
+userOuncesToday(todayDate)
+
+function userOuncesToday(date) {
+  let todayOunces = user.hydration.ouncesRecord.find(day => date === Object.keys(day)[0])
+  hydrationUserOuncesToday.innerText = todayOunces.date;
+  return;
+}
 
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
