@@ -48,15 +48,26 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 
 //call helper functions
 populateDomNodes();
+ 
 
-//THESE ARE THE ORIGINAL ------------------  
-let userRepository = new UserRepository();
-console.log(userData); 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+const userList = userData.map(user => {
+  return user = new User(user);
+}); 
+const userRepository = new UserRepository(userList);
+let todayDate = "2019/09/22";
+let user = userRepository.users[0];
+
+const todaySleepData = sleepData.find(sleepItem => {
+    return sleepItem.date === todayDate
 });
 
+const allUserSleepData = sleepData.filter(sleepItem => {
+  return user.id === sleepItem.userID
+})
+
+const sleep = new Sleep(todaySleepData, allUserSleepData)
+
+console.log(sleep)
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
@@ -65,15 +76,7 @@ hydrationData.forEach(hydration => {
   hydration = new Hydration(hydration, userRepository);
 });
 
-
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
-
-let user = userRepository.users[0];
 user.findFriendsNames(userRepository.users);
-
-let todayDate = "2019/09/22";
 // let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -280,9 +283,7 @@ sleepInfoQualityToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
 }).sleepQuality;
 
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;
+sleepUserHoursToday.innerText = sleep.hoursSlept
 
 //stair info here
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
@@ -344,4 +345,6 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+
+console.log(user)
 }
