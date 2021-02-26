@@ -1,5 +1,7 @@
+import Hydration from './Hydration';
+
  class User {
-  constructor(userData) {
+  constructor(userData, date) {
     this.id = userData.id;
     this.name = userData.name;
     this.address = userData.address;
@@ -10,7 +12,7 @@
     this.friends = userData.friends;
     // this.ouncesAverage = 0;
     // this.ouncesRecord = [];
-    this.hydration = new Hydration(this.id)
+    this.hydration = new Hydration(this.id, date)
     this.hoursSleptAverage = 0;
     this.sleepQualityAverage = 0;
     this.sleepHoursRecord = [];

@@ -13,14 +13,15 @@ import Hydration from './Hydration';
 import Sleep from './Sleep';
 
 
+let todayDate = "2019/09/22";
 
-let userRepository = new UserRepository();
 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+let allUsers = userData.map(newUser => {
+  let user = new User(newUser, todayDate);
+  return user;
 });
-
+let userRepository = new UserRepository(allUsers);
+let user = userRepository.users[0];
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
@@ -33,8 +34,8 @@ sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
-let user = userRepository.users[0];
-let todayDate = "2019/09/22";
+// let user = userRepository.users[0];
+//let todayDate = "2019/09/22";
 updateRecords()
 user.findFriendsNames(userRepository.users);
 
@@ -65,7 +66,7 @@ let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality
 let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+let sortedHydrationDataByDate = user.hydration.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
   }
@@ -108,7 +109,7 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
-updateRecords() {
+function updateRecords() {
   user.hydration.updateHydration();
 }
 
@@ -207,7 +208,7 @@ userOuncesToday(todayDate)
 
 function userOuncesToday(date) {
   let todayOunces = user.hydration.ouncesRecord.find(day => date === Object.keys(day)[0])
-  hydrationUserOuncesToday.innerText = todayOunces.date;
+  hydrationUserOuncesToday.innerText = todayOunces[date];
   return;
 }
 

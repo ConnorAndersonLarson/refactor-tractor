@@ -1,7 +1,9 @@
+import hydrationData from './data/hydration';
+
 class Hydration {
-  constructor(userID) {
+  constructor(userID, date) {
     this.userID = userID;
-    this.date = todayDate;
+    this.date = date;
     //this.ounces = data.numOunces;
     this.ouncesAverage = 0;
     this.ouncesRecord = [];
@@ -17,7 +19,7 @@ class Hydration {
   // }
 
   updateHydration() {
-    this.ouncesRecord = hydrationData.reduce((record, dataset) {
+    this.ouncesRecord = hydrationData.reduce((record, dataset) => {
       if (this.userID === dataset.userID) {
         record.unshift({[dataset.date]: dataset.numOunces})
       }
@@ -39,7 +41,7 @@ class Hydration {
 
   addDailyOunces(date) {
     let daysOunces = this.ouncesRecord.find(day => Object.keys(day)[0] === date)
-    return daysOunces.date
+    return daysOunces[date];
   }
 
   // drink(userRepo) {
