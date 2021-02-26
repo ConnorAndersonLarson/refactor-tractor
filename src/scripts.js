@@ -1,16 +1,18 @@
 import './css/base.scss';
 import './css/styles.scss';
 
-import userData from './data/users';
-import activityData from './data/activity';
-import sleepData from './data/sleep';
-import hydrationData from './data/hydration';
+// import userData from './data/users';
+// import activityData from './data/activity';
+// import sleepData from './data/sleep';
+// import hydrationData from './data/hydration';
 
 import UserRepository from './UserRepository';
 import User from './User';
 import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
+
+//Global variables here
 
 
 let todayDate = "2019/09/22";
@@ -19,6 +21,49 @@ let todayDate = "2019/09/22";
 let allUsers = userData.map(newUser => {
   let user = new User(newUser, todayDate);
   return user;
+
+let dailyOz;
+
+const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
+
+
+Promise.all(apiData)
+.then(responses => Promise.all(responses.map(response => response.json())))
+.then(data => { 
+  console.log(data); 
+  
+  //have an array of resolved promises, an array of all the data we need
+   const [userData, hydrationData, sleepData, activityData] = data 
+   initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData)
+   
+
+});
+
+//put query selectors in this function that will grab DOM nodes while we wait for data to load
+//call this function right away so it fires while we wait for the other stuf to load in our fetch
+getDomNodes();
+function getDomNodes() {
+//list all the querySelectors here that we can load while we wait
+ dailyOz = document.querySelectorAll('.daily-oz');
+}
+
+//use helper functions start breaking up the code currently in intialize
+function populateDomNodes() {
+  //functionto display DOM elements
+}
+
+function initialize (userData, hydrationData, sleepData, activityData) {
+
+//call helper functions
+populateDomNodes();
+
+//THESE ARE THE ORIGINAL ------------------  
+let userRepository = new UserRepository();
+console.log(userData); 
+userData.forEach(user => {
+  user = new User(user);
+  userRepository.users.push(user)
+
 });
 let userRepository = new UserRepository(allUsers);
 let user = userRepository.users[0];
@@ -30,16 +75,20 @@ activityData.forEach(activity => {
 //   hydration = new Hydration(hydration, userRepository);
 // });
 
+
 sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
+
 // let user = userRepository.users[0];
 //let todayDate = "2019/09/22";
 updateRecords()
+
 user.findFriendsNames(userRepository.users);
 
-let dailyOz = document.querySelectorAll('.daily-oz');
+let todayDate = "2019/09/22";
+// let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 let dropdownGoal = document.querySelector('#dropdown-goal');
@@ -109,9 +158,22 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
+
 function updateRecords() {
   user.hydration.updateHydration();
 }
+
+//DUPLICATES?
+stairsTrendingButton.addEventListener('click', function() {
+  user.findTrendingStairsDays();
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+});
+
+stepsTrendingButton.addEventListener('click', function() {
+  user.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+});
+
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -189,6 +251,7 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 }
 
+
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = user.hydration.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
@@ -201,6 +264,7 @@ dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
+
 // hydrationUserOuncesToday.innerText = user.hydration.ouncesRecord.find(hydration => {
 //   return hydration.userID === user.id && hydration.date === todayDate;
 // }).numOunces;
@@ -212,12 +276,14 @@ function userOuncesToday(date) {
   return;
 }
 
+
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
 hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
 }).numOunces / 8;
 
+//sleep info here
 sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
 
 sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
@@ -246,6 +312,7 @@ sleepUserHoursToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
 }).hoursSlept;
 
+//stair info here
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
@@ -264,19 +331,10 @@ stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisW
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
-stairsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
-});
-
+//step info here
 stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
 
 stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
-
-stepsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
-});
 
 stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
@@ -292,6 +350,7 @@ stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).numSteps;
 
+//user friend's list and steps info
 user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
 user.friendsActivityRecords.forEach(friend => {
@@ -313,3 +372,4 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+}
