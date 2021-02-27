@@ -59,7 +59,8 @@ const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
 user.sleep.findTodaySleepData(sleepData); 
 user.sleep.updateSleepRecord(sleepData);
-user.sleep.calcAvgSleepData();  
+user.sleep.calcAvgSleepData();
+user.sleep.calcWeeklyAvgData(todayDate);  
 console.log(user.sleep)
 
 
@@ -254,9 +255,9 @@ hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
 }).numOunces / 8;
 
 // sleep info here
-sleepCalendarHoursAverageWeekly.innerText = user.sleep.calcWeeklyAvgHoursSlept(todayDate);
+sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
-sleepCalendarQualityAverageWeekly.innerText = user.sleep.calcWeeklyAvgQuality(todayDate);
+sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
 sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getLongestSleepers(todayDate)
@@ -274,9 +275,7 @@ stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
 
 sleepInfoQualityAverageAlltime.innerText = `${user.sleep.averageQuality}/5`;
 
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;
+sleepInfoQualityToday.innerText = `${user.sleep.sleepQuality}/5`
 
 sleepUserHoursToday.innerText = user.sleep.hoursSlept
 
