@@ -347,6 +347,8 @@ friendsStepsParagraphs.forEach(paragraph => {
 }
 
 postSleep();
+postHydrate();
+postActivity();
 
 //Post functions
 //Sleep
@@ -356,7 +358,7 @@ function postSleep() {
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+  body: JSON.stringify({"userID": `5`, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
 })
   .then(response => response.json())
   .then(json => console.log(json))
@@ -376,13 +378,13 @@ function postHydrate() {
   .catch(err => console.error(err));
 }
 //Activity
-function postSleep() {
+function postActivity() {
     fetch(`http://localhost:3001/api/v1/activity`, {
   method: 'POST',
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+  body: JSON.stringify({"userID": 5, "date": `string`, "numSteps": 3, "minutesActive": 4, "flightsOfStairs": 8})
 })
   .then(response => response.json())
   .then(json => console.log(json))
