@@ -1,5 +1,7 @@
+import Activity from "./Activity";
+
  class User {
-  constructor(userData) {
+  constructor(userData, date) {
     this.id = userData.id;
     this.name = userData.name;
     this.address = userData.address;
@@ -14,12 +16,13 @@
     this.sleepQualityAverage = 0;
     this.sleepHoursRecord = [];
     this.sleepQualityRecord = [];
-    this.activityRecord = [];
-    this.accomplishedDays = [];
+    // this.activityRecord = [];
+    // this.accomplishedDays = [];
     this.trendingStepDays = [];
     this.trendingStairsDays = [];
     this.friendsNames = [];
     this.friendsActivityRecords = []
+    this.activity = new Activity(this.id, date, this.dailyStepGoal)
   }
   getFirstName() {
     var names = this.name.split(' ');
@@ -80,12 +83,12 @@
       return sum;
     }, 0) / 7).toFixed(1);
   }
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
-    }
-  }
+  // updateActivities(activity) {
+  //   this.activityRecord.unshift(activity);
+  //   if (activity.numSteps >= this.dailyStepGoal) {
+  //     this.accomplishedDays.unshift(activity.date);
+  //   }
+  // }
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
