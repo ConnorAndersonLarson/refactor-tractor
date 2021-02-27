@@ -50,12 +50,17 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 populateDomNodes();
 
 //THESE ARE THE ORIGINAL ------------------
-let userRepository = new UserRepository();
-console.log(userData);
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+// let userRepository = new UserRepository();
+// console.log(userData);
+// userData.forEach(user => {
+//   user = new User(user);
+//   userRepository.users.push(user)
+// });
+
+const userList = userData.map(user => {
+  return user = new User(user);
 });
+let userRepository = new UserRepository(userList);
 
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
@@ -138,11 +143,17 @@ let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
 let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let sleepDate = document.querySelector('.date-input')
+let hoursSleptInput = document.querySelector('.hours-slept-input')
+let sleepQualityInput = document.querySelector('.sleep-quality-input')
+let submitButton = document.querySelector('.submit-button')
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+
+submitButton.addEventListener('click', postSleepHelper )
 
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
@@ -346,9 +357,9 @@ friendsStepsParagraphs.forEach(paragraph => {
 });
 }
 
-postSleep();
-postHydrate();
-postActivity();
+function postSleepHelper() {
+  console.log(sleepDate.value)
+}
 
 //Post functions
 //Sleep
@@ -358,7 +369,7 @@ function postSleep() {
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": `5`, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
 })
   .then(response => response.json())
   .then(json => console.log(json))
