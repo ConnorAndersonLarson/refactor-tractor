@@ -46,19 +46,12 @@ class Sleep {
   }, 0)
 }
    
-  calculateAverageHoursThisWeek(todayDate) {
-
-    //slice or splice out of sleepHoursRecord array from 0-6, reduce that down baybay
-
-    const lastWeekSleepHours = this.sleepHoursRecord.slice(0, 8)
-    console.log(lastWeekSleepHours)
-    return (this.sleepHoursRecord.reduce((sum, sleepAct) => {
-      let index = this.sleepHoursRecord.indexOf(this.sleepHoursRecord.find(sleep => sleep.date === todayDate));
-      if (index <= this.sleepHoursRecord.indexOf(sleepAct) && this.sleepHoursRecord.indexOf(sleepAct) <= (index + 6)) {
-        sum += sleepAct.hours;
-      }
-      return sum;
-    }, 0) / 7).toFixed(1);
+  calcWeeklyHoursSlept() {
+    const lastWeekSleepHours = this.sleepHoursRecord.slice(0, 7)
+    const averageSleepHours = lastWeekSleepHours.reduce((sumHours, day) => {
+       return sumHours += day.hours/7
+    }, 0)
+    return averageSleepHours.toFixed(1);    
   }
 
   calculateAverageQualityThisWeek(todayDate) {
