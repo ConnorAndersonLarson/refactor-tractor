@@ -349,13 +349,40 @@ friendsStepsParagraphs.forEach(paragraph => {
 postSleep();
 
 //Post functions
+//Sleep
 function postSleep() {
     fetch(`http://localhost:3001/api/v1/sleep`, {
   method: 'POST',
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 'string', "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+}
+//Hyrdate
+function postHydrate() {
+    fetch(`http://localhost:3001/api/v1/hydration`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": 5, "date": 'string', "numOunces": 4})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
+}
+//Activity
+function postSleep() {
+    fetch(`http://localhost:3001/api/v1/activity`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
 })
   .then(response => response.json())
   .then(json => console.log(json))
