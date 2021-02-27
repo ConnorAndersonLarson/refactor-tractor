@@ -4,8 +4,6 @@ class Sleep {
     this.date = date; 
     this.hoursSlept = 0; 
     this.sleepQuality = 0; 
-    this.hoursSleptAverage = 0;
-    this.sleepQualityAverage = 0;
     this.sleepHoursRecord = [];
     this.sleepQualityRecord = [];
   }
@@ -34,19 +32,21 @@ class Sleep {
       });
     })
   }
-  calcAverageHoursSlept() {  
-    this.hoursSleptAverage = this.reduce((averageHours, day) => {
-        return ((averageHours += day.hours)/this.sleepHoursRecord.length).toFixed(1);
+  calcAvgSlept() {  
+    const averageSlept = this.sleepHoursRecord.reduce((averageHours, day) => {
+      return averageHours += day.hours/this.sleepHoursRecord.length;
     }, 0)
+    return averageSlept.toFixed(1); 
   }
 
-  calcAverageSleepQuality() {  
-    this.sleepQualityAverage = this.sleepQualityRecord.reduce((averageQuality, day) => {
-      return ((averageQuality += day.quality)/this.sleepQualityRecord.length).toFixed(1);
-  }, 0)
-}
+  calcAvgQuality() {  
+    const averageQualityAllTime = this.sleepQualityRecord.reduce((averageQuality, day) => {
+      return averageQuality += day.quality/this.sleepQualityRecord.length;
+    }, 0) 
+    return averageQualityAllTime.toFixed(1);
+  }
    
-  calcWeeklyHoursSlept() {
+  calcWeeklyAvgHoursSlept() {
     const lastWeekSleepHours = this.sleepHoursRecord.slice(0, 7)
     const averageSleepHours = lastWeekSleepHours.reduce((sumHours, day) => {
        return sumHours += day.hours/7
