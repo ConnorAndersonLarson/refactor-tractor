@@ -253,7 +253,7 @@ hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
 }).numOunces / 8;
 
 //sleep info here
-sleepCalendarHoursAverageWeekly.innerText = user.sleep.calculateAverageHoursThisWeek(todayDate);
+sleepCalendarHoursAverageWeekly.innerText = user.sleep.calcWeeklyAvgHoursSlept();
 
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.calculateAverageQualityThisWeek(todayDate);
 
@@ -265,13 +265,13 @@ sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getWorstSleepers(todayDate)
 }).getFirstName();
 
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+sleepInfoHoursAverageAlltime.innerText = user.sleep.calcAvgSlept(); 
 
 stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
   return (activity.date === todayDate && activity.userId === user.id)
 }).calculateMiles(userRepository);
 
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+sleepInfoQualityAverageAlltime.innerText = `${user.sleep.calcAvgQuality()}/5`;
 
 sleepInfoQualityToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
