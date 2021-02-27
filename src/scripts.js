@@ -16,7 +16,7 @@ import Sleep from './Sleep';
 
 
 let todayDate = "2019/09/22";
-
+let hyData = hydrationData
 
 let allUsers = userData.map(newUser => {
   let user = new User(newUser, todayDate);
@@ -160,7 +160,7 @@ stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 
 function updateRecords() {
-  user.hydration.updateHydration();
+  user.hydration.updateHydration(hydrationData);
 }
 
 //DUPLICATES?
