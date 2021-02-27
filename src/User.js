@@ -20,7 +20,6 @@ import Sleep from "./Sleep";
     this.friendsNames = [];
     this.friendsActivityRecords = []
     this.sleep = new Sleep(this.id, date)
-    this.activity = new Activity()
   }
   getFirstName() {
     var names = this.name.split(' ');
