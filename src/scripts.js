@@ -45,21 +45,24 @@ function populateDomNodes() {
 }
 
 function initialize (userData, hydrationData, sleepData, activityData) {
+  let todayDate = "2019/09/22";
 
 //call helper functions
 populateDomNodes();
-
-//THESE ARE THE ORIGINAL ------------------  
-let userRepository = new UserRepository();
-console.log(userData); 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+const userList = userData.map(user => {
+  return user = new User(user, todayDate);
 });
+let userRepository = new UserRepository(userList);
 
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
+let user = userRepository.users[0];
+
+const userActivityData = activityData.filter(activity => {
+  return user.id === activity.userID;
+})
+
+user.activity.findTodayActivityData(userActivityData)
+user.activity.updateActivities(userActivityData)
+console.log(user.activity)
 
 hydrationData.forEach(hydration => {
   hydration = new Hydration(hydration, userRepository);
@@ -70,10 +73,10 @@ sleepData.forEach(sleep => {
   sleep = new Sleep(sleep, userRepository);
 });
 
-let user = userRepository.users[0];
+
 user.findFriendsNames(userRepository.users);
 
-let todayDate = "2019/09/22";
+
 // let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
