@@ -16,12 +16,11 @@ import Sleep from './Sleep';
 
 
 let todayDate = "2019/09/22";
-let hyData = hydrationData
 
-let allUsers = userData.map(newUser => {
-  let user = new User(newUser, todayDate);
-  return user;
-
+// let allUsers = userData.map(newUser => {
+//   let user = new User(newUser, todayDate);
+//   return user;
+// });
 let dailyOz;
 
 const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
@@ -29,13 +28,13 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
-.then(data => { 
-  console.log(data); 
-  
+.then(data => {
+  console.log(data);
+
   //have an array of resolved promises, an array of all the data we need
-   const [userData, hydrationData, sleepData, activityData] = data 
+   const [userData, hydrationData, sleepData, activityData] = data
    initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData)
-   
+
 
 });
 
@@ -56,15 +55,15 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 
 //call helper functions
 populateDomNodes();
-
-//THESE ARE THE ORIGINAL ------------------  
-let userRepository = new UserRepository();
-console.log(userData); 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
-
-});
+user.hydration.updateHydration(hydrationData)
+//THESE ARE THE ORIGINAL ------------------
+// let userRepository = new UserRepository();
+// console.log(userData);
+// userData.forEach(user => {
+//   user = new User(user);
+//   userRepository.users.push(user)
+//
+// });
 let userRepository = new UserRepository(allUsers);
 let user = userRepository.users[0];
 activityData.forEach(activity => {
@@ -159,9 +158,9 @@ stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 
-function updateRecords() {
-  user.hydration.updateHydration(hydrationData);
-}
+// function updateRecords() {
+//   user.hydration.updateHydration(hydrationData);
+// }
 
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
