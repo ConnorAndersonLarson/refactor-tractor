@@ -21,13 +21,13 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
-.then(data => { 
-  console.log(data); 
-  
+.then(data => {
+  console.log(data);
+
   //have an array of resolved promises, an array of all the data we need
-   const [userData, hydrationData, sleepData, activityData] = data 
+   const [userData, hydrationData, sleepData, activityData] = data
    initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData)
-   
+
 
 });
 
@@ -49,9 +49,9 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 //call helper functions
 populateDomNodes();
 
-//THESE ARE THE ORIGINAL ------------------  
+//THESE ARE THE ORIGINAL ------------------
 let userRepository = new UserRepository();
-console.log(userData); 
+console.log(userData);
 userData.forEach(user => {
   user = new User(user);
   userRepository.users.push(user)
@@ -344,4 +344,20 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+}
+
+postSleep();
+
+//Post functions
+function postSleep() {
+    fetch(`http://localhost:3001/api/v1/sleep`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": 'string', "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => console.error(err));
 }
