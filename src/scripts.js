@@ -48,26 +48,20 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 
 //call helper functions
 populateDomNodes();
- 
+
+let todayDate = "2019/09/22";
+
 
 const userList = userData.map(user => {
-  return user = new User(user);
+  return user = new User(user, todayDate);
 }); 
 const userRepository = new UserRepository(userList);
-let todayDate = "2019/09/22";
 let user = userRepository.users[0];
+user.sleep.findTodaySleepData(sleepData); 
+user.sleep.updateSleepRecords(sleepData); 
+console.log(user.sleep)
 
-const todaySleepData = sleepData.find(sleepItem => {
-    return sleepItem.date === todayDate
-});
 
-const allUserSleepData = sleepData.filter(sleepItem => {
-  return user.id === sleepItem.userID
-})
-
-const sleep = new Sleep(todaySleepData, allUserSleepData)
-
-console.log(sleep)
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
@@ -259,9 +253,9 @@ hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
 }).numOunces / 8;
 
 //sleep info here
-sleepCalendarHoursAverageWeekly.innerText = sleep.calculateAverageHoursThisWeek(todayDate);
+sleepCalendarHoursAverageWeekly.innerText = user.sleep.calculateAverageHoursThisWeek(todayDate);
 
-sleepCalendarQualityAverageWeekly.innerText = sleep.calculateAverageQualityThisWeek(todayDate);
+sleepCalendarQualityAverageWeekly.innerText = user.sleep.calculateAverageQualityThisWeek(todayDate);
 
 sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
   return user.id === userRepository.getLongestSleepers(todayDate)
@@ -283,7 +277,7 @@ sleepInfoQualityToday.innerText = sleepData.find(sleep => {
   return sleep.userID === user.id && sleep.date === todayDate;
 }).sleepQuality;
 
-sleepUserHoursToday.innerText = sleep.hoursSlept
+sleepUserHoursToday.innerText = user.sleep.hoursSlept
 
 //stair info here
 stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
@@ -346,5 +340,4 @@ friendsStepsParagraphs.forEach(paragraph => {
   }
 });
 
-console.log(user)
 }
