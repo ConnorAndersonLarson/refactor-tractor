@@ -1,7 +1,8 @@
+import Activity from "./Activity";
 import Sleep from "./Sleep";
 
  class User {
-  constructor(userData) {
+  constructor(userData, date) {
     this.id = userData.id;
     this.name = userData.name;
     this.address = userData.address;
@@ -18,6 +19,8 @@ import Sleep from "./Sleep";
     this.trendingStairsDays = [];
     this.friendsNames = [];
     this.friendsActivityRecords = []
+    this.sleep = new Sleep(this.id, date)
+    this.activity = new Activity()
   }
   getFirstName() {
     var names = this.name.split(' ');
