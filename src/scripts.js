@@ -82,6 +82,8 @@ user.sleep.calcWeeklyAvgData(todayDate);
 user.hydration.updateHydration(hydrationData)
 console.log(user.sleep)
 
+//userRepo
+userRepository.calcDailyUserData(todayDate, activityData, sleepData)
 
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
@@ -296,13 +298,23 @@ sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate, sleepData)
-}).getFirstName();
+displaySleepComparison(); 
+function displaySleepComparison() {
+  const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
+  longestSleepers.forEach(sleeper => {
+    const bestSleeper = userRepository.getUser(sleeper.userID)
+    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `; 
+  });
+}
 
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
-}).getFirstName();
+//Refactor above
+// sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.allTimeLongestSleepers(todayDate, sleepData)
+// }).getFirstName();
+
+// sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
+// }).getFirstName();
 
 sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept; 
 
@@ -321,7 +333,7 @@ stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisW
 
 stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
