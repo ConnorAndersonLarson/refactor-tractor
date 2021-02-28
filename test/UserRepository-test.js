@@ -3,14 +3,13 @@ import { expect } from 'chai';
 import UserRepository from '../src/UserRepository';
 import User from '../src/User';
 import Sleep from '../src/Sleep';
+import sleepData from '../src/data/sleep-test-data';
+import activityData from '../src/data/activity-test-data';
 
-describe('UserRepository', function() {
-  let user1;
-  let user2;
-  let user3;
-  let users;
-  let userRepository;
+describe.only('UserRepository', function() {
+  let user1, user2, user3, users, date, userRepository;
   beforeEach(() => {
+    date = "2021/02/27";
     user1 = new User({
       'id': 1,
       'name': 'Luisa Hane',
@@ -54,7 +53,6 @@ describe('UserRepository', function() {
     })
     users = [user1, user2, user3]
     userRepository = new UserRepository(users);
-    //userRepository.users.push(user1, user2, user3);
   })
   it('should be a function', function() {
     expect(UserRepository).to.be.a('function');
@@ -70,12 +68,42 @@ describe('UserRepository', function() {
   it('should hold an array of users', function() {
     expect(userRepository.users).to.deep.equal([user1, user2, user3]);
     expect(userRepository.users.length).to.equal(3);
+    expect(userRepository.users[0]).to.be.instanceof(User); 
   });
-  it('getUser should return user object when given a user id', function() {
-    expect(userRepository.getUser(2)).to.equal(user2);
+  it('should have a default daily record of user\'s activities and sleep', function () {
+    expect(userRepository.dailyUsersActivities).to.deep.equal([])
+    expect(userRepository.dailyUsersSleep).to.deep.equal([]); 
   })
-  it('calculateAverageStepGoal should return average step goal for all users', function() {
-    expect(userRepository.calculateAverageStepGoal()).to.equal(10000);
+  describe('userRepository Methods', function () {
+  it('should return user object when given a user id', function() {
+    const foundUser = userRepository.getUser(2); 
+    expect(foundUser).to.equal(user2);
+  })
+  it('should find the daily user data for activity and sleep', function () {
+    userRepository.calcDailyUserData(date, activityData, sleepData);
+    expect(userRepository.dailyUsersActivities.length).to.equal(2);
+    expect(userRepository.dailyUsersSleep.length).to.equal(2); 
+    expect(userRepository.dailyUsersSleep).to.deepEqual([{
+      "userID": 1,
+      "date": "2021/02/27",
+      "hoursSlept": 6.1,
+      "sleepQuality": 1.3
+    },
+    {
+      "userID": 2,
+      "date": "2021/02/27",
+      "hoursSlept": 4.4,
+      "sleepQuality": 2.3
+    }])
+  })
+  it('should return average step goal for all users', function() {
+    const averageStepGoal = userRepository.calculateAverageStepGoal();
+    expect(averageStepGoal).to.equal(10000);
+  });
+  //left off here, need data file example
+  it('should calculate daily average steps for all users', function () {
+    const averageSteps = userRepository.calculateAverageSteps();
+    expect(averageSteps).to.equal()
   })
   it('calculateAverageSleepQuality should return average sleep quality for all users', function() {
     user1.sleepQualityAverage = 3.3;
@@ -175,4 +203,5 @@ describe('UserRepository', function() {
     user2.activityRecord = [{date: "2019/09/16", minutesActive: 78}, {date: "2019/09/17", minutesActive: 12}];
     expect(userRepository.calculateAverageMinutesActive("2019/09/17")).to.equal(44);
   })
+ })
 });
