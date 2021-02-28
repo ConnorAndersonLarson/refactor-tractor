@@ -119,25 +119,27 @@ main {
 }
 
 .main-card {
+  padding: 10px 0 10px 0;
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 20vw;
-  justify-content: center;
+  height: inherit;
+  justify-content: space-between;
 }
 
 .card-container {
   @include center-flex();
+  margin: .5vw;
 }
 
 .main-card-top-row {
-  align-items: center;
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
 .main-card-bottom-row {
+  display: flex;
   text-align: center;
   width: 100%;
 }
@@ -145,25 +147,21 @@ main {
 #steps-card-container {
   background-color: #F5634B;
   grid-area: steps;
-  margin: .5vw;
 }
 
 #hydration-card-container {
   background-color: #54C6BE;
   grid-area: hydration;
-  margin: .5vw;
 }
 
 #stairs-card-container {
   background-color: #8975B2;
   grid-area: stairs;
-  margin: .5vw;
 }
 
 #sleep-card-container {
   background-color: #FBD089;
   grid-area: sleep;
-  margin: .5vw;
 }
 
 .card-data-line {
@@ -222,8 +220,5 @@ main {
   }
   h3{
     font-size: 5vw;
-  }
-  .card-container {
-    margin: 25px 1px 25px 1px;
   }
 }
