@@ -52,23 +52,10 @@ function populateDomNodes() {
 }
 
 function initialize (userData, hydrationData, sleepData, activityData) {
+let todayDate = "2019/09/22";
 
 //call helper functions
 populateDomNodes();
-
-//THESE ARE THE ORIGINAL ------------------
-// let userRepository = new UserRepository();
-// console.log(userData);
-// userData.forEach(user => {
-//   user = new User(user);
-//   userRepository.users.push(user)
-//
-// });
-// let userRepository = new UserRepository(allUsers);
-// let user = userRepository.users[0];
-
-let todayDate = "2019/09/22";
-
 
 const userList = userData.map(user => {
   return user = new User(user, todayDate);
@@ -78,22 +65,18 @@ let user = userRepository.users[0];
 user.sleep.findTodaySleepData(sleepData); 
 user.sleep.updateSleepRecord(sleepData);
 user.sleep.calcAvgSleepData();
-user.sleep.calcWeeklyAvgData(todayDate);  
+user.sleep.calcWeeklyAvgData(todayDate); 
+
 user.hydration.updateHydration(hydrationData)
-console.log(user.sleep)
 
-
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
-
-// hydrationData.forEach(hydration => {
-//   hydration = new Hydration(hydration, userRepository);
-// });
-
-// let user = userRepository.users[0];
-//let todayDate = "2019/09/22";
-//updateRecords()
+const activity = new Activity(user, todayDate);
+const userActivityData = activityData.filter(activity => {
+  return user.id === activity.userID;
+})
+activity.findTodayActivityData(userActivityData);
+activity.updateActivities(userActivityData);
+activity.calcWeeklyAverageActive(todayDate); 
+console.log(activity)
 
 user.findFriendsNames(userRepository.users);
 // let dailyOz = document.querySelectorAll('.daily-oz');
@@ -166,20 +149,14 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
-
-// function updateRecords() {
-//   user.hydration.updateHydration(hydrationData);
-// }
-
-//DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
 });
 
 stepsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+  activity.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
 });
 
 
@@ -250,13 +227,11 @@ function showInfo() {
 }
 
 function updateTrendingStairsDays() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights</p>`;
 }
 
 function updateTrendingStepDays() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
 }
 
 
@@ -296,19 +271,17 @@ sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();
+// sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.getLongestSleepers(todayDate)
+// }).getFirstName();
 
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
-}).getFirstName();
+// sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.getWorstSleepers(todayDate)
+// }).getFirstName();
 
 sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept; 
 
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository);
+stepsInfoMilesWalkedToday.innerText = activity.calculateMiles(); 
 
 sleepInfoQualityAverageAlltime.innerText = `${user.sleep.averageQuality}/5`;
 
@@ -317,11 +290,11 @@ sleepInfoQualityToday.innerText = `${user.sleep.sleepQuality}/5`
 sleepUserHoursToday.innerText = user.sleep.hoursSlept
 
 //stair info here
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(todayDate);
 
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+stairsCalendarStairsAverageWeekly.innerText = (activity.calcAvgWeeklyFlights(todayDate) * 12).toFixed(0);
 
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+// stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
 
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -331,20 +304,20 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;
 
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+//I think duplicated
+// stairsCalendarFlightsAverageWeekly.innerText = activity.calculateAverageFlightsThisWeek(todayDate);
+// stairsCalendarStairsAverageWeekly.innerText = (activity.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
 //step info here
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive; 
 
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps; 
 
-stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+// stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
-stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+// stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
 
-stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+// stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -355,7 +328,7 @@ stepsUserStepsToday.innerText = activityData.find(activity => {
 }).numSteps;
 
 //user friend's list and steps info
-user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+// user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
 user.friendsActivityRecords.forEach(friend => {
   dropdownFriendsStepsContainer.innerHTML += `
