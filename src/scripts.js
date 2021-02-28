@@ -227,11 +227,11 @@ function showInfo() {
 }
 
 function updateTrendingStairsDays() {
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights!</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights</p>`;
 }
 
 function updateTrendingStepDays() {
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times!</p>`;
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
 }
 
 

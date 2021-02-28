@@ -14,7 +14,7 @@ class Activity extends User {
     
   findTodayActivityData(activityData) {
     const todaysData = activityData.find(activity => {
-      return this.id === activity.userID && this.date === activity.date
+      return this.id === activity.userID && this.date === activity.date;
     }) 
     this.steps = todaysData.numSteps;
     this.minutesActive = todaysData.minutesActive; 
@@ -46,8 +46,8 @@ class Activity extends User {
     }  
        return weeklyAverage; 
     }, {}); 
-    this.weeklyAverageSteps = Number((averageWeeklyData.steps/7).toFixed(0))
-    this.weeklyAverageActive = Number((averageWeeklyData.minutesActive/7).toFixed(0))
+    this.weeklyAverageSteps = Number((averageWeeklyData.steps/7).toFixed(0));
+    this.weeklyAverageActive = Number((averageWeeklyData.minutesActive/7).toFixed(0));
   }
   //don't see where this is getting used 
   compareStepGoal() {
@@ -58,22 +58,23 @@ class Activity extends User {
   findMostFlightsClimbed() {
     const sortedStairs = this.activityRecord.sort((activityA, activityB) => {
       return activityA.flightsOfStairs - activityB.flightsOfStairs
-    })
-    return sortedStairs[sortedStairs.length - 1].flightsOfStairs
+    });
+    return sortedStairs[sortedStairs.length - 1].flightsOfStairs;
   }
   //find all the days where they exceeded their step goal and list # of days
   findGoalMatchDays() {
     const positiveDays = this.activityRecord.filter(activity => {
       return activity.numSteps >= this.dailyStepGoal; 
     });
-    return positiveDays.length
+    return positiveDays.length;
   }
+
   calcAvgWeeklyFlights(date) {
     const currentDateIndex = this.activityRecord.findIndex(activity => activity.date === date);
     const currentWeekData = this.activityRecord.slice(currentDateIndex, currentDateIndex + 7); 
     const averageWeeklyFlights = currentWeekData.reduce((average, day) => {
         return average += day.flightsOfStairs;
-    }, 0)
+    }, 0);
     return Number((averageWeeklyFlights/7).toFixed(0)); 
 
   }
