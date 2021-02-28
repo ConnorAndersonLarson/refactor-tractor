@@ -1,3 +1,5 @@
+@import 'variables'
+
 *,
 *:after,
 *:before {
@@ -8,7 +10,7 @@ padding: 0;
 
 body {
   background-color: #1F1F1F;
-  font-family: 'Oswald', sans-serif;
+  font-family: $oswald;
 }
 
 /* HEADER */
@@ -69,7 +71,7 @@ h2 {
 
 h3 {
   display: inline;
-  font-family: 'Work Sans', sans-serif;
+  font-family: $work;
   font-size: 3vw;
   font-weight: 700;
   letter-spacing: .2em;
@@ -86,7 +88,7 @@ h5 {
 }
 
 p {
-  font-family: 'Work Sans', sans-serif;
+  font-family: $work;
   font-size: 1.2vw;
   font-weight: 600;
   letter-spacing: .2vw;
@@ -179,52 +181,27 @@ main {
 
 /* BUTTONS */
 .info-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
+  @include buttons();
   display: inline;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
 }
 
 .friends-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
+  @include buttons();
   display: inline;
-  height: 3.4vw;
-  margin-right: 1vw;
-  width: 3.4vw;
 }
 
 .calendar-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
+  @include buttons();
   display: inline;
   float: right;
-  height: 3.4vw;
-  margin-right: 1vw;
-  width: 3.4vw;
 }
 
 .trending-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
+  @include buttons();
 }
 
 .go-back-button {
-  background-position: center;
-  background-size: 3.4vw;
-  border: none;
-  height: 3.4vw;
-  margin-left: 1vw;
-  width: 3.4vw;
+  @include buttons();
 }
 
 .steps-go-back-button {
