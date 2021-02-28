@@ -1,9 +1,8 @@
 class UserRepository {
-  constructor(users, date) {
+  constructor(users) {
     this.users = users;
     this.dailyUsersActivities = [];
-    this.dailyUsersSleep = [];  
-    this.date = date; 
+    this.dailyUsersSleep = [];   
   }
   getUser(id) {
     return this.users.find(function(user) {
@@ -30,7 +29,7 @@ class UserRepository {
   }
 
   calculateAverageSteps() {
-    const dailyUserStepTotal = this.dailyUsersActivities.reduce((stepSum, user) => {
+    const dailyUserStepTotal = this.dailyUsersActivities.reduce((stepSum, user) => { 
       return stepSum += user.numSteps   
     }, 0);
     return Math.round(dailyUserStepTotal/this.dailyUsersActivities.length);
@@ -58,7 +57,7 @@ class UserRepository {
     const sumSleepQuality = this.dailyUsersSleep.reduce((qualitySum, user) => {
       return qualitySum += user.sleepQuality
     }, 0);
-    return Math.round(sumSleepQuality/this.dailyUsersSleep.length); 
+    return Number((sumSleepQuality/this.dailyUsersSleep.length).toFixed(1)); 
   }
   //Also not being used currently
   //can fix this to call the average weekly sleep method when inheritance is used
