@@ -36,16 +36,11 @@ class Activity extends User {
       return activity.date === date; 
     });
     const currentWeekData = this.activityRecord.slice(currentDateIndex, currentDateIndex + 7); 
-    const averageWeeklyData = currentWeekData.reduce((weeklyAverage, day) => {
-      if(!weeklyAverage.steps) {
-       weeklyAverage.steps = day.numSteps;
-       weeklyAverage.minutesActive = day.minutesActive; 
-    } else {
-       weeklyAverage.steps += day.numSteps;
-       weeklyAverage.minutesActive += day.minutesActive; 
-    }  
-       return weeklyAverage; 
-    }, {}); 
+      const averageWeeklyData = {steps: 0, minutesActive: 0};
+      currentWeekData.forEach(day => {
+        averageWeeklyData.steps += day.numSteps;
+        averageWeeklyData.minutesActive += day.minutesActive;
+    });
     this.weeklyAverageSteps = Number((averageWeeklyData.steps/7).toFixed(0));
     this.weeklyAverageActive = Number((averageWeeklyData.minutesActive/7).toFixed(0));
   }
