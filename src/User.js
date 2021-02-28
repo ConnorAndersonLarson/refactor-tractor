@@ -1,5 +1,8 @@
+
+import Hydration from './Hydration';
 import Activity from "./Activity";
 import Sleep from "./Sleep";
+
 
  class User {
   constructor(userData, date) {
@@ -11,8 +14,6 @@ import Sleep from "./Sleep";
     this.dailyStepGoal = userData.dailyStepGoal;
     this.totalStepsThisWeek = 0;
     this.friends = userData.friends;
-    this.ouncesAverage = 0;
-    this.ouncesRecord = [];
     this.activityRecord = [];
     this.accomplishedDays = [];
     this.trendingStepDays = [];
@@ -25,24 +26,7 @@ import Sleep from "./Sleep";
     var names = this.name.split(' ');
     return names[0].toUpperCase();
   }
-  updateHydration(date, amount) {
-    this.ouncesRecord.unshift({[date]: amount});
-    if (this.ouncesRecord.length) {
-      this.ouncesAverage = Math.round((amount + (this.ouncesAverage * (this.ouncesRecord.length - 1))) / this.ouncesRecord.length);
-    } else {
-      this.ouncesAverage = amount;
-    }
-  }
-  addDailyOunces(date) {
-    return this.ouncesRecord.reduce((sum, record) => {
-      let amount = record[date];
-      if (amount) {
-        sum += amount
-      }
-      return sum
-    }, 0)
-  }
-  
+
   updateActivities(activity) {
     this.activityRecord.unshift(activity);
     if (activity.numSteps >= this.dailyStepGoal) {

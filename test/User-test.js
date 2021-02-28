@@ -47,12 +47,12 @@ describe('User', function() {
   it('should have friends', function() {
     expect(user.friends).to.deep.equal([16, 4, 8])
   });
-  it('should have a default ouncesAverage of 0', function() {
-    expect(user.ouncesAverage).to.equal(0);
-  });
-  it('should have a default ouncesRecord of []', function() {
-    expect(user.ouncesRecord).to.deep.equal([]);
-  });
+  // it('should have a default ouncesAverage of 0', function() {
+  //   expect(user.ouncesAverage).to.equal(0);
+  // });
+  // it('should have a default ouncesRecord of []', function() {
+  //   expect(user.ouncesRecord).to.deep.equal([]);
+  // });
   // it('should have a default hoursSleptAverage of 0', function() {
   //   expect(user.hoursSleptAverage).to.equal(0);
   // });
@@ -80,14 +80,14 @@ describe('User', function() {
   it('getFirstName should return the first name of the user', function () {
     expect(user.getFirstName()).to.equal('LUISA');
   });
-  it('addDailyOunces should show the last week of water', function() {
-    user.ouncesRecord = [
-      {"2019/06/15": 1},
-      {"2019/06/15": 1},
-      {"2019/06/16": 4}
-    ]
-    expect(user.addDailyOunces("2019/06/15")).to.equal(2);
-  });
+  // it('addDailyOunces should show the last week of water', function() {
+  //   user.ouncesRecord = [
+  //     {"2019/06/15": 1},
+  //     {"2019/06/15": 1},
+  //     {"2019/06/16": 4}
+  //   ]
+  //   expect(user.addDailyOunces("2019/06/15")).to.equal(2);
+  // });
   // describe('updateSleep', function() {
   //   beforeEach(() => {
   //     user.updateSleep("2019/06/15", 7, 4.7);

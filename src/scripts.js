@@ -14,6 +14,13 @@ import Sleep from './Sleep';
 
 //Global variables here
 
+
+let todayDate = "2019/09/22";
+
+// let allUsers = userData.map(newUser => {
+//   let user = new User(newUser, todayDate);
+//   return user;
+// });
 let dailyOz;
 
 const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
@@ -21,13 +28,13 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
-.then(data => { 
-  console.log(data); 
-  
+.then(data => {
+  console.log(data);
+
   //have an array of resolved promises, an array of all the data we need
-   const [userData, hydrationData, sleepData, activityData] = data 
+   const [userData, hydrationData, sleepData, activityData] = data
    initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData)
-   
+
 
 });
 
@@ -49,6 +56,17 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 //call helper functions
 populateDomNodes();
 
+//THESE ARE THE ORIGINAL ------------------
+// let userRepository = new UserRepository();
+// console.log(userData);
+// userData.forEach(user => {
+//   user = new User(user);
+//   userRepository.users.push(user)
+//
+// });
+// let userRepository = new UserRepository(allUsers);
+// let user = userRepository.users[0];
+
 let todayDate = "2019/09/22";
 
 
@@ -61,6 +79,7 @@ user.sleep.findTodaySleepData(sleepData);
 user.sleep.updateSleepRecord(sleepData);
 user.sleep.calcAvgSleepData();
 user.sleep.calcWeeklyAvgData(todayDate);  
+user.hydration.updateHydration(hydrationData)
 console.log(user.sleep)
 
 
@@ -68,9 +87,13 @@ activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);
 });
 
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+// hydrationData.forEach(hydration => {
+//   hydration = new Hydration(hydration, userRepository);
+// });
+
+// let user = userRepository.users[0];
+//let todayDate = "2019/09/22";
+//updateRecords()
 
 user.findFriendsNames(userRepository.users);
 // let dailyOz = document.querySelectorAll('.daily-oz');
@@ -100,7 +123,7 @@ let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality
 let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+let sortedHydrationDataByDate = user.hydration.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
   }
@@ -143,6 +166,11 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
+
+// function updateRecords() {
+//   user.hydration.updateHydration(hydrationData);
+// }
+
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
@@ -153,6 +181,7 @@ stepsTrendingButton.addEventListener('click', function() {
   user.findTrendingStepDays();
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
 });
+
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -232,7 +261,7 @@ function updateTrendingStepDays() {
 
 
 for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  dailyOz[i].innerText = user.hydration.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
 
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
@@ -243,10 +272,18 @@ dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
-//Hydration info here
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;
+
+// hydrationUserOuncesToday.innerText = user.hydration.ouncesRecord.find(hydration => {
+//   return hydration.userID === user.id && hydration.date === todayDate;
+// }).numOunces;
+userOuncesToday(todayDate)
+
+function userOuncesToday(date) {
+  let todayOunces = user.hydration.ouncesRecord.find(day => date === Object.keys(day)[0])
+  hydrationUserOuncesToday.innerText = todayOunces[date];
+  return;
+}
+
 
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
