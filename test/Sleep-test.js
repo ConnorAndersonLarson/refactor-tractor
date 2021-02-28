@@ -3,7 +3,7 @@ import Sleep from '../src/Sleep';
 import sleepData from '../src/data/sleep-test-data';
 
 
-describe.only('Sleep', function() {
+describe('Sleep', function() {
   let user1, date, sleep1; 
    
   beforeEach(() => {

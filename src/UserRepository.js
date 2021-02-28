@@ -1,8 +1,9 @@
 class UserRepository {
-  constructor(users) {
+  constructor(users, date) {
     this.users = users;
     this.dailyUsersActivities = [];
     this.dailyUsersSleep = [];  
+    this.date = date; 
   }
   getUser(id) {
     return this.users.find(function(user) {
