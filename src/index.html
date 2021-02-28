@@ -228,11 +228,34 @@
           </div>
         </section>
       </section>
-      <input type="date" value="2019-06-15"
-       min="2019-06-15" max="2019-09-22" class="date-input input">
-      <input type="number" placeholder="hours slept" class="hours-slept-input input"  min="1" max="12">
-      <input type="number" placeholder="quality of sleep" class="sleep-quality-input input" min="1" max="5">
-      <button class="submit-button">submit</button>
+      <form class="sleep-input-form">
+        <input type="date" value="2019-06-15"
+         min="2019-06-15" max="2019-09-22" class="date-input input">
+        <input type="number" placeholder="hours slept" class="hours-slept-input input"  min="1" max="12">
+        <select class="sleep-quality-input input">
+  	       <option value="0">Quality of Sleep</option>
+  	       <option value="1">1</option>
+  	       <option value="2">2</option>
+  	       <option value="3">3</option>
+  	       <option value="4">4</option>
+  	       <option value="5">5</option>
+         </select>
+        <button class="submit-button">submit</button>
+      </form>
+      <form class="hydration-input-form">
+        <input type="date" value="2019-06-15"
+         min="2019-06-15" max="2019-09-22" class="hydration-date-input input">
+        <input type="number" placeholder="ounces drank" class="ounces-drank-input input"  min="1">
+          <button class="hydration-submit-button">submit</button>
+      </form>
+      <form class="activity-input-form">
+        <input type="date" value="2019-06-15"
+         min="2019-06-15" max="2019-09-22" class="activity-date-input input">
+        <input type="number" placeholder="number of steps" class="number-steps-input input"  min="1">
+        <input type="number" placeholder="minutes active" class="minutes-active-input input"  min="1">
+        <input type="number" placeholder="flights of stairs" class="stairs-input input"  min="1">
+          <button class="activity-submit-button">submit</button>
+      </form>
     </main>
   </body>
 </html>
