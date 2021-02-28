@@ -20,7 +20,8 @@ import Sleep from "./Sleep";
     this.trendingStairsDays = [];
     this.friendsNames = [];
     this.friendsActivityRecords = []
-    this.sleep = new Sleep(this.id, date)
+    this.sleep = new Sleep(this.id, date);
+    this.hydration = new Hydration(this.id, date); 
   }
   getFirstName() {
     var names = this.name.split(' ');

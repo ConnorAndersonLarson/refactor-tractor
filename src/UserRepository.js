@@ -8,14 +8,20 @@ class UserRepository {
     })
   }
   calculateAverageStepGoal() {
-    let goals = this.users.map(function(user) {
-      return user.dailyStepGoal;
-    });
-    let total = goals.reduce(function(sum, goal) {
-      sum += goal;
-      return sum;
+    const avgStepGoal = this.users.reduce((average, user) => {
+       average += user.dailyStepGoal
+       return average/this.users.length
     }, 0);
-    return total / this.users.length;
+    console.log(avgStepGoal); 
+    return avgStepGoal; 
+    // let goals = this.users.map(function(user) {
+    //   return user.dailyStepGoal;
+    // });
+    // let total = goals.reduce(function(sum, goal) {
+    //   sum += goal;
+    //   return sum;
+    // }, 0);
+    // return total / this.users.length;
   }
   calculateAverageSleepQuality() {
     let totalSleepQuality = this.users.reduce((sum, user) => {
@@ -82,20 +88,22 @@ class UserRepository {
       return user.calculateAverageQualityThisWeek(date) > 3;
     })
   }
-  getLongestSleepers(date) {
+  getAllTimeBestSleepers(date, sleepData) {
     return sleepData.filter(sleep => {
       return sleep.date === date;
     }).sort((a, b) => {
       return b.hoursSlept - a.hoursSlept;
     })[0].userID;
   }
-  getWorstSleepers(date) {
-    return sleepData.filter(sleep => {
-      return sleep.date === date;
-    }).sort((a, b) => {
-      return a.hoursSlept - b.hoursSlept;
-    })[0].userID;
-  }
+
+  //This is negative and I dont think we should incorporate it
+  // getWorstSleepers(date, sleepData) {
+  //   return sleepData.filter(sleep => {
+  //     return sleep.date === date;
+  //   }).sort((a, b) => {
+  //     return a.hoursSlept - b.hoursSlept;
+  //   })[0].userID;
+  // }
 }
 
 export default UserRepository;

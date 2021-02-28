@@ -297,11 +297,11 @@ sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
 sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
+  return user.id === userRepository.getLongestSleepers(todayDate, sleepData)
 }).getFirstName();
 
 sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
+  return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
 }).getFirstName();
 
 sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept; 
