@@ -4,7 +4,7 @@ class Sleep { // instance for the user's sleep each day
     this.date = data.date;
     this.hoursSlept = data.hoursSlept;
     this.sleepQuality = data.sleepQuality;
-    this.sleep(userRepository);
+    // this.sleep(userRepository);
   }
   sleep(userRepo) {
     var sleep = this;
