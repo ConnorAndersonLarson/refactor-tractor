@@ -1,5 +1,3 @@
-import sleepData from './data/sleep';
-
 class UserRepository {
   constructor(users, date) {
     this.users = users;
@@ -70,13 +68,15 @@ class UserRepository {
     return Math.round(sumOfMinutesActive / allUsersMinutesActiveCount.length);
   }
   calculateAverageDailyWater(date) {
-    let todaysDrinkers = this.users.filter(user => {
-      return user.addDailyOunces(date) > 0;
-    });
-    let sumDrankOnDate = todaysDrinkers.reduce((sum, drinker) => {
-      return sum += drinker.addDailyOunces(date);
-    }, 0)
-    return Math.floor(sumDrankOnDate / todaysDrinkers.length);
+    if (date) {
+      let todaysDrinkers = this.users.filter(user => {
+        return user.hydration.addDailyOunces(date) > 0;
+      });
+      let sumDrankOnDate = todaysDrinkers.reduce((sum, drinker) => {
+        return sum += drinker.hydration.addDailyOunces(date);
+      }, 0)
+      return Math.floor(sumDrankOnDate / todaysDrinkers.length);
+    }
   }
   findBestSleepers(date) {
     return this.users.filter(user => {
