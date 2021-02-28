@@ -6,14 +6,10 @@ class Activity extends User {
     this.steps = 0;
     this.minutesActive = 0;
     this.flightsOfStairs = 0;
-    this.milesWalked = 0;
     this.weeklyAverageActive = 0; 
     this.weeklyAverageSteps = 0; 
-    this.reachedStepGoal = null;
+    this.reachedStepGoal = false;
     this.activityRecord = [];
-    this.accomplishedDays = [];
-    this.trendingStepDays = [];
-    this.trendingStairsDays = [];
   }
     
   findTodayActivityData(activityData) {
@@ -28,14 +24,11 @@ class Activity extends User {
   updateActivities(activityData) {
      activityData.forEach(activity => {
       this.activityRecord.unshift(activity);
-      if (activity.numSteps >= this.dailyStepGoal) {
-        this.accomplishedDays.unshift(activity.date);
-      }
     });
   }
   
   calculateMiles() {
-    return Math.round(this.steps * this.strideLength / 5280).toFixed(1);
+    return Number(((this.steps * this.strideLength) / 5280).toFixed(1));
   }
 
   calcWeeklyAverageActive(date) {
@@ -50,7 +43,7 @@ class Activity extends User {
     } else {
        weeklyAverage.steps += day.numSteps;
        weeklyAverage.minutesActive += day.minutesActive; 
-    }   
+    }  
        return weeklyAverage; 
     }, {}); 
     this.weeklyAverageSteps = Number((averageWeeklyData.steps/7).toFixed(0))
@@ -58,7 +51,7 @@ class Activity extends User {
   }
   //don't see where this is getting used 
   compareStepGoal() {
-    return this.reachedStepGoal = this.dailyStepGoal >= this.steps
+    return this.reachedStepGoal = this.steps >= this.dailyStepGoal;
   }
 
   //find all time stair climbing record instead of trending days here
@@ -81,7 +74,7 @@ class Activity extends User {
     const averageWeeklyFlights = currentWeekData.reduce((average, day) => {
         return average += day.flightsOfStairs;
     }, 0)
-    return Number((averageWeeklyFlights/7).toFixed(1)); 
+    return Number((averageWeeklyFlights/7).toFixed(0)); 
 
   }
 }

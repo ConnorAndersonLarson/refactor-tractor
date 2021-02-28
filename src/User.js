@@ -1,9 +1,5 @@
-//  import Activity from "./Activity";
-
 import Hydration from './Hydration';
-import Activity from "./Activity";
 import Sleep from "./Sleep";
-
 
  class User {
   constructor(userData, date) {
@@ -15,25 +11,17 @@ import Sleep from "./Sleep";
     this.strideLength = userData.strideLength;
     this.dailyStepGoal = userData.dailyStepGoal;
     this.friends = userData.friends;
-    this.activityRecord = [];
     this.accomplishedDays = [];
-    this.trendingStepDays = [];
-    this.trendingStairsDays = [];
     this.friendsNames = [];
     this.friendsActivityRecords = []
-    this.sleep = new Sleep(this.id, date)
+    this.sleep = new Sleep(this.id, date);
+    this.hydration = new Hydration(this.id, date); 
   }
   getFirstName() {
     var names = this.name.split(' ');
     return names[0].toUpperCase();
   }
 
-  updateActivities(activity) {
-    this.activityRecord.unshift(activity);
-    if (activity.numSteps >= this.dailyStepGoal) {
-      this.accomplishedDays.unshift(activity.date);
-    }
-  }
   findClimbingRecord() {
     return this.activityRecord.sort((a, b) => {
       return b.flightsOfStairs - a.flightsOfStairs;
