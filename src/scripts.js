@@ -142,11 +142,11 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('#user-info-dropdown');
-let sleepDate = document.querySelector('.date-input')
-let hoursSleptInput = document.querySelector('.hours-slept-input')
-let sleepQualityInput = document.querySelector('.sleep-quality-input')
-let submitButton = document.querySelector('.submit-button')
+let userInfoDropdown = document.querySelector('.user-info-dropdown');
+let sleepDate = document.querySelector('.date-input');
+let hoursSleptInput = document.querySelector('.hours-slept-input');
+let sleepQualityInput = document.querySelector('.sleep-quality-input');
+let submitButton = document.querySelector('.submit-button');
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -355,21 +355,27 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+function postSleepHelper() {
+  const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
+  if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
+      postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
+    } else {
+      console.log('failState')
+    }
+
+  }
 }
 
-function postSleepHelper() {
-  console.log(sleepDate.value)
-}
 
 //Post functions
 //Sleep
-function postSleep() {
+function postSleep(sleepDate, hours, quality) {
     fetch(`http://localhost:3001/api/v1/sleep`, {
   method: 'POST',
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": 'string', "hoursSlept": 7, "sleepQuality": 1})
+  body: JSON.stringify({"userID": 5, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
 })
   .then(response => response.json())
   .then(json => console.log(json))
