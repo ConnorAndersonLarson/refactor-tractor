@@ -1,0 +1,62 @@
+@mixin buttons() {
+  background-color: transparent;
+  background-position: center;
+  background-size: 40px;
+  border: none;
+  height: 40px;
+  width: 40px;
+};
+
+#profile-button {
+  @include buttons();
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  background-image: url(../images/profile.png);
+  //background-position: center;
+  //background-size: 5.6vw;
+  //border: none;
+  display: inline;
+  float: right;
+  //height: 5.6vw;
+  //margin-right: .5vw;
+  //margin-top: 5px;
+  //width: 5.6vw;
+}
+
+
+.info-button {
+  background-image: url(../images/info.png);
+  @include buttons();
+  display: inline;
+}
+
+.friends-button {
+  background-image: url(../images/friends.png);
+  @include buttons();
+  display: inline;
+}
+
+.calendar-button {
+  background-image: url(../images/calendar.png);
+  @include buttons();
+  display: inline;
+  float: right;
+}
+
+.trending-button {
+  @include buttons();
+}
+
+.go-back-button {
+  background-image: url(../images/return.png);
+  @include buttons();
+}
+
+.steps-trending-button {
+  background-image: url(../images/steps-trending.png);
+}
+
+.stairs-trending-button {
+  background-image: url(../images/stairs-trending.png);
+}

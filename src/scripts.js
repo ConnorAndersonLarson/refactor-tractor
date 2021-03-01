@@ -1,4 +1,4 @@
-import './css/base.scss';
+//import './css/base.scss';
 import './css/styles.scss';
 
 // import userData from './data/users';
@@ -57,11 +57,13 @@ let todayDate = "2019/09/22";
 //call helper functions
 populateDomNodes();
 
+
 const userList = userData.map(user => {
   return user = new User(user, todayDate);
 });
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
+
 
 //sleep
 user.sleep.findTodaySleepData(sleepData);
