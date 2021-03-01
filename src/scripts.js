@@ -155,7 +155,15 @@ let numberOfStepsInput = document.querySelector(".number-steps-input");
 let minutesActiveInput = document.querySelector(".minutes-active-input");
 let flightsOfStairsInput = document.querySelector(".stairs-input");
 let activitySubmitButton = document.querySelector(".activity-submit-button");
-
+let showSleepFormButton = document.querySelector(".show-sleep-form");
+let showActivityFormButton = document.querySelector(".show-activity-form");
+let showHydrationFormButton = document.querySelector(".show-hydration-form");
+let sleepInputForm = document.querySelector(".sleep-input-form");
+let activityInputForm = document.querySelector(".activity-input-form");
+let hydrationInputForm = document.querySelector(".hydration-input-form");
+let successfulSubmit = document.querySelector(".successful-submit");
+let failedSubmit = document.querySelector(".failed-submit");
+let clearButton = document.querySelector(".clear-button");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -165,6 +173,36 @@ stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 submitButton.addEventListener('click', postSleepHelper );
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
 activitySubmitButton.addEventListener('click', postActivityHelper);
+showSleepFormButton.addEventListener('click', showSleepForm);
+showActivityFormButton.addEventListener('click', showActivityForm);
+showHydrationFormButton.addEventListener('click', showHydrationForm);
+
+function showSleepForm() {
+  sleepInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+}
+
+function showActivityForm() {
+  activityInputForm.classList.remove("hide");
+  sleepInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+}
+
+function showHydrationForm() {
+  hydrationInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  sleepInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+}
 
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
@@ -371,8 +409,10 @@ function postSleepHelper() {
   const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
   if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
       postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
     } else {
-      console.log('failState')
+      failedSubmit.classList.remove("hide")
     }
 
   }
@@ -382,8 +422,10 @@ function postSleepHelper() {
     const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
     if(hydrationDateInput.value && ouncesDrankInputVal) {
       postHydrate(hydrationDateInput.value, ouncesDrankInputVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
     } else {
-      console.log('failState')
+        failedSubmit.classList.remove("hide")
     }
   }
 
@@ -394,8 +436,10 @@ function postSleepHelper() {
     const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
     if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
       postActivity(activityDateInput.value, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
     } else {
-      console.log("failState")
+        failedSubmit.classList.remove("hide")
     }
   }
 }
