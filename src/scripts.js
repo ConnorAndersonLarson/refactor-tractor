@@ -59,19 +59,19 @@ populateDomNodes();
 
 const userList = userData.map(user => {
   return user = new User(user, todayDate);
-}); 
+});
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
 
 //sleep
-user.sleep.findTodaySleepData(sleepData); 
+user.sleep.findTodaySleepData(sleepData);
 user.sleep.updateSleepRecord(sleepData);
 user.sleep.calcAvgSleepData();
-user.sleep.calcWeeklyAvgData(todayDate);  
+user.sleep.calcWeeklyAvgData(todayDate);
 
 //userRepo
 userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-user.sleep.calcWeeklyAvgData(todayDate); 
+user.sleep.calcWeeklyAvgData(todayDate);
 
 //hydration
 user.hydration.updateHydration(hydrationData)
@@ -83,8 +83,9 @@ const userActivityData = activityData.filter(activity => {
 })
 activity.findTodayActivityData(userActivityData);
 activity.updateActivities(userActivityData);
-activity.calcWeeklyAverageActive(todayDate); 
+activity.calcWeeklyAverageActive(todayDate);
 console.log(activity)
+
 
 user.findFriendsNames(userRepository.users);
 // let dailyOz = document.querySelectorAll('.daily-oz');
@@ -150,13 +151,88 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let userInfoDropdown = document.querySelector('.user-info-dropdown');
+let sleepDate = document.querySelector('.date-input');
+let hoursSleptInput = document.querySelector('.hours-slept-input');
+let sleepQualityInput = document.querySelector('.sleep-quality-input');
+let submitButton = document.querySelector('.submit-button');
+let hydrationDateInput = document.querySelector('.hydration-date-input');
+let ouncesDrankInput = document.querySelector('.ounces-drank-input');
+let hydrationSubmitButton = document.querySelector(".hydration-submit-button");
+let activityDateInput = document.querySelector(".activity-date-input");
+let numberOfStepsInput = document.querySelector(".number-steps-input");
+let minutesActiveInput = document.querySelector(".minutes-active-input");
+let flightsOfStairsInput = document.querySelector(".stairs-input");
+let activitySubmitButton = document.querySelector(".activity-submit-button");
+let showSleepFormButton = document.querySelector(".show-sleep-form");
+let showActivityFormButton = document.querySelector(".show-activity-form");
+let showHydrationFormButton = document.querySelector(".show-hydration-form");
+let sleepInputForm = document.querySelector(".sleep-input-form");
+let activityInputForm = document.querySelector(".activity-input-form");
+let hydrationInputForm = document.querySelector(".hydration-input-form");
+let successfulSubmit = document.querySelector(".successful-submit");
+let failedSubmit = document.querySelector(".failed-submit");
+let clearButton = document.querySelector(".clear-button");
+let errorMessage = document.querySelector(".error-message");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
+submitButton.addEventListener('click', postSleepHelper );
+hydrationSubmitButton.addEventListener('click', postHydrationHelper);
+activitySubmitButton.addEventListener('click', postActivityHelper);
+showSleepFormButton.addEventListener('click', showSleepForm);
+showActivityFormButton.addEventListener('click', showActivityForm);
+showHydrationFormButton.addEventListener('click', showHydrationForm);
+clearButton.addEventListener('click', hideForms)
+
+function showErrorMessage() {
+  errorMessage.classList.remove("hide")
+}
+
+function hideForms() {
+  sleepInputForm.classList.add("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.add("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showSleepForm() {
+  sleepInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showActivityForm() {
+  activityInputForm.classList.remove("hide");
+  sleepInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showHydrationForm() {
+  hydrationInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  sleepInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
+//DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
@@ -279,12 +355,12 @@ sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
-displaySleepComparison(); 
+displaySleepComparison();
 function displaySleepComparison() {
   const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
   longestSleepers.forEach(sleeper => {
     const bestSleeper = userRepository.getUser(sleeper.userID)
-    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `; 
+    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
   });
 }
 
@@ -297,9 +373,9 @@ function displaySleepComparison() {
 //   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
 // }).getFirstName();
 
-sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept; 
+sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept;
 
-stepsInfoMilesWalkedToday.innerText = activity.calculateMiles(); 
+stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
 
 sleepInfoQualityAverageAlltime.innerText = `${user.sleep.averageQuality}/5`;
 
@@ -327,15 +403,15 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
 // stairsCalendarStairsAverageWeekly.innerText = (activity.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
 //step info here
-stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive; 
+stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive;
 
-stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps; 
+stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps;
 
-// stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
-// stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
 
-// stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -367,5 +443,124 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+function postSleepHelper() {
+  event.preventDefault();
+  const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
+  if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
+      postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+      failedSubmit.classList.remove("hide")
+    }
 
+  }
+
+  function postHydrationHelper() {
+    event.preventDefault();
+    const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
+    if(hydrationDateInput.value && ouncesDrankInputVal) {
+      postHydrate(hydrationDateInput.value, ouncesDrankInputVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+        failedSubmit.classList.remove("hide")
+    }
+  }
+
+  function postActivityHelper() {
+    event.preventDefault();
+    const numberOfStepsVal= isNaN(parseFloat(numberOfStepsInput.value))? 0 : parseFloat(numberOfStepsInput.value);
+    const minutesActiveVal= isNaN(parseFloat(minutesActiveInput.value))? 0 : parseFloat(minutesActiveInput.value);
+    const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
+    if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
+      postActivity(activityDateInput.value, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+        failedSubmit.classList.remove("hide")
+    }
+  }
+  //Post functions
+  //Sleep
+  function postSleep(sleepDate, hours, quality) {
+      fetch(`http://localhost:3001/api/v1/sleep`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Hyrdate
+  function postHydrate(hydrationDate, ouncesDrank) {
+      fetch(`http://localhost:3001/api/v1/hydration`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Activity
+  function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+      fetch(`http://localhost:3001/api/v1/activity`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+}
+
+
+//Post functions
+//Sleep
+function postSleep(sleepDate, hours, quality) {
+    fetch(`http://localhost:3001/api/v1/sleep`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
+}
+//Hyrdate
+function postHydrate(hydrationDate, ouncesDrank) {
+    fetch(`http://localhost:3001/api/v1/hydration`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
+}
+//Activity
+function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+    fetch(`http://localhost:3001/api/v1/activity`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
 }

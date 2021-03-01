@@ -8,6 +8,9 @@
   </head>
   <body>
     <header>
+      <button class="show-activity-form">Input Activity Data</button>
+      <button class="show-sleep-form">Input Sleep Data</button>
+      <button class="show-hydration-form">Input Hydration Data</button>
       <h1><span id='header-name'></span>FITLIT</h1>
       <button type='button' name='button' id='profile-button'></button>
       <section class='hide' id='user-info-dropdown'>
@@ -228,6 +231,35 @@
           </div>
         </section>
       </section>
+      <form class="sleep-input-form hide">
+        <input type="date" value="2019-06-15" max="2019-09-22" class="date-input input">
+        <input type="number" placeholder="hours slept" class="hours-slept-input input"  min="1" max="12">
+        <select class="sleep-quality-input input">
+  	       <option value="0">Quality of Sleep</option>
+  	       <option value="1">1</option>
+  	       <option value="2">2</option>
+  	       <option value="3">3</option>
+  	       <option value="4">4</option>
+  	       <option value="5">5</option>
+         </select>
+        <button class="submit-button">submit</button>
+      </form>
+      <form class="hydration-input-form hide">
+        <input type="date" value="2019-06-15" max="2019-09-22" class="hydration-date-input input">
+        <input type="number" placeholder="ounces drank" class="ounces-drank-input input"  min="1">
+          <button class="hydration-submit-button">submit</button>
+      </form>
+      <form class="activity-input-form hide">
+        <input type="date" value="2019-06-15" max="2019-09-22" class="activity-date-input input">
+        <input type="number" placeholder="number of steps" class="number-steps-input input"  min="1">
+        <input type="number" placeholder="minutes active" class="minutes-active-input input"  min="1">
+        <input type="number" placeholder="flights of stairs" class="stairs-input input"  min="1">
+          <button class="activity-submit-button">submit</button>
+      </form>
+      <p class="successful-submit hide">Data Submitted Successfully!</p>
+      <p class="failed-submit hide">Please Fill Out the Whole Form!</p>
+      <button class="clear-button hide">Clear</button>
+      <p class="error-message hide">Error on our end, please refresh and try again!</p>
     </main>
   </body>
 </html>
