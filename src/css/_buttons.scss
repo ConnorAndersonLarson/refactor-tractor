@@ -7,6 +7,24 @@
   width: 40px;
 };
 
+#profile-button {
+  @include buttons();
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  background-image: url(../images/profile.png);
+  //background-position: center;
+  //background-size: 5.6vw;
+  //border: none;
+  display: inline;
+  float: right;
+  //height: 5.6vw;
+  //margin-right: .5vw;
+  //margin-top: 5px;
+  //width: 5.6vw;
+}
+
+
 .info-button {
   background-image: url(../images/info.png);
   @include buttons();
