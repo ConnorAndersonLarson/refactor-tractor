@@ -481,6 +481,46 @@ function postSleepHelper() {
         failedSubmit.classList.remove("hide")
     }
   }
+  //Post functions
+  //Sleep
+  function postSleep(sleepDate, hours, quality) {
+      fetch(`http://localhost:3001/api/v1/sleep`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Hyrdate
+  function postHydrate(hydrationDate, ouncesDrank) {
+      fetch(`http://localhost:3001/api/v1/hydration`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Activity
+  function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+      fetch(`http://localhost:3001/api/v1/activity`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
 }
 
 
@@ -492,7 +532,7 @@ function postSleep(sleepDate, hours, quality) {
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+  body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
 })
   .then(response => response.json())
   .then(json => console.log(json))
@@ -505,7 +545,7 @@ function postHydrate(hydrationDate, ouncesDrank) {
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": hydrationDate, "numOunces": ouncesDrank})
+  body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
 })
   .then(response => response.json())
   .then(json => console.log(json))
@@ -518,7 +558,7 @@ function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flig
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+  body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
 })
   .then(response => response.json())
   .then(json => console.log(json))
