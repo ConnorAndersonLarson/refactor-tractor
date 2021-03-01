@@ -147,13 +147,24 @@ let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
 let submitButton = document.querySelector('.submit-button');
+let hydrationDateInput = document.querySelector('.hydration-date-input');
+let ouncesDrankInput = document.querySelector('.ounces-drank-input');
+let hydrationSubmitButton = document.querySelector(".hydration-submit-button");
+let activityDateInput = document.querySelector(".activity-date-input");
+let numberOfStepsInput = document.querySelector(".number-steps-input");
+let minutesActiveInput = document.querySelector(".minutes-active-input");
+let flightsOfStairsInput = document.querySelector(".stairs-input");
+let activitySubmitButton = document.querySelector(".activity-submit-button");
+
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
-submitButton.addEventListener('click', postSleepHelper )
+submitButton.addEventListener('click', postSleepHelper );
+hydrationSubmitButton.addEventListener('click', postHydrationHelper);
+activitySubmitButton.addEventListener('click', postActivityHelper);
 
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
@@ -356,6 +367,7 @@ friendsStepsParagraphs.forEach(paragraph => {
   }
 });
 function postSleepHelper() {
+  event.preventDefault();
   const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
   if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
       postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
@@ -363,6 +375,28 @@ function postSleepHelper() {
       console.log('failState')
     }
 
+  }
+
+  function postHydrationHelper() {
+    event.preventDefault();
+    const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
+    if(hydrationDateInput.value && ouncesDrankInputVal) {
+      postHydrate(hydrationDateInput.value, ouncesDrankInputVal)
+    } else {
+      console.log('failState')
+    }
+  }
+
+  function postActivityHelper() {
+    event.preventDefault();
+    const numberOfStepsVal= isNaN(parseFloat(numberOfStepsInput.value))? 0 : parseFloat(numberOfStepsInput.value);
+    const minutesActiveVal= isNaN(parseFloat(minutesActiveInput.value))? 0 : parseFloat(minutesActiveInput.value);
+    const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
+    if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
+      postActivity(activityDateInput.value, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+    } else {
+      console.log("failState")
+    }
   }
 }
 
@@ -382,26 +416,26 @@ function postSleep(sleepDate, hours, quality) {
   .catch(err => console.error(err));
 }
 //Hyrdate
-function postHydrate() {
+function postHydrate(hydrationDate, ouncesDrank) {
     fetch(`http://localhost:3001/api/v1/hydration`, {
   method: 'POST',
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": 'string', "numOunces": 4})
+  body: JSON.stringify({"userID": 5, "date": hydrationDate, "numOunces": ouncesDrank})
 })
   .then(response => response.json())
   .then(json => console.log(json))
   .catch(err => console.error(err));
 }
 //Activity
-function postActivity() {
+function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
     fetch(`http://localhost:3001/api/v1/activity`, {
   method: 'POST',
   headers: {
   	'Content-Type': 'application/json'
   },
-  body: JSON.stringify({"userID": 5, "date": `string`, "numSteps": 3, "minutesActive": 4, "flightsOfStairs": 8})
+  body: JSON.stringify({"userID": 5, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
 })
   .then(response => response.json())
   .then(json => console.log(json))
