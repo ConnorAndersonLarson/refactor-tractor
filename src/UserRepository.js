@@ -2,7 +2,8 @@ class UserRepository {
   constructor(users) {
     this.users = users;
     this.dailyUsersActivities = [];
-    this.dailyUsersSleep = [];   
+    this.dailyUsersSleep = []; 
+    this.dailyUsersHydration = [];   
   }
   getUser(id) {
     return this.users.find(function(user) {
@@ -17,15 +18,19 @@ class UserRepository {
     return Math.round(avgStepGoal/this.users.length); 
   }
 
-  calcDailyUserData (date, activityData, sleepData) {
+  calcDailyUserData (date, activityData, sleepData, hydrationData) {
     const dailyActivity = activityData.filter(activity => {
       return activity.date === date;
     });
     const dailySleep = sleepData.filter(sleep => {
       return sleep.date === date; 
     });
+    const dailyHydration = hydrationData.filter(sleep => {
+      return sleep.date === date; 
+    });
     this.dailyUsersSleep = dailySleep; 
     this.dailyUsersActivities = dailyActivity;
+    this.dailyUsersHydration = dailyHydration; 
   }
 
   calculateAverageSteps() {
@@ -62,7 +67,11 @@ class UserRepository {
   //Also not being used currently
   //can fix this to call the average weekly sleep method when inheritance is used
   //Needs to be displayed on UI as a number of sleeprs who got > 3
-  findBestSleepers(date) {
+  findBestSleepers(date, sleepData) {
+    //need to return all users's sleep data for a week
+    //iterate the sleepData and pass in a date
+    //filter the sleep data by this date, and return all user's data for that date
+    // do this 6 more times for consecutive days
     return this.users.filter(user => {
       return user.calculateAverageQualityThisWeek(date) > 3;
     })
@@ -78,16 +87,11 @@ class UserRepository {
     return allLongestSleepers; 
   }
 
-  calculateAverageDailyWater(date) {
-    if (date) {
-      let todaysDrinkers = this.users.filter(user => {
-        return user.hydration.addDailyOunces(date) > 0;
-      });
-      let sumDrankOnDate = todaysDrinkers.reduce((sum, drinker) => {
-        return sum += drinker.hydration.addDailyOunces(date);
-      }, 0)
-      return Math.floor(sumDrankOnDate / todaysDrinkers.length);
-    }
+  calculateAverageDailyWater() {
+    const averageOuncesTotal = this.dailyUsersHydration.reduce((sumOunces, user) => {
+      return sumOunces += user.numOunces; 
+    }, 0);
+    return Math.round(averageOuncesTotal/this.dailyUsersHydration.length); 
   }
 }
 

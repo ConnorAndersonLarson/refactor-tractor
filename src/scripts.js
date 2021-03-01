@@ -70,7 +70,7 @@ user.sleep.calcAvgSleepData();
 user.sleep.calcWeeklyAvgData(todayDate);  
 
 //userRepo
-userRepository.calcDailyUserData(todayDate, activityData, sleepData)
+userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
 user.sleep.calcWeeklyAvgData(todayDate); 
 
 //hydration
