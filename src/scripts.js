@@ -1,4 +1,4 @@
-import './css/base.scss';
+//import './css/base.scss';
 import './css/styles.scss';
 
 // import userData from './data/users';
@@ -21,13 +21,13 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
-.then(data => { 
-  console.log(data); 
-  
+.then(data => {
+  console.log(data);
+
   //have an array of resolved promises, an array of all the data we need
-   const [userData, hydrationData, sleepData, activityData] = data 
+   const [userData, hydrationData, sleepData, activityData] = data
    initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData)
-   
+
 
 });
 
@@ -49,13 +49,11 @@ function initialize (userData, hydrationData, sleepData, activityData) {
 //call helper functions
 populateDomNodes();
 
-//THESE ARE THE ORIGINAL ------------------  
-let userRepository = new UserRepository();
-console.log(userData); 
-userData.forEach(user => {
-  user = new User(user);
-  userRepository.users.push(user)
+//THESE ARE THE ORIGINAL ------------------
+const userList = userData.map(user => {
+  return user = new User(user);
 });
+let userRepository = new UserRepository(userList);
 
 activityData.forEach(activity => {
   activity = new Activity(activity, userRepository);

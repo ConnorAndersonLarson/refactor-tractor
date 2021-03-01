@@ -1,11 +1,10 @@
 @mixin buttons() {
   background-color: transparent;
   background-position: center;
-  background-size: 3.4vw;
+  background-size: 40px;
   border: none;
-  height: 3.4vw;
-  //margin-left: 1vw;
-  width: 3.4vw;
+  height: 40px;
+  width: 40px;
 };
 
 .info-button {

@@ -23,7 +23,7 @@ body {
 /* HEADER */
 header {
   text-align: center;
-  height: 9vw;
+  height: auto;
 }
 
 button:hover {
@@ -49,11 +49,13 @@ button:hover {
 #user-info-dropdown {
   background-color: #1F1F1F;
   color: white;
-  margin-left: 60%;
-  margin-top: -1.2%;
-  position: relative;
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   z-index: 100;
+  width: 40%;
 }
 
 .dropdown-p {
@@ -81,7 +83,7 @@ h2 {
 h3 {
   display: inline;
   font-family: $work;
-  font-size: 3vw;
+  font-size: 2.5vw;
   font-weight: 700;
   letter-spacing: .2em;
 }
@@ -111,11 +113,11 @@ p {
 /* MAIN */
 main {
   display: grid;
-  grid-template-areas:
-  'steps hydration'
-  'stairs sleep';
-  grid-template-rows: 100% 100%;
-//  height: 40%;
+  grid-template:
+    "steps hydration" 50%
+    "stairs sleep" 50%
+    / 50% 50%;
+  height: 85%;
 }
 
 .main-card {
@@ -148,7 +150,7 @@ main {
 }
 
 .text-center {
-  padding-left: 5vw;
+  padding-left: 9vw;
 }
 
 #steps-card-container {
@@ -216,19 +218,43 @@ main {
 }
 
 @media screen and (max-width: 600px) {
+  header{
+    display:flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto;
+    padding: 5px;
+    justify-content: center;
+  }
   main {
-    grid-template-areas:
-    'steps'
-    'stairs'
-    'hydration'
-    'sleep';
+    grid-template:
+    'steps' 250px
+    'stairs' 250px
+    'hydration' 250px
+    'sleep' 250px
+    / 100%;
+    height: 85%;
     grid-row-gap: 10px;
-    grid-template-rows: 50% 50% 50% 50%;
   }
   h3{
     font-size: 5vw;
   }
+  h5{
+    font-size: 4vw;
+  }
+  .dropdown-p{
+    font-size: 3vw;
+  }
   .text-center {
     padding-left: 15vw;
+  }
+  #user-info-dropdown {
+    position: inherit;
+    background-color: #1F1F1F;
+    color: white;
+    width: 100%;
+    text-align: center;
+    z-index: 100;
+    transform: none;
   }
 }
