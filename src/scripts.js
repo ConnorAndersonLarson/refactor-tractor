@@ -86,22 +86,6 @@ activity.updateActivities(userActivityData);
 activity.calcWeeklyAverageActive(todayDate);
 console.log(activity)
 
-let user = userRepository.users[0];
-user.sleep.findTodaySleepData(sleepData);
-user.sleep.updateSleepRecord(sleepData);
-user.sleep.calcAvgSleepData();
-user.sleep.calcWeeklyAvgData(todayDate);
-
-user.hydration.updateHydration(hydrationData)
-
-const activity = new Activity(user, todayDate);
-const userActivityData = activityData.filter(activity => {
-  return user.id === activity.userID;
-})
-activity.findTodayActivityData(userActivityData);
-activity.updateActivities(userActivityData);
-activity.calcWeeklyAverageActive(todayDate);
-console.log(activity)
 
 user.findFriendsNames(userRepository.users);
 // let dailyOz = document.querySelectorAll('.daily-oz');
