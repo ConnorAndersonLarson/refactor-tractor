@@ -173,6 +173,7 @@ let hydrationInputForm = document.querySelector(".hydration-input-form");
 let successfulSubmit = document.querySelector(".successful-submit");
 let failedSubmit = document.querySelector(".failed-submit");
 let clearButton = document.querySelector(".clear-button");
+let errorMessage = document.querySelector(".error-message");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -187,6 +188,10 @@ showActivityFormButton.addEventListener('click', showActivityForm);
 showHydrationFormButton.addEventListener('click', showHydrationForm);
 clearButton.addEventListener('click', hideForms)
 
+function showErrorMessage() {
+  errorMessage.classList.remove("hide")
+}
+
 function hideForms() {
   sleepInputForm.classList.add("hide");
   activityInputForm.classList.add("hide");
@@ -194,6 +199,7 @@ function hideForms() {
   successfulSubmit.classList.add("hide");
   failedSubmit.classList.add("hide");
   clearButton.classList.add("hide");
+  errorMessage.classList.add("hide")
 }
 
 function showSleepForm() {
@@ -203,6 +209,7 @@ function showSleepForm() {
   successfulSubmit.classList.add("hide");
   failedSubmit.classList.add("hide");
   clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
 }
 
 function showActivityForm() {
@@ -212,6 +219,7 @@ function showActivityForm() {
   successfulSubmit.classList.add("hide");
   failedSubmit.classList.add("hide");
   clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
 }
 
 function showHydrationForm() {
@@ -221,6 +229,7 @@ function showHydrationForm() {
   successfulSubmit.classList.add("hide");
   failedSubmit.classList.add("hide");
   clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
 }
 
 //DUPLICATES?
@@ -398,11 +407,11 @@ stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive;
 
 stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps;
 
-// stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
-// stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
 
-// stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 
 stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -487,7 +496,7 @@ function postSleep(sleepDate, hours, quality) {
 })
   .then(response => response.json())
   .then(json => console.log(json))
-  .catch(err => console.error(err));
+  .catch(err => showErrorMessage());
 }
 //Hyrdate
 function postHydrate(hydrationDate, ouncesDrank) {
@@ -500,7 +509,7 @@ function postHydrate(hydrationDate, ouncesDrank) {
 })
   .then(response => response.json())
   .then(json => console.log(json))
-  .catch(err => console.error(err));
+  .catch(err => showErrorMessage());
 }
 //Activity
 function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
@@ -513,5 +522,5 @@ function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flig
 })
   .then(response => response.json())
   .then(json => console.log(json))
-  .catch(err => console.error(err));
+  .catch(err => showErrorMessage());
 }
