@@ -14,6 +14,13 @@ import Sleep from './Sleep';
 
 //Global variables here
 
+
+let todayDate = "2019/09/22";
+
+// let allUsers = userData.map(newUser => {
+//   let user = new User(newUser, todayDate);
+//   return user;
+// });
 let dailyOz;
 
 const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
@@ -45,33 +52,44 @@ function populateDomNodes() {
 }
 
 function initialize (userData, hydrationData, sleepData, activityData) {
+let todayDate = "2019/09/22";
 
 //call helper functions
 populateDomNodes();
 
-//THESE ARE THE ORIGINAL ------------------
+
 const userList = userData.map(user => {
-  return user = new User(user);
+  return user = new User(user, todayDate);
 });
-let userRepository = new UserRepository(userList);
-
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
-
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
-
-
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
-
+const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
-user.findFriendsNames(userRepository.users);
 
-let todayDate = "2019/09/22";
+
+//sleep
+user.sleep.findTodaySleepData(sleepData);
+user.sleep.updateSleepRecord(sleepData);
+user.sleep.calcAvgSleepData();
+user.sleep.calcWeeklyAvgData(todayDate);
+
+//userRepo
+userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
+user.sleep.calcWeeklyAvgData(todayDate);
+
+//hydration
+user.hydration.updateHydration(hydrationData)
+
+//activity
+const activity = new Activity(user, todayDate);
+const userActivityData = activityData.filter(activity => {
+  return user.id === activity.userID;
+})
+activity.findTodayActivityData(userActivityData);
+activity.updateActivities(userActivityData);
+activity.calcWeeklyAverageActive(todayDate);
+console.log(activity)
+
+
+user.findFriendsNames(userRepository.users);
 // let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -99,7 +117,7 @@ let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality
 let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-let sortedHydrationDataByDate = user.ouncesRecord.sort((a, b) => {
+let sortedHydrationDataByDate = user.hydration.ouncesRecord.sort((a, b) => {
   if (Object.keys(a)[0] > Object.keys(b)[0]) {
     return -1;
   }
@@ -135,23 +153,98 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('#user-info-dropdown');
+let userInfoDropdown = document.querySelector('.user-info-dropdown');
+let sleepDate = document.querySelector('.date-input');
+let hoursSleptInput = document.querySelector('.hours-slept-input');
+let sleepQualityInput = document.querySelector('.sleep-quality-input');
+let submitButton = document.querySelector('.submit-button');
+let hydrationDateInput = document.querySelector('.hydration-date-input');
+let ouncesDrankInput = document.querySelector('.ounces-drank-input');
+let hydrationSubmitButton = document.querySelector(".hydration-submit-button");
+let activityDateInput = document.querySelector(".activity-date-input");
+let numberOfStepsInput = document.querySelector(".number-steps-input");
+let minutesActiveInput = document.querySelector(".minutes-active-input");
+let flightsOfStairsInput = document.querySelector(".stairs-input");
+let activitySubmitButton = document.querySelector(".activity-submit-button");
+let showSleepFormButton = document.querySelector(".show-sleep-form");
+let showActivityFormButton = document.querySelector(".show-activity-form");
+let showHydrationFormButton = document.querySelector(".show-hydration-form");
+let sleepInputForm = document.querySelector(".sleep-input-form");
+let activityInputForm = document.querySelector(".activity-input-form");
+let hydrationInputForm = document.querySelector(".hydration-input-form");
+let successfulSubmit = document.querySelector(".successful-submit");
+let failedSubmit = document.querySelector(".failed-submit");
+let clearButton = document.querySelector(".clear-button");
+let errorMessage = document.querySelector(".error-message");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
+submitButton.addEventListener('click', postSleepHelper );
+hydrationSubmitButton.addEventListener('click', postHydrationHelper);
+activitySubmitButton.addEventListener('click', postActivityHelper);
+showSleepFormButton.addEventListener('click', showSleepForm);
+showActivityFormButton.addEventListener('click', showActivityForm);
+showHydrationFormButton.addEventListener('click', showHydrationForm);
+clearButton.addEventListener('click', hideForms)
+
+function showErrorMessage() {
+  errorMessage.classList.remove("hide")
+}
+
+function hideForms() {
+  sleepInputForm.classList.add("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.add("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showSleepForm() {
+  sleepInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showActivityForm() {
+  activityInputForm.classList.remove("hide");
+  sleepInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
+function showHydrationForm() {
+  hydrationInputForm.classList.remove("hide");
+  activityInputForm.classList.add("hide");
+  sleepInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.remove("hide");
+  errorMessage.classList.add("hide")
+}
+
 //DUPLICATES?
 stairsTrendingButton.addEventListener('click', function() {
   user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
 });
 
 stepsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+  activity.findTrendingStepDays();
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
 });
+
 
 function flipCard(cardToHide, cardToShow) {
   cardToHide.classList.add('hide');
@@ -220,18 +313,16 @@ function showInfo() {
 }
 
 function updateTrendingStairsDays() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStairsDays[0]}</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights</p>`;
 }
 
 function updateTrendingStepDays() {
-  user.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${user.trendingStepDays[0]}</p>`;
+  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
 }
 
 
 for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
+  dailyOz[i].innerText = user.hydration.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
 }
 
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
@@ -242,10 +333,18 @@ dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
 
-//Hydration info here
-hydrationUserOuncesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces;
+
+// hydrationUserOuncesToday.innerText = user.hydration.ouncesRecord.find(hydration => {
+//   return hydration.userID === user.id && hydration.date === todayDate;
+// }).numOunces;
+userOuncesToday(todayDate)
+
+function userOuncesToday(date) {
+  let todayOunces = user.hydration.ouncesRecord.find(day => date === Object.keys(day)[0])
+  hydrationUserOuncesToday.innerText = todayOunces[date];
+  return;
+}
+
 
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
@@ -253,41 +352,45 @@ hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
   return hydration.userID === user.id && hydration.date === todayDate;
 }).numOunces / 8;
 
-//sleep info here
-sleepCalendarHoursAverageWeekly.innerText = user.calculateAverageHoursThisWeek(todayDate);
+// sleep info here
+sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
-sleepCalendarQualityAverageWeekly.innerText = user.calculateAverageQualityThisWeek(todayDate);
+sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
-sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getLongestSleepers(todayDate)
-}).getFirstName();
+displaySleepComparison();
+function displaySleepComparison() {
+  const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
+  longestSleepers.forEach(sleeper => {
+    const bestSleeper = userRepository.getUser(sleeper.userID)
+    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
+  });
+}
 
-sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-  return user.id === userRepository.getWorstSleepers(todayDate)
-}).getFirstName();
+//Refactor above
+// sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.allTimeLongestSleepers(todayDate, sleepData)
+// }).getFirstName();
 
-sleepInfoHoursAverageAlltime.innerText = user.hoursSleptAverage;
+// sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
+//   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
+// }).getFirstName();
 
-stepsInfoMilesWalkedToday.innerText = user.activityRecord.find(activity => {
-  return (activity.date === todayDate && activity.userId === user.id)
-}).calculateMiles(userRepository);
+sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept;
 
-sleepInfoQualityAverageAlltime.innerText = user.sleepQualityAverage;
+stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
 
-sleepInfoQualityToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).sleepQuality;
+sleepInfoQualityAverageAlltime.innerText = `${user.sleep.averageQuality}/5`;
 
-sleepUserHoursToday.innerText = sleepData.find(sleep => {
-  return sleep.userID === user.id && sleep.date === todayDate;
-}).hoursSlept;
+sleepInfoQualityToday.innerText = `${user.sleep.sleepQuality}/5`
+
+sleepUserHoursToday.innerText = user.sleep.hoursSlept
 
 //stair info here
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
+stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(todayDate);
 
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+stairsCalendarStairsAverageWeekly.innerText = (activity.calcAvgWeeklyFlights(todayDate) * 12).toFixed(0);
 
-stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
@@ -297,14 +400,14 @@ stairsUserStairsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).flightsOfStairs * 12;
 
-stairsCalendarFlightsAverageWeekly.innerText = user.calculateAverageFlightsThisWeek(todayDate);
-
-stairsCalendarStairsAverageWeekly.innerText = (user.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+//I think duplicated
+// stairsCalendarFlightsAverageWeekly.innerText = activity.calculateAverageFlightsThisWeek(todayDate);
+// stairsCalendarStairsAverageWeekly.innerText = (activity.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
 //step info here
-stepsCalendarTotalActiveMinutesWeekly.innerText = user.calculateAverageMinutesActiveThisWeek(todayDate);
+stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive;
 
-stepsCalendarTotalStepsWeekly.innerText = user.calculateAverageStepsThisWeek(todayDate);
+stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps;
 
 stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
@@ -321,7 +424,7 @@ stepsUserStepsToday.innerText = activityData.find(activity => {
 }).numSteps;
 
 //user friend's list and steps info
-user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+// user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
 user.friendsActivityRecords.forEach(friend => {
   dropdownFriendsStepsContainer.innerHTML += `
@@ -342,4 +445,124 @@ friendsStepsParagraphs.forEach(paragraph => {
     paragraph.classList.add('yellow-text');
   }
 });
+function postSleepHelper() {
+  event.preventDefault();
+  const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
+  if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
+      postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+      failedSubmit.classList.remove("hide")
+    }
+
+  }
+
+  function postHydrationHelper() {
+    event.preventDefault();
+    const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
+    if(hydrationDateInput.value && ouncesDrankInputVal) {
+      postHydrate(hydrationDateInput.value, ouncesDrankInputVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+        failedSubmit.classList.remove("hide")
+    }
+  }
+
+  function postActivityHelper() {
+    event.preventDefault();
+    const numberOfStepsVal= isNaN(parseFloat(numberOfStepsInput.value))? 0 : parseFloat(numberOfStepsInput.value);
+    const minutesActiveVal= isNaN(parseFloat(minutesActiveInput.value))? 0 : parseFloat(minutesActiveInput.value);
+    const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
+    if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
+      postActivity(activityDateInput.value, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+      successfulSubmit.classList.remove("hide")
+      failedSubmit.classList.add("hide")
+    } else {
+        failedSubmit.classList.remove("hide")
+    }
+  }
+  //Post functions
+  //Sleep
+  function postSleep(sleepDate, hours, quality) {
+      fetch(`http://localhost:3001/api/v1/sleep`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Hyrdate
+  function postHydrate(hydrationDate, ouncesDrank) {
+      fetch(`http://localhost:3001/api/v1/hydration`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+  //Activity
+  function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+      fetch(`http://localhost:3001/api/v1/activity`, {
+    method: 'POST',
+    headers: {
+    	'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+  })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(err => showErrorMessage());
+  }
+}
+
+
+//Post functions
+//Sleep
+function postSleep(sleepDate, hours, quality) {
+    fetch(`http://localhost:3001/api/v1/sleep`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
+}
+//Hyrdate
+function postHydrate(hydrationDate, ouncesDrank) {
+    fetch(`http://localhost:3001/api/v1/hydration`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
+}
+//Activity
+function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+    fetch(`http://localhost:3001/api/v1/activity`, {
+  method: 'POST',
+  headers: {
+  	'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+})
+  .then(response => response.json())
+  .then(json => console.log(json))
+  .catch(err => showErrorMessage());
 }
