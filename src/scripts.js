@@ -176,6 +176,16 @@ activitySubmitButton.addEventListener('click', postActivityHelper);
 showSleepFormButton.addEventListener('click', showSleepForm);
 showActivityFormButton.addEventListener('click', showActivityForm);
 showHydrationFormButton.addEventListener('click', showHydrationForm);
+clearButton.addEventListener('click', hideForms)
+
+function hideForms() {
+  sleepInputForm.classList.add("hide");
+  activityInputForm.classList.add("hide");
+  hydrationInputForm.classList.add("hide");
+  successfulSubmit.classList.add("hide");
+  failedSubmit.classList.add("hide");
+  clearButton.classList.add("hide");
+}
 
 function showSleepForm() {
   sleepInputForm.classList.remove("hide");
