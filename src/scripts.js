@@ -57,31 +57,34 @@ let todayDate = "2019/09/22";
 //call helper functions
 populateDomNodes();
 
-//THESE ARE THE ORIGINAL ------------------
-// let userRepository = new UserRepository();
-// console.log(userData);
-// userData.forEach(user => {
-//   user = new User(user);
-//   userRepository.users.push(user)
-// });
-
 const userList = userData.map(user => {
-  return user = new User(user);
+  return user = new User(user, todayDate);
 });
-let userRepository = new UserRepository(userList);
+const userRepository = new UserRepository(userList);
+let user = userRepository.users[0];
 
-activityData.forEach(activity => {
-  activity = new Activity(activity, userRepository);
-});
+//sleep
+user.sleep.findTodaySleepData(sleepData);
+user.sleep.updateSleepRecord(sleepData);
+user.sleep.calcAvgSleepData();
+user.sleep.calcWeeklyAvgData(todayDate);
 
-hydrationData.forEach(hydration => {
-  hydration = new Hydration(hydration, userRepository);
-});
+//userRepo
+userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
+user.sleep.calcWeeklyAvgData(todayDate);
 
+//hydration
+user.hydration.updateHydration(hydrationData)
 
-sleepData.forEach(sleep => {
-  sleep = new Sleep(sleep, userRepository);
-});
+//activity
+const activity = new Activity(user, todayDate);
+const userActivityData = activityData.filter(activity => {
+  return user.id === activity.userID;
+})
+activity.findTodayActivityData(userActivityData);
+activity.updateActivities(userActivityData);
+activity.calcWeeklyAverageActive(todayDate);
+console.log(activity)
 
 let user = userRepository.users[0];
 user.sleep.findTodaySleepData(sleepData);
@@ -359,12 +362,22 @@ sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
 
 sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
 
+displaySleepComparison();
+function displaySleepComparison() {
+  const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
+  longestSleepers.forEach(sleeper => {
+    const bestSleeper = userRepository.getUser(sleeper.userID)
+    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
+  });
+}
+
+//Refactor above
 // sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
-//   return user.id === userRepository.getLongestSleepers(todayDate)
+//   return user.id === userRepository.allTimeLongestSleepers(todayDate, sleepData)
 // }).getFirstName();
 
 // sleepFriendWorstSleeper.innerText = userRepository.users.find(user => {
-//   return user.id === userRepository.getWorstSleepers(todayDate)
+//   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
 // }).getFirstName();
 
 sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept;
@@ -382,7 +395,7 @@ stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(tod
 
 stairsCalendarStairsAverageWeekly.innerText = (activity.calcAvgWeeklyFlights(todayDate) * 12).toFixed(0);
 
-// stairsFriendFlightsAverageToday.innerText = (userRepository.calculateAverageStairs(todayDate) / 12).toFixed(1);
+stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 
 stairsInfoFlightsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
