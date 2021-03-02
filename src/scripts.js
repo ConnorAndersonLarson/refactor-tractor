@@ -447,9 +447,10 @@ friendsStepsParagraphs.forEach(paragraph => {
 });
 function postSleepHelper() {
   event.preventDefault();
+  const correctDate = sleepDate.value.replaceAll("-", "/")
   const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
   if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
-      postSleep(sleepDate.value, hoursSleptVal, parseInt(sleepQualityInput.value))
+      postSleep(correctDate, hoursSleptVal, parseInt(sleepQualityInput.value))
       successfulSubmit.classList.remove("hide")
       failedSubmit.classList.add("hide")
     } else {
@@ -460,9 +461,10 @@ function postSleepHelper() {
 
   function postHydrationHelper() {
     event.preventDefault();
+    const correctDate = hydrationDateInput.value.replaceAll("-", "/")
     const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
     if(hydrationDateInput.value && ouncesDrankInputVal) {
-      postHydrate(hydrationDateInput.value, ouncesDrankInputVal)
+      postHydrate(correctDate, ouncesDrankInputVal)
       successfulSubmit.classList.remove("hide")
       failedSubmit.classList.add("hide")
     } else {
@@ -472,11 +474,12 @@ function postSleepHelper() {
 
   function postActivityHelper() {
     event.preventDefault();
+    const correctDate = activityDateInput.value.replaceAll("-", "/")
     const numberOfStepsVal= isNaN(parseFloat(numberOfStepsInput.value))? 0 : parseFloat(numberOfStepsInput.value);
     const minutesActiveVal= isNaN(parseFloat(minutesActiveInput.value))? 0 : parseFloat(minutesActiveInput.value);
     const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
     if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
-      postActivity(activityDateInput.value, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+      postActivity(correctDate, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
       successfulSubmit.classList.remove("hide")
       failedSubmit.classList.add("hide")
     } else {
