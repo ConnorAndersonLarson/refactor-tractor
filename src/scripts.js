@@ -65,28 +65,28 @@ sleep.findTodaySleepData(sleepData);
 sleep.updateRecord(sleepData, sleep.sleepRecord);
 sleep.calcAvgSleepData();
 sleep.calcWeeklyAvgData(todayDate);
- 
+
 //userRepo
 userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
 
 
 //hydration
-const hydration = new Hydration(user, todayDate); 
-hydration.updateRecord(hydrationData, hydration.hydrationRecord); 
-hydration.calcOuncesAverage(); 
-hydration.findTodayHydrationData(); 
+const hydration = new Hydration(user, todayDate);
+hydration.updateRecord(hydrationData, hydration.hydrationRecord);
+hydration.calcOuncesAverage();
+hydration.findTodayHydrationData();
 
 
 //activity
 const activity = new Activity(user, todayDate);
 activity.findTodayActivityData(activityData);
-activity.updateRecord(activityData, activity.activityRecord); 
+activity.updateRecord(activityData, activity.activityRecord);
 activity.calcWeeklyAverageActive(todayDate);
 console.log(userRepository)
-console.log(user); 
-console.log(activity); 
+console.log(user);
+console.log(activity);
 console.log(sleep);
-console.log(hydration); 
+console.log(hydration);
 
 
 user.findFriendsNames(userRepository.users);
@@ -183,7 +183,8 @@ showHydrationFormButton.addEventListener('click', showHydrationForm);
 clearButton.addEventListener('click', hideForms)
 
 function showErrorMessage() {
-  errorMessage.classList.remove("hide")
+  errorMessage.classList.remove("hide");
+  successfulSubmit.classList.add("hide");
 }
 
 function hideForms() {
@@ -319,7 +320,7 @@ dropdownEmail.innerText = `EMAIL | ${user.email}`;
 dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
- 
+
 for (var i = 0; i < dailyOz.length; i++) {
   dailyOz[i].innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1]
 }
@@ -476,8 +477,7 @@ function postSleepHelper() {
     },
     body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
   })
-    .then(response => response.json())
-    .then(json => console.log(json))
+    .then(checkForError)
     .catch(err => showErrorMessage());
   }
   //Hyrdate
@@ -489,8 +489,7 @@ function postSleepHelper() {
     },
     body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
   })
-    .then(response => response.json())
-    .then(json => console.log(json))
+    .then(checkForError)
     .catch(err => showErrorMessage());
   }
   //Activity
@@ -502,9 +501,16 @@ function postSleepHelper() {
     },
     body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
   })
-    .then(response => response.json())
-    .then(json => console.log(json))
+    .then(checkForError)
     .catch(err => showErrorMessage());
+  }
+}
+
+const checkForError = response => {
+  if (!response.ok) {
+    showErrorMessage();
+  } else {
+    return response.json();
   }
 }
 
