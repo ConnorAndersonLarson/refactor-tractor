@@ -1,7 +1,8 @@
-class Sleep {
-  constructor(userID, date) {
-    this.userID = userID
-    this.date = date;
+import User from './User';
+
+class Sleep extends User {
+  constructor(userdata, date) {
+  super(userdata, date)
     this.hoursSlept = 0;
     this.sleepQuality = 0;
     this.averageSlept = 0;
@@ -12,60 +13,30 @@ class Sleep {
   }
 
   findTodaySleepData(sleepData) {
-    const currentDayData = sleepData.find(dataItem => {
-      return this.userID === dataItem.userID && this.date === dataItem.date
-    })
-    this.hoursSlept = currentDayData.hoursSlept;
-    this.sleepQuality = currentDayData.sleepQuality;
-  }
-
-
-  updateSleepRecord(sleepData) {
-    const userSleepData = sleepData.filter(sleepItem => {
-      return sleepItem.userID === this.userID;
-    })
-     userSleepData.forEach(sleepItem => {
-      this.sleepRecord.unshift({
-        'date': sleepItem.date,
-        'hours': sleepItem.hoursSlept,
-        'quality':sleepItem.sleepQuality
-      });
-     })
+    const todaysData = this.findTodayData(sleepData); 
+    this.hoursSlept = todaysData.hoursSlept;
+    this.sleepQuality = todaysData.sleepQuality;
   }
 
   calcAvgSleepData() {
-    const averageSleepData = this.sleepRecord.reduce((averages, day) => {
-      if(!averages.hours){
-        averages.hours = day.hours;
-        averages.quality = day.quality;
-    } else {
-        averages.hours += day.hours;
-        averages.quality += day.quality;
-    }
-       return averages
-
-    }, {})
-    this.averageSlept = Number((averageSleepData.hours/this.sleepRecord.length).toFixed(1));
-    this.averageQuality = Number((averageSleepData.quality/this.sleepRecord.length).toFixed(1));
+    const averageDailyData = {hours: 0, quality: 0};
+    this.sleepRecord.forEach(day => {
+      averageDailyData.hours += day.hoursSlept;
+      averageDailyData.quality += day.sleepQuality; 
+  });
+    this.averageSlept = this.calcAverage(averageDailyData.hours, this.sleepRecord.length, 1); 
+    this.averageQuality = this.calcAverage(averageDailyData.quality, this.sleepRecord.length, 1); 
   }
 
-  calcWeeklyAvgData(date) {
-    const sleepDataIndex = this.sleepRecord.findIndex(sleep => {
-      return sleep.date === date;
-    });
-    const lastWeekData = this.sleepRecord.slice(sleepDataIndex, sleepDataIndex + 7);
-    const averageWeeklyData = lastWeekData.reduce((averages, day) => {
-      if(!averages.hours){
-        averages.hours = day.hours;
-        averages.quality = day.quality;
-    } else {
-        averages.hours += day.hours;
-        averages.quality += day.quality;
-    }
-       return averages
-    }, {})
-    this.weeklySlept = Number((averageWeeklyData.hours/7).toFixed(1));
-    this.weeklyQuality = Number((averageWeeklyData.quality/7).toFixed(1));
+  calcWeeklyAvgData() {
+    const lastWeekData = this.findWeeklyData(this.date, this.sleepRecord);
+    const averageWeeklyData = {hours: 0, quality: 0};
+    lastWeekData.forEach(day => {
+      averageWeeklyData.hours += day.hoursSlept;
+      averageWeeklyData.quality += day.sleepQuality;
+  });
+    this.weeklySlept = this.calcAverage(averageWeeklyData.hours, 7, 1);
+    this.weeklyQuality = this.calcAverage(averageWeeklyData.quality, 7, 1);
   }
 }
 

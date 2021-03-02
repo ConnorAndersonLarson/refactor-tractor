@@ -13,36 +13,25 @@ class Activity extends User {
   }
     
   findTodayActivityData(activityData) {
-    const todaysData = activityData.find(activity => {
-      return this.id === activity.userID && this.date === activity.date;
-    }) 
+    const todaysData = this.findTodayData(activityData); 
     this.steps = todaysData.numSteps;
     this.minutesActive = todaysData.minutesActive; 
     this.flightsOfStairs = todaysData.flightsOfStairs; 
   }
 
-  updateActivities(activityData) {
-     activityData.forEach(activity => {
-      this.activityRecord.unshift(activity);
-    });
-  }
-  
   calculateMiles() {
     return Number(((this.steps * this.strideLength) / 5280).toFixed(1));
   }
 
-  calcWeeklyAverageActive(date) {
-    const currentDateIndex = this.activityRecord.findIndex(activity => {
-      return activity.date === date; 
-    });
-    const currentWeekData = this.activityRecord.slice(currentDateIndex, currentDateIndex + 7); 
+  calcWeeklyAverageActive() {
+    const lastWeekData = this.findWeeklyData(this.date, this.activityRecord);
       const averageWeeklyData = {steps: 0, minutesActive: 0};
-      currentWeekData.forEach(day => {
+      lastWeekData.forEach(day => {
         averageWeeklyData.steps += day.numSteps;
         averageWeeklyData.minutesActive += day.minutesActive;
     });
-    this.weeklyAverageSteps = Number((averageWeeklyData.steps/7).toFixed(0));
-    this.weeklyAverageActive = Number((averageWeeklyData.minutesActive/7).toFixed(0));
+    this.weeklyAverageSteps = this.calcAverage(averageWeeklyData.steps, 7, 0); 
+    this.weeklyAverageActive = this.calcAverage(averageWeeklyData.minutesActive, 7, 0); 
   }
   //don't see where this is getting used 
   compareStepGoal() {
@@ -65,13 +54,11 @@ class Activity extends User {
   }
 
   calcAvgWeeklyFlights(date) {
-    const currentDateIndex = this.activityRecord.findIndex(activity => activity.date === date);
-    const currentWeekData = this.activityRecord.slice(currentDateIndex, currentDateIndex + 7); 
+    const currentWeekData = this.findWeeklyData(this.date, this.activityRecord); 
     const averageWeeklyFlights = currentWeekData.reduce((average, day) => {
         return average += day.flightsOfStairs;
-    }, 0);
-    return Number((averageWeeklyFlights/7).toFixed(0)); 
-
+    }, 0); 
+    return this.calcAverage(averageWeeklyFlights, 7, 0); 
   }
 }
 
