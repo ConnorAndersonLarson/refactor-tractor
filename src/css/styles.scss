@@ -35,6 +35,29 @@ button:hover {
   cursor: pointer;
 }
 
+.form-buttons{
+  @include flex-row();
+  .form-button {
+    padding: 3px 5px 3px 5px;
+    border-radius: 0px;
+    border: 1px solid #fff;
+    font-family: $work;
+    margin-bottom: 3px;
+  }
+  .form-button:hover{
+    opacity: 85%;
+    border: 1px solid #afadad;
+  }
+  .show-activity-form{
+    background-color: #F5634B;
+  }
+  .show-hydration-form{
+    background-color: #54C6BE;
+  }
+  .show-sleep-form{
+    background-color: #FBD089;
+  }
+}
 // #profile-button {
 //   position: absolute;
 //   right: 10px;
@@ -289,6 +312,9 @@ main {
   p{
     //font-size: 4vw;
     font-size: 2vw;
+  }
+  .form-button{
+    font-size: 2.75vw;
   }
   .trend-line{
     font-size: 3vw;
