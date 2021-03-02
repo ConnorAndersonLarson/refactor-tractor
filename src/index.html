@@ -28,19 +28,19 @@
       <section class='card-container' id='steps-card-container'>
         <section class='main-card' id='steps-main-card'>
           <div class='main-card-top-row'>
-            <button type='button'aria-label="steps info" name='button' class='info-button'></button>
+            <button type='button' aria-label="steps info" id="steps-info-button" name='button' class='info-button'></button>
             <h1 class="main-start-text">YOU HAVE WALKED</h1>
-            <button type='button' aria-label="steps friends" name='button' class='friends-button'></button>
+            <button type='button' aria-label="steps friends" id="steps-friends-button" name='button' class='friends-button'></button>
           </div>
           <h2 id='steps-user-steps-today'>X</h2>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="steps trending" name='button' class='trending-button steps-trending-button'></button>
+            <button type='button' aria-label="steps trending" id="steps-trending-button" name='button' class='trending-button steps-trending-button'></button>
             <h3>STEPS TODAY</h3>
-            <button type='button' aria-label="steps calendar" name='button' class='calendar-button'></button>
+            <button type='button' aria-label="steps calendar" id="steps-calendar-button" name='button' class='calendar-button'></button>
           </div>
         </section>
         <section class='info-card hide' id='steps-info-card'>
-          <button type='button' aria-label="return from steps info" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from steps info" id="steps-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>TOTAL ACTIVE MINUTES TODAY:</p>
             <h4 id='steps-info-active-minutes-today'></h4>
@@ -51,7 +51,7 @@
           </div>
         </section>
         <section class='friends-card hide' id='steps-friends-card'>
-          <button type='button' aria-label="return from steps friends" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from steps friends" id="steps-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>ALL USERS' AVERAGE ACTIVE MINUTES TODAY:</p>
             <h4 id='steps-friend-active-minutes-average-today'></h4>
@@ -66,12 +66,12 @@
           </div>
         </section>
         <section class='trending-card hide' id='steps-trending-card'>
-          <button type='button' aria-label="return from steps trending" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from steps trending" id="steps-return" name='button' class='go-back-button'></button>
           <div class='card-data-line trending-steps-phrase-container'>
           </div>
         </section>
         <section class='calendar-card hide' id='steps-calendar-card'>
-          <button type='button' aria-label="return from steps calendar" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from steps calendar" id="steps-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>YOUR WEEKLY AVERAGE MINUTES:</p>
             <h4 id='steps-calendar-total-active-minutes-weekly'></h4>
@@ -85,32 +85,32 @@
       <section class='card-container' id='hydration-card-container'>
         <section class='main-card' id='hydration-main-card'>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="hydration info" name='button' class='info-button'></button>
+            <button type='button' aria-label="hydration info" id="hydration-info-button" name='button' class='info-button'></button>
             <h3>YOU HAVE HAD</h3>
-            <button type='button' aria-label="hydration friends" name='button' class='friends-button'></button>
+            <button type='button' aria-label="hydration friends" id="hydration-friends-button" name='button' class='friends-button'></button>
           </div>
           <h2 id='hydration-user-ounces-today'></h2>
           <div class='main-card-bottom-row'>
             <h3 class="text-center">OZ OF WATER TODAY</h3>
-            <button type='button' aria-label="hydration calendar" name='button' class='calendar-button'></button>
+            <button type='button' aria-label="hydration calendar" id="hydration-calendar-button" name='button' class='calendar-button'></button>
           </div>
         </section>
         <section class='info-card hide' id='hydration-info-card'>
-          <button type='button' aria-label="return from hydration info" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from hydration info" id="hydrate-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>GLASSES OF WATER CONSUMED TODAY:</p>
             <h4 id='hydration-info-glasses-today'></h4>
           </div>
         </section>
         <section class='friends-card hide' id='hydration-friends-card'>
-          <button type='button' aria-label="return from hydration friends" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from hydration friends" id="hydrate-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>ALL USERS' AVERAGE DAILY OUNCES:</p>
             <h4 id='hydration-friend-ounces-today'></h4>
           </div>
         </section>
         <section class='calendar-card hide' id='hydration-calendar-card'>
-          <button type='button' aria-label="return from hydration calendar" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from hydration calendar" id="hydrate-return" name='button' class='go-back-button'></button>
           <div class='hydration-data-line'>
             <p class='hydration-weekly-label'>YESTERDAY:</p>
             <h4 class='hydration-weekly-amount'><span class='daily-oz' id='hydration-calendar-ounces-1day'></span> oz</h4>
@@ -140,38 +140,38 @@
       <section class='card-container' id='stairs-card-container'>
         <section class='main-card' id='stairs-main-card'>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="stairs info" name='button' class='info-button'></button>
+            <button type='button' aria-label="stairs info" id="stairs-info-button" name='button' class='info-button'></button>
             <h3>YOU HAVE CLIMBED</h3>
-            <button type='button' aria-label="stairs friends" name='button' class='friends-button'></button>
+            <button type='button' aria-label="stairs friends" id="stairs-friends-button" name='button' class='friends-button'></button>
           </div>
           <h2 id='stairs-user-stairs-today'></h2>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="stairs trending" name='button' class='trending-button stairs-trending-button'></button>
+            <button type='button' aria-label="stairs trending" id="stairs-trending-button" name='button' class='trending-button stairs-trending-button'></button>
             <h3>STAIRS TODAY</h3>
-            <button type='button' aria-label="stairs calendar" name='button' class='calendar-button'></button>
+            <button type='button' aria-label="stairs calendar" id="stairs-calendar-button" name='button' class='calendar-button'></button>
           </div>
         </section>
         <section class='info-card hide' id='stairs-info-card'>
-          <button type='button' aria-label="return from stairs info" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from stairs info" id="stairs-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>FLIGHTS CLIMBED TODAY</p>
             <h4 id='stairs-info-flights-today'></h4>
           </div>
         </section>
         <section class='friends-card hide' id='stairs-friends-card'>
-          <button type='button' aria-label="return from stairs friends" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from stairs friends" id="stairs-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>ALL USERS' AVERAGE FLIGHTS TODAY</p>
             <h4 id='stairs-friend-flights-average-today'></h4>
           </div>
         </section>
         <section class='trending-card hide' id='stairs-trending-card'>
-          <button type='button' aria-label="return from stairs trending" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from stairs trending" id="stairs-return" name='button' class='go-back-button'></button>
           <div class='card-data-line trending-stairs-phrase-container'>
           </div>
         </section>
         <section class='calendar-card hide' id='stairs-calendar-card'>
-          <button type='button' aria-label="return from stairs calendar" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from stairs calendar" id="stairs-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>YOUR WEEKLY FLIGHTS CLIMBED</p>
             <h4 id='stairs-calendar-flights-average-weekly'></h4>
@@ -185,18 +185,18 @@
       <section class='card-container' id='sleep-card-container'>
         <section class='main-card' id='sleep-main-card'>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="sleep info" name='button' class='info-button'></button>
+            <button type='button' aria-label="sleep info" id="sleep-info-button" name='button' class='info-button'></button>
             <h3>YOU SLEPT</h3>
-            <button type='button' aria-label="sleep friends" name='button' class='friends-button'></button>
+            <button type='button' aria-label="sleep friends" id="sleep-friends-button" name='button' class='friends-button'></button>
           </div>
           <h2 id='sleep-user-hours-today'></h2>
           <div class='main-card-bottom-row'>
             <h3 class="text-center">HOURS LAST NIGHT</h3>
-            <button type='button' aria-label="sleep calendar" name='button' class='calendar-button'></button>
+            <button type='button' aria-label="sleep calendar" id="sleep-calendar-button" name='button' class='calendar-button'></button>
           </div>
         </section>
         <section class='info-card hide' id='sleep-info-card'>
-          <button type='button' aria-label="return from sleep info" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from sleep info" id="sleep-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>SLEEP QUALITY LAST NIGHT</p>
             <h4 id='sleep-info-quality-today'></h4>
@@ -211,18 +211,18 @@
           </div>
         </section>
         <section class='friends-card hide' id='sleep-friends-card'>
-          <button type='button' aria-label="return from sleep friends" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from sleep friends" id="sleep-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>LAST NIGHT'S LONGEST SLEEPER</p>
             <h4 id='sleep-friend-longest-sleeper'></h4>
           </div>
-          <div class='card-data-line'>
+          <!-- <div class='card-data-line'>
             <p>LAST NIGHT'S SHORTEST SLEEPER</p>
             <h4 id='sleep-friend-worst-sleeper'></h4>
-          </div>
+          </div> -->
         </section>
         <section class='calendar-card hide' id='sleep-calendar-card'>
-          <button type='button' aria-label="return from sleep calendar" name='button' class='go-back-button'></button>
+          <button type='button' aria-label="return from sleep calendar" id="sleep-return" name='button' class='go-back-button'></button>
           <div class='card-data-line'>
             <p>LAST WEEK'S HOURLY AVERAGE</p>
             <h4 id='sleep-calendar-hours-average-weekly'></h4>

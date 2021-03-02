@@ -13,15 +13,8 @@
   right: 10px;
   top: 5px;
   background-image: url(../images/profile.png);
-  //background-position: center;
-  //background-size: 5.6vw;
-  //border: none;
   display: inline;
   float: right;
-  //height: 5.6vw;
-  //margin-right: .5vw;
-  //margin-top: 5px;
-  //width: 5.6vw;
 }
 
 
@@ -51,6 +44,9 @@
 .go-back-button {
   background-image: url(../images/return.png);
   @include buttons();
+  position: relative;
+  top: 60px;
+  left: -25%;
 }
 
 .steps-trending-button {

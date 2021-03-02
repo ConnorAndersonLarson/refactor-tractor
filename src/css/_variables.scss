@@ -1,2 +1,8 @@
 $oswald: 'Oswald', sans-serif;
 $work: 'Work Sans', sans-serif;
+
+@mixin flex-row(){
+  display:flex;
+  justify-content: space-around;
+  width: 100%;
+}

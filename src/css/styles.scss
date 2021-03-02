@@ -10,13 +10,12 @@ margin: 0;
 padding: 0;
 }
 
-
 html {
   height: 100%;
-  
+}
+
 .input {
   margin: 10px;
-
 }
 
 body {
@@ -133,6 +132,10 @@ p {
   text-align: center;
 }
 
+#sleep-friend-longest-sleeper{
+  font-size: 3.5vw;
+}
+
 /* MAIN */
 main {
   display: grid;
@@ -158,6 +161,11 @@ main {
   @include center-flex();
   margin: .5vw;
   border: 3px solid #1F1F1F;
+}
+
+.friends-card{
+  display: flex;
+  flex-direction: column;
 }
 
 .main-card-top-row {
@@ -203,14 +211,24 @@ main {
   margin-bottom: 2vw;
 }
 
-.hydration-weekly-label {
-  font-size: 1vw;
-  padding-top: 1vw;
+.calendar-card{
+  .hydration-weekly-label{
+    font-size:1.25vw;
+    padding-top:1.25vw;
+  }
+  .hydration-weekly-amount{
+    font-size:2.25vw;
+  }
 }
 
-.hydration-weekly-amount {
-  font-size: 2vw;
-}
+// .hydration-weekly-label {
+//   font-size: 1vw;
+//   padding-top: 1vw;
+// }
+//
+// .hydration-weekly-amount {
+//   font-size: 2vw;
+// }
 
 .hydration-data-line {
   display: flex;
@@ -226,7 +244,7 @@ main {
 
 /* CHANGING CLASSES */
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .green-text {
@@ -262,8 +280,18 @@ main {
   h3{
     font-size: 5vw;
   }
+  h4{
+    font-size: 6vw;
+  }
   h5{
     font-size: 4vw;
+  }
+  p{
+    //font-size: 4vw;
+    font-size: 2vw;
+  }
+  .trend-line{
+    font-size: 3vw;
   }
   .dropdown-p{
     font-size: 3vw;
@@ -274,7 +302,51 @@ main {
   .main-start-text{
     font-size: 5vw;
   }
+  .card-data-line{
+    .p{
+      font-size: 2vw;
+    }
+  }
+  #sleep-friend-longest-sleeper{
+    font-size: 6vw;
+  }
+  .go-back-button{
+    position: inherit;
+    top: unset;
+    left:unset;
+  }
+  .friends-card{
+    @include flex-row();
+  }
+  .info-card{
+    @include flex-row();
+  }
+  .trending-card{
+    @include flex-row();
+  }
+  .calendar-card{
+    @include flex-row();
+    flex-direction: column;
+    width: 80%;
+    flex-wrap: wrap;
+    height: 60%;
+    align-items: center;
+    .hydration-weekly-label{
+      font-size:2vw;
+      width: 50%;
+      padding-top: unset;
+    }
+    .hydration-weekly-amount{
+      font-size:3vw;
+    }
+    .hydration-data-line{
+      justify-content: space-between;
+    }
+  }
   #user-info-dropdown {
+    p{
+      font-size:4vw;
+    }
     position: inherit;
     background-color: #1F1F1F;
     color: white;

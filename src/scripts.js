@@ -90,7 +90,7 @@ console.log(activity)
 
 
 user.findFriendsNames(userRepository.users);
-// let dailyOz = document.querySelectorAll('.daily-oz');
+let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 let dropdownGoal = document.querySelector('#dropdown-goal');
@@ -153,7 +153,7 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('.user-info-dropdown');
+let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
@@ -235,15 +235,15 @@ function showHydrationForm() {
 }
 
 //DUPLICATES?
-stairsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
-});
-
-stepsTrendingButton.addEventListener('click', function() {
-  activity.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
-});
+// stairsTrendingButton.addEventListener('click', function() {
+//   user.findTrendingStairsDays();
+//   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
+// });
+//
+// stepsTrendingButton.addEventListener('click', function() {
+//   activity.findTrendingStepDays();
+//   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
+// });
 
 
 function flipCard(cardToHide, cardToShow) {
@@ -256,58 +256,58 @@ function showDropdown() {
 }
 
 function showInfo() {
-  if (event.target.classList.contains('steps-info-button')) {
+  if (event.target.id ==='steps-info-button') {
     flipCard(stepsMainCard, stepsInfoCard);
   }
-  if (event.target.classList.contains('steps-friends-button')) {
+  if (event.target.id ==='steps-friends-button') {
     flipCard(stepsMainCard, stepsFriendsCard);
   }
-  if (event.target.classList.contains('steps-trending-button')) {
+  if (event.target.id ==='steps-trending-button') {
     flipCard(stepsMainCard, stepsTrendingCard);
   }
-  if (event.target.classList.contains('steps-calendar-button')) {
+  if (event.target.id ==='steps-calendar-button') {
     flipCard(stepsMainCard, stepsCalendarCard);
   }
-  if (event.target.classList.contains('hydration-info-button')) {
+  if (event.target.id ==='hydration-info-button') {
     flipCard(hydrationMainCard, hydrationInfoCard);
   }
-  if (event.target.classList.contains('hydration-friends-button')) {
+  if (event.target.id ==='hydration-friends-button') {
     flipCard(hydrationMainCard, hydrationFriendsCard);
   }
-  if (event.target.classList.contains('hydration-calendar-button')) {
+  if (event.target.id ==='hydration-calendar-button') {
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
-  if (event.target.classList.contains('stairs-info-button')) {
+  if (event.target.id ==='stairs-info-button') {
     flipCard(stairsMainCard, stairsInfoCard);
   }
-  if (event.target.classList.contains('stairs-friends-button')) {
+  if (event.target.id ==='stairs-friends-button') {
     flipCard(stairsMainCard, stairsFriendsCard);
   }
-  if (event.target.classList.contains('stairs-trending-button')) {
+  if (event.target.id ==='stairs-trending-button') {
     flipCard(stairsMainCard, stairsTrendingCard);
   }
-  if (event.target.classList.contains('stairs-calendar-button')) {
+  if (event.target.id ==='stairs-calendar-button') {
     flipCard(stairsMainCard, stairsCalendarCard);
   }
-  if (event.target.classList.contains('sleep-info-button')) {
+  if (event.target.id ==='sleep-info-button') {
     flipCard(sleepMainCard, sleepInfoCard);
   }
-  if (event.target.classList.contains('sleep-friends-button')) {
+  if (event.target.id ==='sleep-friends-button') {
     flipCard(sleepMainCard, sleepFriendsCard);
   }
-  if (event.target.classList.contains('sleep-calendar-button')) {
+  if (event.target.id ==='sleep-calendar-button') {
     flipCard(sleepMainCard, sleepCalendarCard);
   }
-  if (event.target.classList.contains('steps-go-back-button')) {
+  if (event.target.id ==='steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
-  if (event.target.classList.contains('hydration-go-back-button')) {
+  if (event.target.id ==='hydrate-return') {
     flipCard(event.target.parentNode, hydrationMainCard);
   }
-  if (event.target.classList.contains('stairs-go-back-button')) {
+  if (event.target.id ==='stairs-return') {
     flipCard(event.target.parentNode, stairsMainCard);
   }
-  if (event.target.classList.contains('sleep-go-back-button')) {
+  if (event.target.id ==='sleep-return') {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
