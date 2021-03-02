@@ -1,6 +1,3 @@
-import Hydration from './Hydration';
-// import Sleep from "./Sleep";
-
  class User {
   constructor(userData, date) {
     this.id = userData.id;
@@ -14,26 +11,11 @@ import Hydration from './Hydration';
     this.accomplishedDays = [];
     this.friendsNames = [];
     this.friendsActivityRecords = []
-    this.hydration = new Hydration(this.id, date); 
   }
   getFirstName() {
     var names = this.name.split(' ');
     return names[0].toUpperCase();
   }
-
-  // findClimbingRecord() {
-  //   return this.activityRecord.sort((a, b) => {
-  //     return b.flightsOfStairs - a.flightsOfStairs;
-  //   })[0].flightsOfStairs;
-  // }
-  // calculateDailyCalories(date) {
-  //   let totalMinutes = this.activityRecord.filter(activity => {
-  //     return activity.date === date
-  //   }).reduce((sumMinutes, activity) => {
-  //     return sumMinutes += activity.minutesActive
-  //   }, 0);
-  //   return Math.round(totalMinutes * 7.6);
-  // }
 
   findFriendsNames(users) {
     this.friends.forEach(friend => {
@@ -72,9 +54,10 @@ import Hydration from './Hydration';
     const currentData = healthData.filter(healthItem => {
       return this.id === healthItem.userID;
     })
-    currentData.forEach(dataItem => {
-     record.unshift(dataItem);
+    currentData.sort((dataItemA, dataItemB) => {
+      return dataItemA.date - dataItemB.date;
    });
+    currentData.forEach(dataItem => record.unshift(dataItem));  
   }
 
   findTodayData(healthData) {
