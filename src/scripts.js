@@ -64,29 +64,33 @@ const userList = userData.map(user => {
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
 
+// const userActivityData = activityData.filter(activity => {
+//   return user.id === activity.userID;
+// })
 
 //sleep
-user.sleep.findTodaySleepData(sleepData);
-user.sleep.updateSleepRecord(sleepData);
-user.sleep.calcAvgSleepData();
-user.sleep.calcWeeklyAvgData(todayDate);
-
+const sleep = new Sleep(user, todayDate);
+sleep.findTodaySleepData(sleepData);
+sleep.updateRecord(sleepData, sleep.sleepRecord);
+sleep.calcAvgSleepData();
+sleep.calcWeeklyAvgData(todayDate);
+ 
 //userRepo
 userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-user.sleep.calcWeeklyAvgData(todayDate);
+
 
 //hydration
 user.hydration.updateHydration(hydrationData)
 
 //activity
 const activity = new Activity(user, todayDate);
-const userActivityData = activityData.filter(activity => {
-  return user.id === activity.userID;
-})
-activity.findTodayActivityData(userActivityData);
-activity.updateActivities(userActivityData);
+activity.findTodayActivityData(activityData);
+activity.updateRecord(activityData, activity.activityRecord); 
 activity.calcWeeklyAverageActive(todayDate);
-console.log(activity)
+console.log(userRepository)
+console.log(user); 
+console.log(activity); 
+console.log(sleep);
 
 
 user.findFriendsNames(userRepository.users);
@@ -153,7 +157,7 @@ let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
-let userInfoDropdown = document.querySelector('.user-info-dropdown');
+let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
@@ -179,8 +183,8 @@ let errorMessage = document.querySelector(".error-message");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+// stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
+// stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 submitButton.addEventListener('click', postSleepHelper );
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
@@ -235,15 +239,15 @@ function showHydrationForm() {
 }
 
 //DUPLICATES?
-stairsTrendingButton.addEventListener('click', function() {
-  user.findTrendingStairsDays();
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
-});
+// stairsTrendingButton.addEventListener('click', function() {
+//   user.findTrendingStairsDays();
+//   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
+// });
 
-stepsTrendingButton.addEventListener('click', function() {
-  activity.findTrendingStepDays();
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
-});
+// stepsTrendingButton.addEventListener('click', function() {
+//   activity.findTrendingStepDays();
+//   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
+// });
 
 
 function flipCard(cardToHide, cardToShow) {
@@ -353,9 +357,9 @@ hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
 }).numOunces / 8;
 
 // sleep info here
-sleepCalendarHoursAverageWeekly.innerText = user.sleep.weeklySlept;
+sleepCalendarHoursAverageWeekly.innerText = sleep.weeklySlept;
 
-sleepCalendarQualityAverageWeekly.innerText = user.sleep.weeklyQuality;
+sleepCalendarQualityAverageWeekly.innerText = sleep.weeklyQuality;
 
 displaySleepComparison();
 function displaySleepComparison() {
@@ -375,15 +379,15 @@ function displaySleepComparison() {
 //   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
 // }).getFirstName();
 
-sleepInfoHoursAverageAlltime.innerText = user.sleep.averageSlept;
+sleepInfoHoursAverageAlltime.innerText = sleep.averageSlept;
 
 stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
 
-sleepInfoQualityAverageAlltime.innerText = `${user.sleep.averageQuality}/5`;
+sleepInfoQualityAverageAlltime.innerText = `${sleep.averageQuality}/5`;
 
-sleepInfoQualityToday.innerText = `${user.sleep.sleepQuality}/5`
+sleepInfoQualityToday.innerText = `${sleep.sleepQuality}/5`
 
-sleepUserHoursToday.innerText = user.sleep.hoursSlept
+sleepUserHoursToday.innerText = sleep.hoursSlept
 
 //stair info here
 stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(todayDate);
@@ -423,7 +427,7 @@ stepsUserStepsToday.innerText = activityData.find(activity => {
   return activity.userID === user.id && activity.date === todayDate;
 }).numSteps;
 
-//user friend's list and steps info
+// user friend's list and steps info
 // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
 user.friendsActivityRecords.forEach(friend => {
