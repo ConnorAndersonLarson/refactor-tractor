@@ -1,30 +1,31 @@
+import User from './User';
 
-class Hydration {
-  constructor(userID, date) {
-    this.userId = userID;
-    this.date = date;
+class Hydration extends User{
+  constructor(userData, date) {
+  super(userData, date) 
     this.totalOunces = 0;
     this.ouncesAverage = 0;
-    this.ouncesRecord = [];
+    this.hydrationRecord = [];
   }
 
-  updateHydration(data) {
-    this.ouncesRecord = data.reduce((record, dataset) => {
-      if (this.userId === dataset.userID) {
-        record.unshift({[dataset.date]: dataset.numOunces})
-        this.totalOunces+=dataset.numOunces
-        this.ouncesAverage+=dataset.numOunces
-      }
-      return record;
-    }, [])
-    this.ouncesAverage = this.ouncesAverage / this.ouncesRecord.length
-  }
-
-  addDailyOunces(date) {
-    let daysOunces = this.ouncesRecord.find(day => Object.keys(day)[0] === date)
-    if(daysOunces) {
-      return daysOunces[date]
+  findTodayHydrationData() {
+    const todayData = this.findTodayData(this.hydrationRecord);
+    this.totalOunces = todayData.numOunces;
     }
+
+  calcOuncesAverage() {
+    const sumOunces = this.hydrationRecord.reduce((sum, dataset) => {
+      return sum += dataset.numOunces
+    }, 0);
+    this.ouncesAverage = this.calcAverage(sumOunces, this.hydrationRecord.length, 0); 
+   }
+
+  findWeeklyDailyOunces(date) {
+    const weeklyHydrationData = this.findWeeklyData(date, this.hydrationRecord); 
+    const daysOunces = weeklyHydrationData.map(day => {
+      return day.numOunces; 
+    });
+    return daysOunces; 
   }
 }
 
