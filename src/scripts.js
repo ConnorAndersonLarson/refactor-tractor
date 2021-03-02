@@ -1,11 +1,6 @@
 //import './css/base.scss';
 import './css/styles.scss';
 
-// import userData from './data/users';
-// import activityData from './data/activity';
-// import sleepData from './data/sleep';
-// import hydrationData from './data/hydration';
-
 import UserRepository from './UserRepository';
 import User from './User';
 import Activity from './Activity';
@@ -17,10 +12,6 @@ import Sleep from './Sleep';
 
 let todayDate = "2019/09/22";
 
-// let allUsers = userData.map(newUser => {
-//   let user = new User(newUser, todayDate);
-//   return user;
-// });
 let dailyOz;
 
 const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
@@ -80,7 +71,11 @@ userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationDa
 
 
 //hydration
-user.hydration.updateHydration(hydrationData)
+const hydration = new Hydration(user, todayDate); 
+hydration.updateRecord(hydrationData, hydration.hydrationRecord); 
+hydration.calcOuncesAverage(); 
+hydration.findTodayHydrationData(); 
+
 
 //activity
 const activity = new Activity(user, todayDate);
@@ -91,6 +86,7 @@ console.log(userRepository)
 console.log(user); 
 console.log(activity); 
 console.log(sleep);
+console.log(hydration); 
 
 
 user.findFriendsNames(userRepository.users);
@@ -121,15 +117,7 @@ let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality
 let sleepInfoQualityToday = document.querySelector('#sleep-info-quality-today');
 let sleepMainCard = document.querySelector('#sleep-main-card');
 let sleepUserHoursToday = document.querySelector('#sleep-user-hours-today');
-let sortedHydrationDataByDate = user.hydration.ouncesRecord.sort((a, b) => {
-  if (Object.keys(a)[0] > Object.keys(b)[0]) {
-    return -1;
-  }
-  if (Object.keys(a)[0] < Object.keys(b)[0]) {
-    return 1;
-  }
-  return 0;
-});
+
 let stairsCalendarCard = document.querySelector('#stairs-calendar-card');
 let stairsCalendarFlightsAverageWeekly = document.querySelector('#stairs-calendar-flights-average-weekly');
 let stairsCalendarStairsAverageWeekly = document.querySelector('#stairs-calendar-stairs-average-weekly');
@@ -324,11 +312,6 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
 }
 
-
-for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = user.hydration.addDailyOunces(Object.keys(sortedHydrationDataByDate[i])[0])
-}
-
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
 dropdownEmail.innerText = `EMAIL | ${user.email}`;
@@ -336,19 +319,12 @@ dropdownEmail.innerText = `EMAIL | ${user.email}`;
 dropdownName.innerText = user.name.toUpperCase();
 
 headerName.innerText = `${user.getFirstName()}'S `;
-
-
-// hydrationUserOuncesToday.innerText = user.hydration.ouncesRecord.find(hydration => {
-//   return hydration.userID === user.id && hydration.date === todayDate;
-// }).numOunces;
-userOuncesToday(todayDate)
-
-function userOuncesToday(date) {
-  let todayOunces = user.hydration.ouncesRecord.find(day => date === Object.keys(day)[0])
-  hydrationUserOuncesToday.innerText = todayOunces[date];
-  return;
+ 
+for (var i = 0; i < dailyOz.length; i++) {
+  dailyOz[i].innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1]
 }
 
+hydrationUserOuncesToday.innerText = hydration.totalOunces;
 
 hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 
@@ -529,44 +505,43 @@ function postSleepHelper() {
   }
 }
 
-
 //Post functions
 //Sleep
-function postSleep(sleepDate, hours, quality) {
-    fetch(`http://localhost:3001/api/v1/sleep`, {
-  method: 'POST',
-  headers: {
-  	'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
-})
-  .then(response => response.json())
-  .then(json => console.log(json))
-  .catch(err => showErrorMessage());
-}
-//Hyrdate
-function postHydrate(hydrationDate, ouncesDrank) {
-    fetch(`http://localhost:3001/api/v1/hydration`, {
-  method: 'POST',
-  headers: {
-  	'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
-})
-  .then(response => response.json())
-  .then(json => console.log(json))
-  .catch(err => showErrorMessage());
-}
-//Activity
-function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
-    fetch(`http://localhost:3001/api/v1/activity`, {
-  method: 'POST',
-  headers: {
-  	'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
-})
-  .then(response => response.json())
-  .then(json => console.log(json))
-  .catch(err => showErrorMessage());
-}
+// function postSleep(sleepDate, hours, quality) {
+//     fetch(`http://localhost:3001/api/v1/sleep`, {
+//   method: 'POST',
+//   headers: {
+//   	'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+// })
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+//   .catch(err => showErrorMessage());
+// }
+// //Hyrdate
+// function postHydrate(hydrationDate, ouncesDrank) {
+//     fetch(`http://localhost:3001/api/v1/hydration`, {
+//   method: 'POST',
+//   headers: {
+//   	'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+// })
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+//   .catch(err => showErrorMessage());
+// }
+// //Activity
+// function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
+//     fetch(`http://localhost:3001/api/v1/activity`, {
+//   method: 'POST',
+//   headers: {
+//   	'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+// })
+//   .then(response => response.json())
+//   .then(json => console.log(json))
+//   .catch(err => showErrorMessage());
+// }
