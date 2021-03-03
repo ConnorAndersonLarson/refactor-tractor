@@ -8,52 +8,47 @@
     this.strideLength = userData.strideLength;
     this.dailyStepGoal = userData.dailyStepGoal;
     this.friends = userData.friends;
-    this.accomplishedDays = [];
-    this.friendsNames = [];
-    this.friendsActivityRecords = []
+    this.friendsSteps = []; 
+    this.friendsWeeklyActivityRecords = []
   }
   getFirstName() {
     var names = this.name.split(' ');
     return names[0].toUpperCase();
   }
-
-  findFriendsNames(users) {
-    this.friends.forEach(friend => {
-      this.friendsNames.push(users.find(user => user.id === friend).getFirstName());
-    })
-  }
-  calculateTotalStepsThisWeek(todayDate) {
-    this.totalStepsThisWeek = (this.activityRecord.reduce((sum, activity) => {
-      let index = this.activityRecord.indexOf(this.activityRecord.find(activity => activity.date === todayDate));
-      if (index <= this.activityRecord.indexOf(activity) && this.activityRecord.indexOf(activity) <= (index + 6)) {
-        sum += activity.steps;
-      }
-      return sum;
-    }, 0));
-  }
-  findFriendsTotalStepsForWeek(users, date) {
-    this.friends.map(friend => {
-      let matchedFriend = users.find(user => user.id === friend);
-      matchedFriend.calculateTotalStepsThisWeek(date);
-      this.friendsActivityRecords.push(
-        {
-          'id': matchedFriend.id,
-          'firstName': matchedFriend.name.toUpperCase().split(' ')[0],
-          'totalWeeklySteps': matchedFriend.totalStepsThisWeek
-        })
-    })
-    this.calculateTotalStepsThisWeek(date);
-    this.friendsActivityRecords.push({
-      'id': this.id,
-      'firstName': 'YOU',
-      'totalWeeklySteps': this.totalStepsThisWeek
+  
+  findWeeklyFriendActivityData(activityData, date) {
+    const friendActivityRecords = activityData.reduce((friendRecords, dataItem) => {
+      this.friends.forEach(friendId => {
+        if(!friendRecords[friendId] && dataItem.userID === friendId) {
+            friendRecords[friendId] = [dataItem];
+      } else if(dataItem.userID === friendId) {
+            friendRecords[friendId].unshift(dataItem); 
+        }
+        });
+        return friendRecords; 
+    }, {});
+    Object.values(friendActivityRecords).forEach(record => {
+     this.friendsWeeklyActivityRecords.push(this.findWeeklyData(date, record))
     });
-    this.friendsActivityRecords = this.friendsActivityRecords.sort((a, b) => b.totalWeeklySteps - a.totalWeeklySteps);
   }
+
+  calcFriendsWeeklyStepAvg() {
+    this.friendsWeeklyActivityRecords.forEach(record => {
+     const avgSteps = record.reduce((steps, day) => {
+       steps += day.numSteps;
+       return steps; 
+     }, 0);
+     const friendsStepInfo = {id: 0, totalWeeklySteps: 0};
+     friendsStepInfo.id = record[0].userID;
+     friendsStepInfo.totalWeeklySteps = this.calcAverage(avgSteps, 7, 0); 
+     this.friendsSteps.push(friendsStepInfo);
+    });
+  }
+
   updateRecord(healthData, healthRecord) {
     const currentData = healthData.filter(healthItem => {
       return this.id === healthItem.userID;
-    })
+    });
     currentData.sort((dataItemA, dataItemB) => {
       return dataItemA.date - dataItemB.date;
    });

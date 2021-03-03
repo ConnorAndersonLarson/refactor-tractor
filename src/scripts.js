@@ -54,10 +54,10 @@ const userList = userData.map(user => {
 });
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
+user.findWeeklyFriendActivityData(activityData, todayDate);
+user.findFriendsNames(userRepository.users);
+user.calcFriendsWeeklyStepAvg()
 
-// const userActivityData = activityData.filter(activity => {
-//   return user.id === activity.userID;
-// })
 
 //sleep
 const sleep = new Sleep(user, todayDate);
@@ -88,8 +88,6 @@ activity.calcWeeklyAverageActive(todayDate);
 // console.log(sleep);
 // console.log(hydration);
 
-
-user.findFriendsNames(userRepository.users);
 let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -417,6 +415,7 @@ function createActivity() {
     return activity.userID === user.id && activity.date === todayDate;
   }).numSteps;
 
+<<<<<<< HEAD
   // user friend's list and steps info
   // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
@@ -439,6 +438,19 @@ function createActivity() {
       paragraph.classList.add('yellow-text');
     }
   });
+=======
+// user friend's list and steps info
+populateFriendSteps(userRepository.users); 
+function populateFriendSteps (users) {
+  user.friendsSteps.forEach(friend => {
+    const friendInfo = users.find(userData => userData.id === friend.id)
+    dropdownFriendsStepsContainer.innerHTML += `
+  <p class='dropdown-p friends-steps green-text'>${friendInfo.name} |  ${friend.totalWeeklySteps}</p>
+  `;
+  })
+  dropdownFriendsStepsContainer.innerHTML += `<p class='dropdown-p friends-steps yellow-text'>YOU |  ${activity.weeklyAverageSteps}</p>
+  `
+>>>>>>> main
 }
 
 function postSleepHelper() {

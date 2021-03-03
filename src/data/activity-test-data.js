@@ -13,6 +13,13 @@ const activityData = [{
   "flightsOfStairs": 10
 },
 {
+  "userID": 3,
+  "date": "2021/02/21",
+  "numSteps": 3476,
+  "minutesActive": 18,
+  "flightsOfStairs": 11
+},
+{
   "userID": 1,
   "date": "2021/02/22",
   "numSteps": 7402,
@@ -25,6 +32,13 @@ const activityData = [{
   "numSteps": 3486,
   "minutesActive": 114,
   "flightsOfStairs": 32
+},
+{
+  "userID": 3,
+  "date": "2021/02/22",
+  "numSteps": 5786,
+  "minutesActive": 114,
+  "flightsOfStairs": 62
 },
 {
   "userID": 1,
@@ -41,6 +55,13 @@ const activityData = [{
   "flightsOfStairs": 18
 },
 {
+  "userID": 3,
+  "date": "2021/02/23",
+  "numSteps": 14810,
+  "minutesActive": 87,
+  "flightsOfStairs": 48
+},
+{
   "userID": 1,
   "date": "2021/02/24",
   "numSteps": 2634,
@@ -51,6 +72,13 @@ const activityData = [{
   "userID": 2,
   "date": "2021/02/24",
   "numSteps": 10333,
+  "minutesActive": 114,
+  "flightsOfStairs": 31
+},
+{
+  "userID": 3,
+  "date": "2021/02/24",
+  "numSteps": 1003,
   "minutesActive": 114,
   "flightsOfStairs": 31
 },
@@ -69,6 +97,13 @@ const activityData = [{
   "flightsOfStairs": 37
 },
 {
+  "userID": 3,
+  "date": "2021/02/25",
+  "numSteps": 9999,
+  "minutesActive": 196,
+  "flightsOfStairs": 37
+},
+{
   "userID": 1,
   "date": "2021/02/26",
   "numSteps": 11652,
@@ -83,6 +118,13 @@ const activityData = [{
   "flightsOfStairs": 2
 },
 {
+  "userID": 3,
+  "date": "2021/02/26",
+  "numSteps": 9254,
+  "minutesActive": 88,
+  "flightsOfStairs": 12
+},
+{
   "userID": 1,
   "date": "2021/02/27",
   "numSteps": 9303,
@@ -93,6 +135,13 @@ const activityData = [{
   "userID": 2,
   "date": "2021/02/27",
   "numSteps": 8024,
+  "minutesActive": 216,
+  "flightsOfStairs": 32
+},
+{
+  "userID": 3,
+  "date": "2021/02/27",
+  "numSteps": 6524,
   "minutesActive": 216,
   "flightsOfStairs": 32
 },
@@ -111,6 +160,13 @@ const activityData = [{
   "flightsOfStairs": 32
 },
 {
+  "userID": 3,
+  "date": "2019/06/28",
+  "numSteps": 9788,
+  "minutesActive": 92,
+  "flightsOfStairs": 32
+},
+{
   "userID": 1,
   "date": "2019/03/01",
   "numSteps": 12982,
@@ -122,6 +178,13 @@ const activityData = [{
   "date": "2019/03/01",
   "numSteps": 13881,
   "minutesActive": 137,
+  "flightsOfStairs": 46
+},
+{
+  "userID": 3,
+  "date": "2019/03/01",
+  "numSteps": 11881,
+  "minutesActive": 97,
   "flightsOfStairs": 46
 },
 {
@@ -139,6 +202,13 @@ const activityData = [{
   "flightsOfStairs": 14
 },
 {
+  "userID": 3,
+  "date": "2019/03/02",
+  "numSteps": 9052,
+  "minutesActive": 68,
+  "flightsOfStairs": 51
+},
+{
   "userID": 1,
   "date": "2019/03/03",
   "numSteps": 3033,
@@ -150,6 +220,13 @@ const activityData = [{
   "date": "2019/03/03",
   "numSteps": 7288,
   "minutesActive": 46,
+  "flightsOfStairs": 28
+},
+{
+  "userID": 3,
+  "date": "2019/03/03",
+  "numSteps": 4591,
+  "minutesActive": 65,
   "flightsOfStairs": 28
 },
 {
@@ -167,6 +244,13 @@ const activityData = [{
   "flightsOfStairs": 6
 },
 {
+  "userID": 3,
+  "date": "2019/03/04",
+  "numSteps": 7969,
+  "minutesActive": 77,
+  "flightsOfStairs": 10
+},
+{
   "userID": 1,
   "date": "2019/03/05",
   "numSteps": 5144,
@@ -181,6 +265,13 @@ const activityData = [{
   "flightsOfStairs": 6
 },
 {
+  "userID": 3,
+  "date": "2019/03/05",
+  "numSteps": 5151,
+  "minutesActive": 25,
+  "flightsOfStairs": 16
+},
+{
   "userID": 1,
   "date": "2019/03/06",
   "numSteps": 13532,
@@ -192,6 +283,13 @@ const activityData = [{
   "date": "2019/03/06",
   "numSteps": 6945,
   "minutesActive": 145,
+  "flightsOfStairs": 0
+},
+{
+  "userID": 3,
+  "date": "2019/03/06",
+  "numSteps": 3987,
+  "minutesActive": 45,
   "flightsOfStairs": 0
 }];
 
