@@ -7,7 +7,7 @@ import activityData from '../src/data/activity-test-data';
 import hydrationData from '../src/data/hydration-test-data';
 
 
-describe.only('UserRepository', function() {
+describe('UserRepository', function() {
   let user1, user2, user3, users, date, userRepository;
   beforeEach(() => {
     date = "2021/02/27";
