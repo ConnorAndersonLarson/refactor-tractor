@@ -6,3 +6,9 @@ $work: 'Work Sans', sans-serif;
   justify-content: space-around;
   width: 100%;
 }
+
+@mixin center-flex() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

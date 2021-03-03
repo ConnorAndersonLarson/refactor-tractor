@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'buttons';
-@import 'mobile';
 @import 'text-elements';
 
 *,
@@ -100,11 +99,6 @@ main {
   margin: .5vw;
   border: 3px solid #1F1F1F;
 }
-
-// .info-card{
-//   height:100%;
-//
-// }
 
 .friends-card{
   display: flex;
@@ -238,7 +232,6 @@ main {
     font-size: 4vw;
   }
   p{
-    //font-size: 4vw;
     font-size: 2vw;
   }
   .form-button{
