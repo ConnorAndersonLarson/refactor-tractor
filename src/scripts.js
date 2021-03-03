@@ -56,7 +56,6 @@ let stairsFriendsCard = document.querySelector('#stairs-friends-card');
 let stairsInfoCard = document.querySelector('#stairs-info-card');
 let stairsInfoFlightsToday = document.querySelector('#stairs-info-flights-today');
 let stairsMainCard = document.querySelector('#stairs-main-card');
-let stairsTrendingButton = document.querySelector('.stairs-trending-button');
 let stairsTrendingCard = document.querySelector('#stairs-trending-card');
 let stairsUserStairsToday = document.querySelector('#stairs-user-stairs-today');
 let stepsCalendarTotalActiveMinutesWeekly = document.querySelector('#steps-calendar-total-active-minutes-weekly');
@@ -66,7 +65,6 @@ let stepsInfoActiveMinutesToday = document.querySelector('#steps-info-active-min
 let stepsInfoMilesWalkedToday = document.querySelector('#steps-info-miles-walked-today');
 let stepsFriendActiveMinutesAverageToday = document.querySelector('#steps-friend-active-minutes-average-today');
 let stepsFriendStepsAverageToday = document.querySelector('#steps-friend-steps-average-today');
-let stepsTrendingButton = document.querySelector('.steps-trending-button');
 let stepsUserStepsToday = document.querySelector('#steps-user-steps-today');
 let trendingStepsPhraseContainer = document.querySelector('.trending-steps-phrase-container');
 let trendingStairsPhraseContainer = document.querySelector('.trending-stairs-phrase-container');
@@ -83,9 +81,7 @@ let numberOfStepsInput = document.querySelector(".number-steps-input");
 let minutesActiveInput = document.querySelector(".minutes-active-input");
 let flightsOfStairsInput = document.querySelector(".stairs-input");
 let activitySubmitButton = document.querySelector("#activitySubmitButton");
-let showSleepFormButton = document.querySelector(".show-sleep-form");
-let showActivityFormButton = document.querySelector(".show-activity-form");
-let showHydrationFormButton = document.querySelector(".show-hydration-form");
+const showFormButtons = document.querySelector('#formButtons')
 let sleepInputForm = document.querySelector(".sleep-input-form");
 let activityInputForm = document.querySelector(".activity-input-form");
 let hydrationInputForm = document.querySelector(".hydration-input-form");
@@ -125,16 +121,19 @@ activity.calcWeeklyAverageActive(todayDate);
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
+<<<<<<< HEAD
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 submitButton.addEventListener('click', postSleepHelper);
+=======
+submitButton.addEventListener('click', postSleepHelper );
+>>>>>>> main
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
 activitySubmitButton.addEventListener('click', postActivityHelper);
-showSleepFormButton.addEventListener('click', showSleepForm);
-showActivityFormButton.addEventListener('click', showActivityForm);
-showHydrationFormButton.addEventListener('click', showHydrationForm);
+showFormButtons.addEventListener('click', showForm);
 clearButton.addEventListener('click', hideForms)
 
+<<<<<<< HEAD
 createDropdown();
 createActivity();
 createSleep();
@@ -144,46 +143,47 @@ createHydration();
 function showErrorMessage() {
   errorMessage.classList.remove("hide");
   successfulSubmit.classList.add("hide");
+=======
+function show(element) {
+ element.classList.remove('hide'); 
+>>>>>>> main
+}
+
+function hide(element) {
+  element.classList.add('hide'); 
+}
+
+function showErrorMessage() {
+  errorMessage.classList.remove("hide");
+  successfulSubmit.classList.add("hide");
 }
 
 function hideForms() {
-  sleepInputForm.classList.add("hide");
-  activityInputForm.classList.add("hide");
-  hydrationInputForm.classList.add("hide");
-  successfulSubmit.classList.add("hide");
-  failedSubmit.classList.add("hide");
-  clearButton.classList.add("hide");
-  errorMessage.classList.add("hide")
+  hide(activityInputForm); 
+  hide(hydrationInputForm);
+  hide(sleepInputForm);
+  hide(clearButton);  
 }
 
-function showSleepForm() {
-  sleepInputForm.classList.remove("hide");
-  activityInputForm.classList.add("hide");
-  hydrationInputForm.classList.add("hide");
-  successfulSubmit.classList.add("hide");
-  failedSubmit.classList.add("hide");
-  clearButton.classList.remove("hide");
-  errorMessage.classList.add("hide")
-}
-
-function showActivityForm() {
-  activityInputForm.classList.remove("hide");
-  sleepInputForm.classList.add("hide");
-  hydrationInputForm.classList.add("hide");
-  successfulSubmit.classList.add("hide");
-  failedSubmit.classList.add("hide");
-  clearButton.classList.remove("hide");
-  errorMessage.classList.add("hide")
-}
-
-function showHydrationForm() {
-  hydrationInputForm.classList.remove("hide");
-  activityInputForm.classList.add("hide");
-  sleepInputForm.classList.add("hide");
-  successfulSubmit.classList.add("hide");
-  failedSubmit.classList.add("hide");
-  clearButton.classList.remove("hide");
-  errorMessage.classList.add("hide")
+function showForm(event) {
+  if(event.target.id ===  'showActivityButton') {
+    show(activityInputForm);
+    show(clearButton)
+    hide(hydrationInputForm)
+    hide(sleepInputForm); 
+  }
+  if(event.target.id === 'showHydrationButton') {
+    show(hydrationInputForm); 
+    show(clearButton); 
+    hide(activityInputForm); 
+    hide(sleepInputForm);
+  }
+  if(event.target.id === 'showSleepButton') {
+    show(sleepInputForm); 
+    show(clearButton); 
+    hide(activityInputForm);
+    hide(hydrationInputForm); 
+  }
 }
 
 function flipCard(cardToHide, cardToShow) {
@@ -202,7 +202,7 @@ function showInfo() {
   if (event.target.id ==='steps-friends-button') {
     flipCard(stepsMainCard, stepsFriendsCard);
   }
-  if (event.target.id ==='steps-trending-button') {
+  if (event.target.id === 'stepsTrendingButton') {
     flipCard(stepsMainCard, stepsTrendingCard);
   }
   if (event.target.id ==='steps-calendar-button') {
@@ -223,7 +223,7 @@ function showInfo() {
   if (event.target.id ==='stairs-friends-button') {
     flipCard(stairsMainCard, stairsFriendsCard);
   }
-  if (event.target.id ==='stairs-trending-button') {
+  if (event.target.id === 'stairsTrendingButton') {
     flipCard(stairsMainCard, stairsTrendingCard);
   }
   if (event.target.id ==='stairs-calendar-button') {
@@ -252,10 +252,12 @@ function showInfo() {
   }
 }
 
+updateTrendingStairsDays()
 function updateTrendingStairsDays() {
   trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
 }
 
+updateTrendingStepDays(); 
 function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOU'VE MET YOUR STEPS GOAL ${activity.findGoalMatchDays()} TIMES</h5>`;
 }
