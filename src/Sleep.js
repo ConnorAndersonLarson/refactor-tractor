@@ -12,8 +12,8 @@ class Sleep extends User {
     this.sleepRecord = [];
   }
 
-  findTodaySleepData(sleepData) {
-    const todaysData = this.findTodayData(sleepData); 
+  findTodaySleepData() {
+    const todaysData = this.findTodayData(this.sleepRecord); 
     this.hoursSlept = todaysData.hoursSlept;
     this.sleepQuality = todaysData.sleepQuality;
   }
@@ -28,8 +28,8 @@ class Sleep extends User {
     this.averageQuality = this.calcAverage(averageDailyData.quality, this.sleepRecord.length, 1); 
   }
 
-  calcWeeklyAvgData() {
-    const lastWeekData = this.findWeeklyData(this.date, this.sleepRecord);
+  calcWeeklyAvgData(date) {
+    const lastWeekData = this.findWeeklyData(date, this.sleepRecord);
     const averageWeeklyData = {hours: 0, quality: 0};
     lastWeekData.forEach(day => {
       averageWeeklyData.hours += day.hoursSlept;
