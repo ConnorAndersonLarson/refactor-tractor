@@ -1,6 +1,6 @@
 @import 'variables';
 @import 'buttons';
-@import 'mobile';
+@import 'text-elements';
 
 *,
 *:after,
@@ -10,14 +10,12 @@ margin: 0;
 padding: 0;
 }
 
-
 html {
   height: 100%;
 }
 
 .input {
   margin: 10px;
-
 }
 
 body {
@@ -33,25 +31,24 @@ header {
   height: auto;
 }
 
-button:hover {
-  cursor: pointer;
+form {
+  display:flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+
 }
 
-// #profile-button {
-//   position: absolute;
-//   right: 10px;
-//   top: 0px;
-//   background-image: url(../images/profile.png);
-//   background-position: center;
-//   background-size: 5.6vw;
-//   border: none;
-//   display: inline;
-//   float: right;
-//   height: 5.6vw;
-//   margin-right: .5vw;
-//   margin-top: 1.6vw;
-//   width: 5.6vw;
-// }
+.sub-res{
+  width:100%;
+  color:#fff;
+  padding:5px;
+  text-align: center;
+}
+
+.hours-slept-input{
+  width: 90px;
+}
 
 #user-info-dropdown {
   background-color: #1F1F1F;
@@ -75,64 +72,6 @@ button:hover {
   width: 100%;
 }
 
-/* TEXT ELEMENTS */
-h1 {
-  color: #fff;
-  display: inline;
-  font-size: 5.4vw;
-  letter-spacing: .2em;
-  height: 45px;
-}
-
-h2 {
-  font-size: 7vw;
-  letter-spacing: .1em;
-}
-
-h3 {
-  display: inline;
-  font-family: $work;
-  font-size: 2.5vw;
-  font-weight: 700;
-  letter-spacing: .2em;
-}
-
-h4 {
-  font-size: 6vw;
-}
-
-h5 {
-  font-size: 1.8vw;
-  padding-bottom: 1vw;
-  text-align: center;
-}
-
-p {
-  font-family: $work;
-  font-size: 1.2vw;
-  font-weight: 600;
-  letter-spacing: .2vw;
-  margin-right: 1vw;
-  padding-top: 2vw;
-  text-align: right;
-  width: 9vw;
-  word-break: keep-all;
-}
-
-.main-start-text{
-  color: black;
-  display: inline;
-  font-family: $work;
-  font-size: 2.5vw;
-  font-weight: 700;
-  letter-spacing: .2em;
-}
-
-#dropdown-name{
-  font-size: 1.8vw;
-  padding-bottom: 1vw;
-  text-align: center;
-}
 
 /* MAIN */
 main {
@@ -141,7 +80,7 @@ main {
     "steps hydration" 50%
     "stairs sleep" 50%
     / 50% 50%;
-  height: 85%;
+  height: 100%;
 }
 
 .main-card {
@@ -159,6 +98,26 @@ main {
   @include center-flex();
   margin: .5vw;
   border: 3px solid #1F1F1F;
+}
+
+.friends-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  button{
+    left: 10px;
+    top: 40px;
+  }
+  .card-data-line{
+    margin-bottom: 0;
+    h4{
+      font-size: 5vw;
+    }
+    p{
+      font-size: 1vw;
+    }
+  }
 }
 
 .main-card-top-row {
@@ -204,13 +163,14 @@ main {
   margin-bottom: 2vw;
 }
 
-.hydration-weekly-label {
-  font-size: 1vw;
-  padding-top: 1vw;
-}
-
-.hydration-weekly-amount {
-  font-size: 2vw;
+.calendar-card{
+  .hydration-weekly-label{
+    font-size:1.25vw;
+    padding-top:.75vw;
+  }
+  .hydration-weekly-amount{
+    font-size:2.25vw;
+  }
 }
 
 .hydration-data-line {
@@ -227,7 +187,7 @@ main {
 
 /* CHANGING CLASSES */
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .green-text {
@@ -242,6 +202,8 @@ main {
   color: #F8BA00;
 }
 
+
+/*MOBILE DISPLAY*/
 @media screen and (max-width: 600px) {
   header{
     display:flex;
@@ -263,8 +225,20 @@ main {
   h3{
     font-size: 5vw;
   }
+  h4{
+    font-size: 6vw;
+  }
   h5{
     font-size: 4vw;
+  }
+  p{
+    font-size: 2vw;
+  }
+  .form-button{
+    font-size: 2.75vw;
+  }
+  .trend-line{
+    font-size: 3vw;
   }
   .dropdown-p{
     font-size: 3vw;
@@ -275,7 +249,77 @@ main {
   .main-start-text{
     font-size: 5vw;
   }
+  .card-data-line{
+    .p{
+      font-size: 2vw;
+    }
+  }
+  #sleep-friend-longest-sleeper{
+    font-size: 6vw;
+  }
+  .go-back-button{
+    position: inherit;
+    top: unset;
+    left:unset;
+  }
+  .friends-card{
+    @include flex-row();
+  }
+  .info-card{
+    @include flex-row();
+  }
+  .trending-card{
+    @include flex-row();
+  }
+  .calendar-card{
+    @include flex-row();
+    flex-direction: column;
+    width: 80%;
+    flex-wrap: wrap;
+    height: 60%;
+    align-items: center;
+    .hydration-weekly-label{
+      font-size:2vw;
+      width: 50%;
+      padding-top: unset;
+    }
+    .hydration-weekly-amount{
+      font-size:3vw;
+    }
+    .hydration-data-line{
+      justify-content: space-between;
+    }
+  }
+
+  .clear-button{
+    border: 1px solid #950714;
+    color: #950714;
+    width: 40%;
+  }
+
+  .submit-button{
+    border: 1px solid #20b807;
+    color: #20b807;
+    width: 40%;
+  }
+
+  .show-activity-form{
+    border: 1px solid #F5634B;
+    color: #F5634B;
+  }
+  .show-hydration-form{
+    border: 1px solid #54C6BE;
+    color: #54C6BE;
+  }
+  .show-sleep-form{
+    border: 1px solid #FBD089;
+    color: #FBD089;
+  }
+
   #user-info-dropdown {
+    p{
+      font-size:4vw;
+    }
     position: inherit;
     background-color: #1F1F1F;
     color: white;

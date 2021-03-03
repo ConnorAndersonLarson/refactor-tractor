@@ -1,0 +1,62 @@
+/* TEXT ELEMENTS */
+h1 {
+  color: #fff;
+  display: inline;
+  font-size: 5.4vw;
+  letter-spacing: .2em;
+  height: 45px;
+}
+
+h2 {
+  font-size: 7vw;
+  letter-spacing: .1em;
+}
+
+h3 {
+  display: inline;
+  font-family: $work;
+  font-size: 2.5vw;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+h4 {
+  font-size: 5vw;
+}
+
+h5 {
+  font-size: 1.8vw;
+  padding-bottom: 1vw;
+  text-align: center;
+}
+
+p {
+  font-family: $work;
+  font-size: 1vw;
+  font-weight: 600;
+  letter-spacing: .2vw;
+  margin-right: 1vw;
+  padding-top: 2vw;
+  text-align: right;
+  width: 9vw;
+  word-break: keep-all;
+}
+
+.main-start-text{
+  color: black;
+  display: inline;
+  font-family: $work;
+  font-size: 2.5vw;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+#dropdown-name{
+  font-size: 1.8vw;
+  padding-bottom: 1vw;
+  text-align: center;
+}
+
+#sleep-friend-longest-sleeper{
+  font-size: 3.5vw;
+}

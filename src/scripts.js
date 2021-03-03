@@ -90,7 +90,7 @@ console.log(hydration);
 
 
 user.findFriendsNames(userRepository.users);
-// let dailyOz = document.querySelectorAll('.daily-oz');
+let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
 let dropdownGoal = document.querySelector('#dropdown-goal');
@@ -149,15 +149,15 @@ let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
-let submitButton = document.querySelector('.submit-button');
+let submitButton = document.querySelector('#sleepSubmitButton');
 let hydrationDateInput = document.querySelector('.hydration-date-input');
 let ouncesDrankInput = document.querySelector('.ounces-drank-input');
-let hydrationSubmitButton = document.querySelector(".hydration-submit-button");
+let hydrationSubmitButton = document.querySelector("#hydrationSubmitButton");
 let activityDateInput = document.querySelector(".activity-date-input");
 let numberOfStepsInput = document.querySelector(".number-steps-input");
 let minutesActiveInput = document.querySelector(".minutes-active-input");
 let flightsOfStairsInput = document.querySelector(".stairs-input");
-let activitySubmitButton = document.querySelector(".activity-submit-button");
+let activitySubmitButton = document.querySelector("#activitySubmitButton");
 let showSleepFormButton = document.querySelector(".show-sleep-form");
 let showActivityFormButton = document.querySelector(".show-activity-form");
 let showHydrationFormButton = document.querySelector(".show-hydration-form");
@@ -232,7 +232,6 @@ function showHydrationForm() {
 //   user.findTrendingStairsDays();
 //   trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStairsDays[0]}</p>`;
 // });
-
 // stepsTrendingButton.addEventListener('click', function() {
 //   activity.findTrendingStepDays();
 //   trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>${activity.trendingStepDays[0]}</p>`;
@@ -249,68 +248,68 @@ function showDropdown() {
 }
 
 function showInfo() {
-  if (event.target.classList.contains('steps-info-button')) {
+  if (event.target.id ==='steps-info-button') {
     flipCard(stepsMainCard, stepsInfoCard);
   }
-  if (event.target.classList.contains('steps-friends-button')) {
+  if (event.target.id ==='steps-friends-button') {
     flipCard(stepsMainCard, stepsFriendsCard);
   }
-  if (event.target.classList.contains('steps-trending-button')) {
+  if (event.target.id ==='steps-trending-button') {
     flipCard(stepsMainCard, stepsTrendingCard);
   }
-  if (event.target.classList.contains('steps-calendar-button')) {
+  if (event.target.id ==='steps-calendar-button') {
     flipCard(stepsMainCard, stepsCalendarCard);
   }
-  if (event.target.classList.contains('hydration-info-button')) {
+  if (event.target.id ==='hydration-info-button') {
     flipCard(hydrationMainCard, hydrationInfoCard);
   }
-  if (event.target.classList.contains('hydration-friends-button')) {
+  if (event.target.id ==='hydration-friends-button') {
     flipCard(hydrationMainCard, hydrationFriendsCard);
   }
-  if (event.target.classList.contains('hydration-calendar-button')) {
+  if (event.target.id ==='hydration-calendar-button') {
     flipCard(hydrationMainCard, hydrationCalendarCard);
   }
-  if (event.target.classList.contains('stairs-info-button')) {
+  if (event.target.id ==='stairs-info-button') {
     flipCard(stairsMainCard, stairsInfoCard);
   }
-  if (event.target.classList.contains('stairs-friends-button')) {
+  if (event.target.id ==='stairs-friends-button') {
     flipCard(stairsMainCard, stairsFriendsCard);
   }
-  if (event.target.classList.contains('stairs-trending-button')) {
+  if (event.target.id ==='stairs-trending-button') {
     flipCard(stairsMainCard, stairsTrendingCard);
   }
-  if (event.target.classList.contains('stairs-calendar-button')) {
+  if (event.target.id ==='stairs-calendar-button') {
     flipCard(stairsMainCard, stairsCalendarCard);
   }
-  if (event.target.classList.contains('sleep-info-button')) {
+  if (event.target.id ==='sleep-info-button') {
     flipCard(sleepMainCard, sleepInfoCard);
   }
-  if (event.target.classList.contains('sleep-friends-button')) {
+  if (event.target.id ==='sleep-friends-button') {
     flipCard(sleepMainCard, sleepFriendsCard);
   }
-  if (event.target.classList.contains('sleep-calendar-button')) {
+  if (event.target.id ==='sleep-calendar-button') {
     flipCard(sleepMainCard, sleepCalendarCard);
   }
-  if (event.target.classList.contains('steps-go-back-button')) {
+  if (event.target.id ==='steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
-  if (event.target.classList.contains('hydration-go-back-button')) {
+  if (event.target.id ==='hydrate-return') {
     flipCard(event.target.parentNode, hydrationMainCard);
   }
-  if (event.target.classList.contains('stairs-go-back-button')) {
+  if (event.target.id ==='stairs-return') {
     flipCard(event.target.parentNode, stairsMainCard);
   }
-  if (event.target.classList.contains('sleep-go-back-button')) {
+  if (event.target.id ==='sleep-return') {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
 
 function updateTrendingStairsDays() {
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
 }
 
 function updateTrendingStepDays() {
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
+  trendingStepsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOU'VE MET YOUR STEPS GOAL ${activity.findGoalMatchDays()} TIMES</h5>`;
 }
 
 dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;

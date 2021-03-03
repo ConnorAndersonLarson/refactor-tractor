@@ -13,17 +13,55 @@
   right: 10px;
   top: 5px;
   background-image: url(../images/profile.png);
-  //background-position: center;
-  //background-size: 5.6vw;
-  //border: none;
   display: inline;
   float: right;
-  //height: 5.6vw;
-  //margin-right: .5vw;
-  //margin-top: 5px;
-  //width: 5.6vw;
 }
 
+.clear-button:hover{
+  border: 1px solid #950714;
+  color: #950714;
+}
+
+.submit-button:hover{
+  border: 1px solid #20b807;
+  color: #20b807;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.form-button {
+  padding: 3px 5px 3px 5px;
+  border-radius: 0px;
+  background-color: #1F1F1F;
+  font-family: $work;
+  margin-bottom: 3px;
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+.form-buttons{
+  @include flex-row();
+
+  .form-button:hover{
+    opacity: 85%;
+    //border: 1px solid #fff;
+    //color: #fff;
+  }
+  .show-activity-form:hover{
+    border: 1px solid #F5634B;
+    color: #F5634B;
+  }
+  .show-hydration-form:hover{
+    border: 1px solid #54C6BE;
+    color: #54C6BE;
+  }
+  .show-sleep-form:hover{
+    border: 1px solid #FBD089;
+    color: #FBD089;
+  }
+}
 
 .info-button {
   background-image: url(../images/info.png);
@@ -51,6 +89,9 @@
 .go-back-button {
   background-image: url(../images/return.png);
   @include buttons();
+  position: relative;
+  top: 60px;
+  left: -25%;
 }
 
 .steps-trending-button {
