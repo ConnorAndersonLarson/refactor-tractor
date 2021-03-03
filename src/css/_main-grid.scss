@@ -1,0 +1,110 @@
+main {
+  display: grid;
+  grid-template:
+    "steps hydration" 50%
+    "stairs sleep" 50%
+    / 50% 50%;
+  height: 100%;
+}
+
+.main-card {
+  padding: 10px 0 10px 0;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  justify-content: space-between;
+  width: 98%;
+  height: 90%;
+}
+
+.card-container {
+  @include center-flex();
+  margin: .5vw;
+  border: 3px solid #1F1F1F;
+}
+
+.friends-card{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  button{
+    left: 10px;
+    top: 40px;
+  }
+  .card-data-line{
+    margin-bottom: 0;
+    h4{
+      font-size: 5vw;
+    }
+    p{
+      font-size: 1vw;
+    }
+  }
+}
+
+.main-card-top-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.main-card-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  width: 100%;
+}
+
+.text-center {
+  padding-left: 9vw;
+}
+
+#steps-card-container {
+  background-color: #F5634B;
+  grid-area: steps;
+}
+
+#hydration-card-container {
+  background-color: #54C6BE;
+  grid-area: hydration;
+}
+
+#stairs-card-container {
+  background-color: #8975B2;
+  grid-area: stairs;
+}
+
+#sleep-card-container {
+  background-color: #FBD089;
+  grid-area: sleep;
+}
+
+.card-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2vw;
+}
+
+.calendar-card{
+  .hydration-weekly-label{
+    font-size:1.25vw;
+    padding-top:.75vw;
+  }
+  .hydration-weekly-amount{
+    font-size:2.25vw;
+  }
+}
+
+.hydration-data-line {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .2vw;
+}
+
+.trend-line {
+  font-size: 2vw;
+  text-align: center;
+  width: 20vw;
+}

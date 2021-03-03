@@ -61,7 +61,7 @@ let user = userRepository.users[0];
 
 //sleep
 const sleep = new Sleep(user, todayDate);
-sleep.findTodaySleepData(sleepData);
+//sleep.findTodaySleepData(sleepData);
 sleep.updateRecord(sleepData, sleep.sleepRecord);
 sleep.calcAvgSleepData();
 sleep.calcWeeklyAvgData(todayDate);
@@ -79,7 +79,7 @@ hydration.findTodayHydrationData();
 
 //activity
 const activity = new Activity(user, todayDate);
-activity.findTodayActivityData(activityData);
+//activity.findTodayActivityData(activityData);
 activity.updateRecord(activityData, activity.activityRecord);
 activity.calcWeeklyAverageActive(todayDate);
 console.log(userRepository)
