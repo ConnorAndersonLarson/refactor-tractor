@@ -11,10 +11,10 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
 .then(data => {
-
-const [userData, hydrationData, sleepData, activityData] = data;
-initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData);
+  const [userData, hydrationData, sleepData, activityData] = data;
+  initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData);
 });
+
 
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -72,16 +72,16 @@ let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
-let submitButton = document.querySelector('#sleepSubmitButton');
+let submitButton = document.querySelector('#sleep-submit-button');
 let hydrationDateInput = document.querySelector('.hydration-date-input');
 let ouncesDrankInput = document.querySelector('.ounces-drank-input');
-let hydrationSubmitButton = document.querySelector("#hydrationSubmitButton");
+let hydrationSubmitButton = document.querySelector("#hydration-submit-button");
 let activityDateInput = document.querySelector(".activity-date-input");
 let numberOfStepsInput = document.querySelector(".number-steps-input");
 let minutesActiveInput = document.querySelector(".minutes-active-input");
 let flightsOfStairsInput = document.querySelector(".stairs-input");
-let activitySubmitButton = document.querySelector("#activitySubmitButton");
-const showFormButtons = document.querySelector('#formButtons')
+let activitySubmitButton = document.querySelector("#activity-submit-button");
+const showFormButtons = document.querySelector('#form-buttons')
 let sleepInputForm = document.querySelector(".sleep-input-form");
 let activityInputForm = document.querySelector(".activity-input-form");
 let hydrationInputForm = document.querySelector(".hydration-input-form");
@@ -91,15 +91,17 @@ let clearButton = document.querySelector(".clear-button");
 let errorMessage = document.querySelector(".error-message");
 
 function initialize (userData, hydrationData, sleepData, activityData) {
-let todayDate = "2019/09/22";
 
-const userList = userData.map(user => {
-  return user = new User(user, todayDate);
-});
-const userRepository = new UserRepository(userList);
-let user = userRepository.users[0];
-user.findWeeklyFriendActivityData(activityData, todayDate);
-user.calcFriendsWeeklyStepAvg()
+
+  const userList = userData.map(user => {
+    return user = new User(user, todayDate);
+  });
+
+  const userRepository = new UserRepository(userList);
+  let user = userRepository.users[0];
+  user.findWeeklyFriendActivityData(activityData, todayDate);
+  user.calcFriendsWeeklyStepAvg()
+
 
 const sleep = new Sleep(user, todayDate);
 sleep.updateRecord(sleepData, sleep.sleepRecord);
@@ -121,19 +123,12 @@ activity.calcWeeklyAverageActive(todayDate);
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-<<<<<<< HEAD
-stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 submitButton.addEventListener('click', postSleepHelper);
-=======
-submitButton.addEventListener('click', postSleepHelper );
->>>>>>> main
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
 activitySubmitButton.addEventListener('click', postActivityHelper);
 showFormButtons.addEventListener('click', showForm);
 clearButton.addEventListener('click', hideForms)
 
-<<<<<<< HEAD
 createDropdown();
 createActivity();
 createSleep();
@@ -143,14 +138,14 @@ createHydration();
 function showErrorMessage() {
   errorMessage.classList.remove("hide");
   successfulSubmit.classList.add("hide");
-=======
+}
+
 function show(element) {
- element.classList.remove('hide'); 
->>>>>>> main
+ element.classList.remove('hide');
 }
 
 function hide(element) {
-  element.classList.add('hide'); 
+  element.classList.add('hide');
 }
 
 function showErrorMessage() {
@@ -159,30 +154,30 @@ function showErrorMessage() {
 }
 
 function hideForms() {
-  hide(activityInputForm); 
+  hide(activityInputForm);
   hide(hydrationInputForm);
   hide(sleepInputForm);
-  hide(clearButton);  
+  hide(clearButton);
 }
 
 function showForm(event) {
-  if(event.target.id ===  'showActivityButton') {
+  if(event.target.id ===  'show-activity-button') {
     show(activityInputForm);
     show(clearButton)
     hide(hydrationInputForm)
-    hide(sleepInputForm); 
-  }
-  if(event.target.id === 'showHydrationButton') {
-    show(hydrationInputForm); 
-    show(clearButton); 
-    hide(activityInputForm); 
     hide(sleepInputForm);
   }
-  if(event.target.id === 'showSleepButton') {
-    show(sleepInputForm); 
-    show(clearButton); 
+  if(event.target.id === 'show-hydration-button') {
+    show(hydrationInputForm);
+    show(clearButton);
     hide(activityInputForm);
-    hide(hydrationInputForm); 
+    hide(sleepInputForm);
+  }
+  if(event.target.id === 'show-sleep-button') {
+    show(sleepInputForm);
+    show(clearButton);
+    hide(activityInputForm);
+    hide(hydrationInputForm);
   }
 }
 
@@ -202,7 +197,7 @@ function showInfo() {
   if (event.target.id ==='steps-friends-button') {
     flipCard(stepsMainCard, stepsFriendsCard);
   }
-  if (event.target.id === 'stepsTrendingButton') {
+  if (event.target.id === 'steps-trending-button') {
     flipCard(stepsMainCard, stepsTrendingCard);
   }
   if (event.target.id ==='steps-calendar-button') {
@@ -257,7 +252,7 @@ function updateTrendingStairsDays() {
   trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
 }
 
-updateTrendingStepDays(); 
+updateTrendingStepDays();
 function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOU'VE MET YOUR STEPS GOAL ${activity.findGoalMatchDays()} TIMES</h5>`;
 }
@@ -288,6 +283,7 @@ function createHydration() {
 }
 
 displaySleepComparison();
+
 function displaySleepComparison() {
   const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
   longestSleepers.forEach(sleeper => {
