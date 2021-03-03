@@ -15,20 +15,7 @@
     var names = this.name.split(' ');
     return names[0].toUpperCase();
   }
-
-  calcFriendsWeeklyStepAvg() {
-    this.friendsWeeklyActivityRecords.forEach(record => {
-     const avgSteps = record.reduce((steps, day) => {
-       steps += day.numSteps;
-       return steps; 
-     }, 0);
-     const friendsStepInfo = {id: 0, totalWeeklySteps: 0};
-     friendsStepInfo.id = record[0].userID;
-     friendsStepInfo.totalWeeklySteps = this.calcAverage(avgSteps, 7, 0); 
-     this.friendsSteps.push(friendsStepInfo);
-    });
-  }
-
+  
   findWeeklyFriendActivityData(activityData, date) {
     const friendActivityRecords = activityData.reduce((friendRecords, dataItem) => {
       this.friends.forEach(friendId => {
@@ -42,6 +29,19 @@
     }, {});
     Object.values(friendActivityRecords).forEach(record => {
      this.friendsWeeklyActivityRecords.push(this.findWeeklyData(date, record))
+    });
+  }
+
+  calcFriendsWeeklyStepAvg() {
+    this.friendsWeeklyActivityRecords.forEach(record => {
+     const avgSteps = record.reduce((steps, day) => {
+       steps += day.numSteps;
+       return steps; 
+     }, 0);
+     const friendsStepInfo = {id: 0, totalWeeklySteps: 0};
+     friendsStepInfo.id = record[0].userID;
+     friendsStepInfo.totalWeeklySteps = this.calcAverage(avgSteps, 7, 0); 
+     this.friendsSteps.push(friendsStepInfo);
     });
   }
 
