@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 
 import Hydration from '../src/Hydration';
-// import UserRepository from '../src/UserRepository';
 import User from '../src/User';
 import hydrationData from '../src/data/hydration-test-data';
 
-describe.only('Hydration', function() {
+describe('Hydration', function() {
   let hydration1, hydration2, user1, user2, todayDate1, todayDate2;
 
   beforeEach(() => {
@@ -37,42 +36,10 @@ describe.only('Hydration', function() {
         24,
         19
       ]
-    }, todayDate2)
-    // userRepository = new UserRepository([user1, user2]);
+    }, todayDate2);
     hydration1 = new Hydration(user1, todayDate1); 
     hydration2 = new Hydration(user2, todayDate2);
-    // hydrateTestData = [{
-    //   "userID": 1,
-    //   "date": "2019/06/15",
-    //   "numOunces": 37
-    // },
-    // {
-    //   "userID": 2,
-    //   "date": "2019/06/15",
-    //   "numOunces": 75
-    // },
-    // {
-    //   "userID": 2,
-    //   "date": "2019/06/16",
-    //   "numOunces": 91
-    // }]
-    // hydrate1 = new Hydration({
-        // "userID": 1,
-        // "date": "2019/06/15",
-        // "numOunces": 37
-    //   }, userRepository);
-    // hydrate2 = new Hydration({
-      // "userID": 2,
-      // "date": "2019/06/15",
-      // "numOunces": 75
-    // }, userRepository)
-    // hydrate3 = new Hydration({
-      // "userID": 2,
-      // "date": "2019/06/16",
-      // "numOunces": 91
-    // }, userRepository)
-  })
-
+   
   it('should be a function', function() {
     expect(Hydration).to.be.a('function');
   });
