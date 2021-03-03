@@ -157,15 +157,15 @@ let userInfoDropdown = document.querySelector('#user-info-dropdown');
 let sleepDate = document.querySelector('.date-input');
 let hoursSleptInput = document.querySelector('.hours-slept-input');
 let sleepQualityInput = document.querySelector('.sleep-quality-input');
-let submitButton = document.querySelector('.submit-button');
+let submitButton = document.querySelector('#sleepSubmitButton');
 let hydrationDateInput = document.querySelector('.hydration-date-input');
 let ouncesDrankInput = document.querySelector('.ounces-drank-input');
-let hydrationSubmitButton = document.querySelector(".hydration-submit-button");
+let hydrationSubmitButton = document.querySelector("#hydrationSubmitButton");
 let activityDateInput = document.querySelector(".activity-date-input");
 let numberOfStepsInput = document.querySelector(".number-steps-input");
 let minutesActiveInput = document.querySelector(".minutes-active-input");
 let flightsOfStairsInput = document.querySelector(".stairs-input");
-let activitySubmitButton = document.querySelector(".activity-submit-button");
+let activitySubmitButton = document.querySelector("#activitySubmitButton");
 let showSleepFormButton = document.querySelector(".show-sleep-form");
 let showActivityFormButton = document.querySelector(".show-activity-form");
 let showHydrationFormButton = document.querySelector(".show-hydration-form");
@@ -313,11 +313,11 @@ function showInfo() {
 }
 
 function updateTrendingStairsDays() {
-  trendingStairsPhraseContainer.innerHTML = `<p class='trend-line'>Your flight climbing record to beat:${activity.findMostFlightsClimbed()} flights</p>`;
+  trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
 }
 
 function updateTrendingStepDays() {
-  trendingStepsPhraseContainer.innerHTML = `<p class='trend-line'>You've met your step goal ${activity.findGoalMatchDays()} times</p>`;
+  trendingStepsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOU'VE MET YOUR STEPS GOAL ${activity.findGoalMatchDays()} TIMES</h5>`;
 }
 
 
