@@ -12,10 +12,10 @@
     <header>
       <h1><span id='header-name'></span>FITLIT</h1>
       <button type='button' aria-label="profile" name='button' id="profile-button"></button>
-      <section class="form-buttons" id="formButtons">
-        <button class="show-activity-form form-button" id="showActivityButton">ADD ACTIVITY DATA</button>
-        <button class="show-hydration-form form-button" id= "showHydrationButton">ADD HYDRATION DATA</button>
-        <button class="show-sleep-form form-button" id="showSleepButton">ADD SLEEP DATA</button>
+      <section class="form-buttons" id="form-buttons">
+        <button class="show-activity-form form-button" id="show-activity-button">ADD ACTIVITY DATA</button>
+        <button class="show-hydration-form form-button" id= "show-hydration-button">ADD HYDRATION DATA</button>
+        <button class="show-sleep-form form-button" id="show-sleep-button">ADD SLEEP DATA</button>
       </section>
       <form class="sleep-input-form hide">
         <input type="date" aria-label="date input" value="2019-06-15" max="2019-09-22" class="date-input input">
@@ -28,19 +28,19 @@
            <option value="4">4</option>
            <option value="5">5</option>
          </select>
-        <button class="submit-button form-button" id="sleepSubmitButton">SUBMIT</button>
+        <button class="submit-button form-button" id="sleep-submit-button">SUBMIT</button>
       </form>
       <form class="hydration-input-form hide">
         <input type="date" aria-label="date input" value="2019-06-15" max="2019-09-22" class="hydration-date-input input">
         <input type="number" aria-label="ounces drank input" placeholder="ounces drank" class="ounces-drank-input input"  min="1">
-          <button class="submit-button form-button" id="hydrationSubmitButton">SUBMIT</button>
+          <button class="submit-button form-button" id="hydration-submit-button">SUBMIT</button>
       </form>
       <form class="activity-input-form hide">
         <input type="date" aria-label="date input" value="2019-06-15" max="2019-09-22" class="activity-date-input input">
         <input type="number" aria-label="number of steps input" placeholder="number of steps" class="number-steps-input input"  min="1">
         <input type="number" aria-label="minutes active input" placeholder="minutes active" class="minutes-active-input input"  min="1">
         <input type="number" aria-label="flights of stairs input" placeholder="flights of stairs" class="stairs-input input"  min="1">
-          <button class="submit-button form-button" id="activitySubmitButton">SUBMIT</button>
+          <button class="submit-button form-button" id="activity-submit-button">SUBMIT</button>
       </form>
       <p class="successful-submit sub-res hide">DATA SUBMITTED SUCCESSFULLY</p>
       <p class="failed-submit sub-res hide">PLEASE FILL OUT THE WHOLE FORM</p>
@@ -65,7 +65,7 @@
           </div>
           <h2 id='steps-user-steps-today'>X</h2>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="steps trending" id="stepsTrendingButton" name='button' class='trending-button steps-trending-button'></button>
+            <button type='button' aria-label="steps trending" id="steps-trending-button" name='button' class='trending-button steps-trending-button'></button>
             <h3>STEPS TODAY</h3>
             <button type='button' aria-label="steps calendar" id="steps-calendar-button" name='button' class='calendar-button'></button>
           </div>
