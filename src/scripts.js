@@ -55,7 +55,6 @@ const userList = userData.map(user => {
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
 user.findWeeklyFriendActivityData(activityData, todayDate);
-user.findFriendsNames(userRepository.users);
 user.calcFriendsWeeklyStepAvg()
 
 
@@ -174,7 +173,7 @@ profileButton.addEventListener('click', showDropdown);
 stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
 stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
-submitButton.addEventListener('click', postSleepHelper );
+submitButton.addEventListener('click', postSleepHelper);
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
 activitySubmitButton.addEventListener('click', postActivityHelper);
 showSleepFormButton.addEventListener('click', showSleepForm);
@@ -515,7 +514,7 @@ const checkForError = response => {
     return response.json();
   }
 }
-
+}
 //Post functions
 //Sleep
 // function postSleep(sleepDate, hours, quality) {
