@@ -50,29 +50,36 @@
     });
     this.friendsActivityRecords = this.friendsActivityRecords.sort((a, b) => b.totalWeeklySteps - a.totalWeeklySteps);
   }
-  updateRecord(healthData, record) {
+  updateRecord(healthData, healthRecord) {
     const currentData = healthData.filter(healthItem => {
       return this.id === healthItem.userID;
     })
     currentData.sort((dataItemA, dataItemB) => {
       return dataItemA.date - dataItemB.date;
    });
-    currentData.forEach(dataItem => record.unshift(dataItem));  
+    currentData.forEach(dataItem => healthRecord.unshift(dataItem));  
   }
 
-  findTodayData(healthData) {
-  const todaysData = healthData.find(healthItem => {
+  findTodayData(healthRecord) {
+  const todaysData = healthRecord.find(healthItem => {
     return this.id === healthItem.userID && this.date === healthItem.date;
   }) 
-  return todaysData; 
+    if(!todaysData) {
+      return healthRecord[0]
+  } else {
+    return todaysData; 
+  }
   }
 
   findWeeklyData(date, healthRecord) {
-    const currentDateIndex = healthRecord.findIndex(dataItem => {
+    let currentDateIndex = healthRecord.findIndex(dataItem => {
       return dataItem.date === date; 
     });
+    if(currentDateIndex === -1) {
+      currentDateIndex = 0; 
+    } 
     const currentWeekData = healthRecord.slice(currentDateIndex, currentDateIndex + 7); 
-    return currentWeekData;   
+    return currentWeekData; 
   }
   
   calcAverage(healthData, total, decimalPlace) {

@@ -1,20 +1,15 @@
 import { expect } from 'chai';
 
 import Hydration from '../src/Hydration';
-import UserRepository from '../src/UserRepository';
 import User from '../src/User';
+import hydrationData from '../src/data/hydration-test-data';
 
 describe('Hydration', function() {
-  let hydration;
-  let user1;
-  let user2;
-  let userRepository;
-  let hydrate1;
-  let hydrate2;
-  let hydrate3;
-  let hydrateTestData;
+  let hydration1, hydration2, user1, user2, date1, date2;
 
   beforeEach(() => {
+    date1 = "2021/03/06"
+    date2 = "2021/03/07"
     user1 = new User({
       'id': 1,
       'name': 'Luisa Hane',
@@ -27,7 +22,7 @@ describe('Hydration', function() {
         4,
         8
       ]
-    }, '2019/06/16')
+    }, date1)
     user2 = new User({
       "id": 2,
       "name": "Jarvis Considine",
@@ -41,80 +36,68 @@ describe('Hydration', function() {
         24,
         19
       ]
-    }, '2019/06/16')
-    userRepository = new UserRepository([user1, user2]);
-    hydrateTestData = [{
-      "userID": 1,
-      "date": "2019/06/15",
-      "numOunces": 37
-    },
-    {
-      "userID": 2,
-      "date": "2019/06/15",
-      "numOunces": 75
-    },
-    {
-      "userID": 2,
-      "date": "2019/06/16",
-      "numOunces": 91
-    }]
-    // hydrate1 = new Hydration({
-        // "userID": 1,
-        // "date": "2019/06/15",
-        // "numOunces": 37
-    //   }, userRepository);
-    // hydrate2 = new Hydration({
-      // "userID": 2,
-      // "date": "2019/06/15",
-      // "numOunces": 75
-    // }, userRepository)
-    // hydrate3 = new Hydration({
-      // "userID": 2,
-      // "date": "2019/06/16",
-      // "numOunces": 91
-    // }, userRepository)
-  })
-
-  // it('should be a function', function() {
-  //   console.log('user1',user1.hydration)
-  //   expect(user1.hydration).to.be.a('function');
-  // });
+    }, date2);
+    hydration1 = new Hydration(user1, date1); 
+    hydration2 = new Hydration(user2, date2);
+  });
+  it('should be a function', function() {
+    expect(Hydration).to.be.a('function');
+  });
   it('should be an instance of hydrate', function() {
-    expect(user1.hydration).to.be.an.instanceof(Hydration);
+    expect(hydration1).to.be.an.instanceof(Hydration);
   });
-  it('should have an id', function() {
-    expect(user2.hydration.userId).to.equal(2);
-  });
-  it('should have a date', function() {
-    expect(user1.hydration.date).to.equal('2019/06/16');
-  });
+  it('should have an id and date', function() {
+    expect(hydration1.id).to.equal(1); 
+    expect(hydration1.date).to.equal("2021/03/06")
+  })
   it('should have a default ouncesAverage of 0', function() {
-    expect(user1.hydration.ouncesAverage).to.equal(0);
+    expect(hydration1.ouncesAverage).to.equal(0);
   });
-  it('should have a default ouncesRecord of []', function() {
-    expect(user1.hydration.ouncesRecord).to.deep.equal([]);
+  it('should have a default hydrationRecord of []', function() {
+    expect(hydration1.hydrationRecord).to.deep.equal([]);
   });
-
-  describe('updateHydration', function () {
-    it('should have a total amount of ounces drank', function() {
-      user2.hydration.updateHydration(hydrateTestData)
-      expect(user2.hydration.totalOunces).to.equal(166);
+  describe('updateRecords', function () {
+    it('should be able to update the hydration record', function() {
+      hydration1.updateRecord(hydrationData, hydration1.hydrationRecord)
+      expect(hydration1.hydrationRecord.length).to.equal(14); 
+      expect(hydration1.hydrationRecord[0]).to.deep.equal( {
+        "userID": 1,
+        "date": "2021/03/06",
+        "numOunces": 87
+       });
     });
-    it('should update the average number of ounces over all time', function() {
-      user2.hydration.updateHydration(hydrateTestData)
-      expect(user2.hydration.ouncesAverage).to.equal(83);
-    })
-    it('should add the date and amount to the object record', function() {
-      user1.hydration.updateHydration(hydrateTestData)
-      expect(user1.hydration.ouncesRecord).to.deep.equal([{"2019/06/15": 37}])
-      expect(user1.hydration.ouncesRecord.length).to.equal(1)
-    })
   });
+  describe('findTodayHydrationData', function () {
+    it('should find total ounces for current day', function() {
+      hydration1.updateRecord(hydrationData, hydration1.hydrationRecord); 
+      hydration1.findTodayHydrationData(); 
+      
+      expect(hydration1.totalOunces).to.equal(87);
+    });
+    it('should be able to find most recent ounces if date doesn\'t exist', function () {
+      hydration2.updateRecord(hydrationData, hydration2.hydrationRecord); 
+      hydration2.findTodayHydrationData(); 
 
-  describe('addDailyOunces', function() {
-    it('addDailyOunces should show the last week of water', function() {
-      user2.hydration.updateHydration(hydrateTestData)
-      expect(user2.hydration.addDailyOunces("2019/06/15")).to.equal(75);
+      expect(hydration2.totalOunces).to.equal(98)
+    })
+  }); 
+  describe('calcOuncesAverage', function() {
+    it('should calculate a user\'s ounces for all time', function() {
+      hydration1.updateRecord(hydrationData, hydration1.hydrationRecord);
+      hydration1.calcOuncesAverage(); 
+      expect(hydration1.ouncesAverage).to.equal(52);
     });
   })
+  describe('findWeeklyDailyOunces', function() {
+    it('should return the past 6 days of recorded daily ounces', function () {
+      hydration1.updateRecord(hydrationData, hydration1.hydrationRecord); 
+      const weeklyData = hydration1.findWeeklyDailyOunces(date1);
+      expect(weeklyData).to.deep.equal([87, 40, 32, 23, 62, 60, 85])
+    });
+    it('should return the most recently recorded 6 days of date doesn\'t exist', function () {
+        hydration2.updateRecord(hydrationData, hydration2.hydrationRecord); 
+        const weeklyData = hydration2.findWeeklyDailyOunces(date2); 
+        expect(weeklyData).to.deep.equal([98, 56, 52, 54, 23, 30, 40 ]);
+    });
+  });
 });
