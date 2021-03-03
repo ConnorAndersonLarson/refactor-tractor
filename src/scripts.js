@@ -55,7 +55,6 @@ const userList = userData.map(user => {
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
 user.findWeeklyFriendActivityData(activityData, todayDate);
-user.findFriendsNames(userRepository.users);
 user.calcFriendsWeeklyStepAvg()
 
 
@@ -68,7 +67,8 @@ sleep.calcWeeklyAvgData(todayDate);
 
 //userRepo
 userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-
+const averageSleepQuality = userRepository.dailyUsersQualityAvg(); 
+console.log(averageSleepQuality)
 
 //hydration
 const hydration = new Hydration(user, todayDate);
@@ -108,7 +108,7 @@ let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-ho
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
 let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
 let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+const sleepAllUsersQualityAverage = document.querySelector('#sleep-friend-quality-average');
 let sleepInfoCard = document.querySelector('#sleep-info-card');
 let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
 let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
@@ -340,8 +340,9 @@ function displaySleepComparison() {
   const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
   longestSleepers.forEach(sleeper => {
     const bestSleeper = userRepository.getUser(sleeper.userID)
-    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
+    sleepFriendLongestSleeper.innerHTML += `${bestSleeper.getFirstName()} `;
   });
+  sleepAllUsersQualityAverage.innerText = `${userRepository.dailyUsersQualityAvg()}/5`; 
 }
 
 //Refactor above
