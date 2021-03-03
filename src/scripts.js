@@ -36,7 +36,7 @@ let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-ho
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
 let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
 let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+const sleepAllUsersQualityAverage = document.querySelector('#sleep-friend-quality-average');
 let sleepInfoCard = document.querySelector('#sleep-info-card');
 let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
 let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
@@ -284,6 +284,14 @@ function createHydration() {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces / 8;
 
+displaySleepComparison();
+function displaySleepComparison() {
+  const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
+  longestSleepers.forEach(sleeper => {
+    const bestSleeper = userRepository.getUser(sleeper.userID)
+    sleepFriendLongestSleeper.innerHTML += `${bestSleeper.getFirstName()} `;
+  });
+  sleepAllUsersQualityAverage.innerText = `${userRepository.dailyUsersQualityAvg()}/5`;
 }
 
 
