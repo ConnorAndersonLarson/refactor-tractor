@@ -283,6 +283,7 @@ function createHydration() {
   hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
     return hydration.userID === user.id && hydration.date === todayDate;
   }).numOunces / 8;
+}
 
 displaySleepComparison();
 function displaySleepComparison() {
@@ -446,6 +447,8 @@ function postSleepHelper() {
     .catch(err => showErrorMessage());
   }
 }
+
+
 
 const checkForError = response => {
   if (!response.ok) {
