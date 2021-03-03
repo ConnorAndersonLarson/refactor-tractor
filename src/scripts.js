@@ -415,32 +415,8 @@ function createActivity() {
     return activity.userID === user.id && activity.date === todayDate;
   }).numSteps;
 
-<<<<<<< HEAD
-  // user friend's list and steps info
-  // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
-  user.friendsActivityRecords.forEach(friend => {
-    dropdownFriendsStepsContainer.innerHTML += `
-    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-    `;
-  });
-
-  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-
-  friendsStepsParagraphs.forEach(paragraph => {
-    if (friendsStepsParagraphs[0] === paragraph) {
-      paragraph.classList.add('green-text');
-    }
-    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-      paragraph.classList.add('red-text');
-    }
-    if (paragraph.innerText.includes('YOU')) {
-      paragraph.classList.add('yellow-text');
-    }
-  });
-=======
 // user friend's list and steps info
-populateFriendSteps(userRepository.users); 
+populateFriendSteps(userRepository.users);
 function populateFriendSteps (users) {
   user.friendsSteps.forEach(friend => {
     const friendInfo = users.find(userData => userData.id === friend.id)
@@ -450,7 +426,6 @@ function populateFriendSteps (users) {
   })
   dropdownFriendsStepsContainer.innerHTML += `<p class='dropdown-p friends-steps yellow-text'>YOU |  ${activity.weeklyAverageSteps}</p>
   `
->>>>>>> main
 }
 
 function postSleepHelper() {
