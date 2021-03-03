@@ -11,11 +11,11 @@
   <body>
     <header>
       <h1><span id='header-name'></span>FITLIT</h1>
-      <button type='button' aria-label="profile" name='button' id='profile-button'></button>
-      <section class="form-buttons">
-        <button class="show-activity-form form-button">ADD ACTIVITY DATA</button>
-        <button class="show-hydration-form form-button">ADD HYDRATION DATA</button>
-                <button class="show-sleep-form form-button">ADD SLEEP DATA</button>
+      <button type='button' aria-label="profile" name='button' id="profile-button"></button>
+      <section class="form-buttons" id="formButtons">
+        <button class="show-activity-form form-button" id="showActivityButton">ADD ACTIVITY DATA</button>
+        <button class="show-hydration-form form-button" id= "showHydrationButton">ADD HYDRATION DATA</button>
+        <button class="show-sleep-form form-button" id="showSleepButton">ADD SLEEP DATA</button>
       </section>
       <form class="sleep-input-form hide">
         <input type="date" aria-label="date input" value="2019-06-15" max="2019-09-22" class="date-input input">
@@ -65,7 +65,7 @@
           </div>
           <h2 id='steps-user-steps-today'>X</h2>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="steps trending" id="steps-trending-button" name='button' class='trending-button steps-trending-button'></button>
+            <button type='button' aria-label="steps trending" id="stepsTrendingButton" name='button' class='trending-button steps-trending-button'></button>
             <h3>STEPS TODAY</h3>
             <button type='button' aria-label="steps calendar" id="steps-calendar-button" name='button' class='calendar-button'></button>
           </div>
@@ -177,7 +177,7 @@
           </div>
           <h2 id='stairs-user-stairs-today'></h2>
           <div class='main-card-top-row'>
-            <button type='button' aria-label="stairs trending" id="stairs-trending-button" name='button' class='trending-button stairs-trending-button'></button>
+            <button type='button' aria-label="stairs trending" id="stairsTrendingButton" name='button' class='trending-button stairs-trending-button'></button>
             <h3>STAIRS TODAY</h3>
             <button type='button' aria-label="stairs calendar" id="stairs-calendar-button" name='button' class='calendar-button'></button>
           </div>
