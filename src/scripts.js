@@ -54,21 +54,21 @@ const userList = userData.map(user => {
 });
 const userRepository = new UserRepository(userList);
 let user = userRepository.users[0];
+user.findWeeklyFriendActivityData(activityData, todayDate);
+user.calcFriendsWeeklyStepAvg()
 
-// const userActivityData = activityData.filter(activity => {
-//   return user.id === activity.userID;
-// })
 
 //sleep
 const sleep = new Sleep(user, todayDate);
-//sleep.findTodaySleepData(sleepData);
 sleep.updateRecord(sleepData, sleep.sleepRecord);
+sleep.findTodaySleepData(sleepData);
 sleep.calcAvgSleepData();
 sleep.calcWeeklyAvgData(todayDate);
 
 //userRepo
 userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-
+const averageSleepQuality = userRepository.dailyUsersQualityAvg(); 
+console.log(averageSleepQuality)
 
 //hydration
 const hydration = new Hydration(user, todayDate);
@@ -79,8 +79,8 @@ hydration.findTodayHydrationData();
 
 //activity
 const activity = new Activity(user, todayDate);
-//activity.findTodayActivityData(activityData);
 activity.updateRecord(activityData, activity.activityRecord);
+activity.findTodayActivityData(activityData);
 activity.calcWeeklyAverageActive(todayDate);
 console.log(userRepository)
 console.log(user);
@@ -88,8 +88,6 @@ console.log(activity);
 console.log(sleep);
 console.log(hydration);
 
-
-user.findFriendsNames(userRepository.users);
 let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -110,7 +108,7 @@ let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-ho
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
 let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
 let sleepFriendsCard = document.querySelector('#sleep-friends-card');
-let sleepFriendWorstSleeper = document.querySelector('#sleep-friend-worst-sleeper');
+const sleepAllUsersQualityAverage = document.querySelector('#sleep-friend-quality-average');
 let sleepInfoCard = document.querySelector('#sleep-info-card');
 let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
 let sleepInfoQualityAverageAlltime = document.querySelector('#sleep-info-quality-average-alltime');
@@ -171,8 +169,8 @@ let errorMessage = document.querySelector(".error-message");
 
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-// stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-// stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 submitButton.addEventListener('click', postSleepHelper );
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
@@ -342,8 +340,9 @@ function displaySleepComparison() {
   const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
   longestSleepers.forEach(sleeper => {
     const bestSleeper = userRepository.getUser(sleeper.userID)
-    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
+    sleepFriendLongestSleeper.innerHTML += `${bestSleeper.getFirstName()} `;
   });
+  sleepAllUsersQualityAverage.innerText = `${userRepository.dailyUsersQualityAvg()}/5`; 
 }
 
 //Refactor above
@@ -404,27 +403,18 @@ stepsUserStepsToday.innerText = activityData.find(activity => {
 }).numSteps;
 
 // user friend's list and steps info
-// user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
-
-user.friendsActivityRecords.forEach(friend => {
-  dropdownFriendsStepsContainer.innerHTML += `
-  <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+populateFriendSteps(userRepository.users); 
+function populateFriendSteps (users) {
+  user.friendsSteps.forEach(friend => {
+    const friendInfo = users.find(userData => userData.id === friend.id)
+    dropdownFriendsStepsContainer.innerHTML += `
+  <p class='dropdown-p friends-steps green-text'>${friendInfo.name} |  ${friend.totalWeeklySteps}</p>
   `;
-});
+  })
+  dropdownFriendsStepsContainer.innerHTML += `<p class='dropdown-p friends-steps yellow-text'>YOU |  ${activity.weeklyAverageSteps}</p>
+  `
+}
 
-let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
-
-friendsStepsParagraphs.forEach(paragraph => {
-  if (friendsStepsParagraphs[0] === paragraph) {
-    paragraph.classList.add('green-text');
-  }
-  if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-    paragraph.classList.add('red-text');
-  }
-  if (paragraph.innerText.includes('YOU')) {
-    paragraph.classList.add('yellow-text');
-  }
-});
 function postSleepHelper() {
   event.preventDefault();
   const correctDate = sleepDate.value.replaceAll("-", "/")
