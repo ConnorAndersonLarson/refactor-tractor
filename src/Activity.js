@@ -12,8 +12,8 @@ class Activity extends User {
     this.activityRecord = [];
   }
     
-  findTodayActivityData(activityData) {
-    const todaysData = this.findTodayData(activityData); 
+  findTodayActivityData() {
+    const todaysData = this.findTodayData(this.activityRecord); 
     this.steps = todaysData.numSteps;
     this.minutesActive = todaysData.minutesActive; 
     this.flightsOfStairs = todaysData.flightsOfStairs; 
@@ -23,8 +23,8 @@ class Activity extends User {
     return Number(((this.steps * this.strideLength) / 5280).toFixed(1));
   }
 
-  calcWeeklyAverageActive() {
-    const lastWeekData = this.findWeeklyData(this.date, this.activityRecord);
+  calcWeeklyAverageActive(date) {
+    const lastWeekData = this.findWeeklyData(date, this.activityRecord);
       const averageWeeklyData = {steps: 0, minutesActive: 0};
       lastWeekData.forEach(day => {
         averageWeeklyData.steps += day.numSteps;
@@ -33,19 +33,18 @@ class Activity extends User {
     this.weeklyAverageSteps = this.calcAverage(averageWeeklyData.steps, 7, 0); 
     this.weeklyAverageActive = this.calcAverage(averageWeeklyData.minutesActive, 7, 0); 
   }
-  //don't see where this is getting used 
+  
   compareStepGoal() {
     return this.reachedStepGoal = this.steps >= this.dailyStepGoal;
   }
 
-  //find all time stair climbing record instead of trending days here
   findMostFlightsClimbed() {
     const sortedStairs = this.activityRecord.sort((activityA, activityB) => {
       return activityA.flightsOfStairs - activityB.flightsOfStairs
     });
     return sortedStairs[sortedStairs.length - 1].flightsOfStairs;
   }
-  //find all the days where they exceeded their step goal and list # of days
+  
   findGoalMatchDays() {
     const positiveDays = this.activityRecord.filter(activity => {
       return activity.numSteps >= this.dailyStepGoal; 
@@ -54,7 +53,7 @@ class Activity extends User {
   }
 
   calcAvgWeeklyFlights(date) {
-    const currentWeekData = this.findWeeklyData(this.date, this.activityRecord); 
+    const currentWeekData = this.findWeeklyData(date, this.activityRecord); 
     const averageWeeklyFlights = currentWeekData.reduce((average, day) => {
         return average += day.flightsOfStairs;
     }, 0); 
