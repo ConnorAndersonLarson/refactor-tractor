@@ -5,11 +5,11 @@ import User from '../src/User';
 import hydrationData from '../src/data/hydration-test-data';
 
 describe('Hydration', function() {
-  let hydration1, hydration2, user1, user2, todayDate1, todayDate2;
+  let hydration1, hydration2, user1, user2, date1, date2;
 
   beforeEach(() => {
-    todayDate1 = "2021/03/06"
-    todayDate2 = "2021/03/07"
+    date1 = "2021/03/06"
+    date2 = "2021/03/07"
     user1 = new User({
       'id': 1,
       'name': 'Luisa Hane',
@@ -22,7 +22,7 @@ describe('Hydration', function() {
         4,
         8
       ]
-    }, todayDate1)
+    }, date1)
     user2 = new User({
       "id": 2,
       "name": "Jarvis Considine",
@@ -36,10 +36,10 @@ describe('Hydration', function() {
         24,
         19
       ]
-    }, todayDate2);
-    hydration1 = new Hydration(user1, todayDate1); 
-    hydration2 = new Hydration(user2, todayDate2);
-   
+    }, date2);
+    hydration1 = new Hydration(user1, date1); 
+    hydration2 = new Hydration(user2, date2);
+  });
   it('should be a function', function() {
     expect(Hydration).to.be.a('function');
   });
@@ -91,12 +91,12 @@ describe('Hydration', function() {
   describe('findWeeklyDailyOunces', function() {
     it('should return the past 6 days of recorded daily ounces', function () {
       hydration1.updateRecord(hydrationData, hydration1.hydrationRecord); 
-      const weeklyData = hydration1.findWeeklyDailyOunces(todayDate1);
+      const weeklyData = hydration1.findWeeklyDailyOunces(date1);
       expect(weeklyData).to.deep.equal([87, 40, 32, 23, 62, 60, 85])
     });
     it('should return the most recently recorded 6 days of date doesn\'t exist', function () {
         hydration2.updateRecord(hydrationData, hydration2.hydrationRecord); 
-        const weeklyData = hydration2.findWeeklyDailyOunces(todayDate2); 
+        const weeklyData = hydration2.findWeeklyDailyOunces(date2); 
         expect(weeklyData).to.deep.equal([98, 56, 52, 54, 23, 30, 40 ]);
     });
   });
