@@ -64,19 +64,7 @@ class UserRepository {
     }, 0);
     return Number((sumSleepQuality/this.dailyUsersSleep.length).toFixed(1));
   }
-  //Also not being used currently
-  //can fix this to call the average weekly sleep method when inheritance is used
-  //Needs to be displayed on UI as a number of sleeprs who got > 3
-  findBestSleepers(date, sleepData) {
-    //need to return all users's sleep data for a week
-    //iterate the sleepData and pass in a date
-    //filter the sleep data by this date, and return all user's data for that date
-    // do this 6 more times for consecutive days
-    return this.users.filter(user => {
-      return user.calculateAverageQualityThisWeek(date) > 3;
-    })
-  }
-  //display needs to be altered to inlcude just this name or multiples
+ 
   dailyLongestSleepers() {
     const sortedSleepers = this.dailyUsersSleep.sort((sleeperA, sleeperB) => {
       return sleeperB.hoursSlept - sleeperA.hoursSlept
