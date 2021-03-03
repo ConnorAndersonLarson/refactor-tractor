@@ -1,10 +1,13 @@
 import { expect } from 'chai';
 import User from '../src/User';
+import activityData from '../src/data/activity-test-data';
 
 
-describe('User', function() {
-  let user;
+describe.only('User', function() {
+  let user, date1, date2;
   beforeEach(() => {
+     date1 = '2019/03/06';
+     date2 = '2019/03/07';
     user = new User({
       'id': 1,
       'name': 'Luisa Hane',
@@ -13,11 +16,9 @@ describe('User', function() {
       'strideLength': 4.3,
       'dailyStepGoal': 10000,
       'friends': [
-        16,
-        4,
-        8
+        3
       ]
-    })
+    }, date1)
   })
   it('should be a function', function() {
     expect(User).to.be.a('function');
@@ -27,124 +28,83 @@ describe('User', function() {
     expect(user).to.be.an.instanceof(User);
   });
 
-  it('should have an id', function() {
+  it('should have an id, name, address, email and date', function() {
     expect(user.id).to.equal(1);
-  });
-  it('should have a name', function() {
     expect(user.name).to.equal('Luisa Hane');
-  });
-  it('should have an address', function() {
     expect(user.address).to.equal('15195 Nakia Tunnel, Erdmanport VA 19901-1697');
-  });
-  it('should have an email address', function() {
     expect(user.email).to.equal('Diana.Hayes1@hotmail.com');
+    expect(user.date).to.equal('2019/03/06')
   });
-  it('should have a stride length', function() {
+  it('should have a stride length, daily step goal, and friends list', function() {
     expect(user.strideLength).to.equal(4.3);
-  });
-  it('should have a daily step goal', function() {
     expect(user.dailyStepGoal).to.equal(10000);
+    expect(user.friends).to.deep.equal([3])
   });
-  it('should have friends', function() {
-    expect(user.friends).to.deep.equal([16, 4, 8])
-  });
- 
-  it('getFirstName should return the first name of the user', function () {
-    expect(user.getFirstName()).to.equal('LUISA');
-  });
+  it('should have a default value for friends steps and friends activity records', function () {
+    expect(user.friendsSteps).to.deep.equal([]);
+    expect(user.friendsWeeklyActivityRecords).to.deep.equal([]);
+  })
+  describe('getFirstName', function () {
+    it('getFirstName should return the first name of the user', function () {
+      expect(user.getFirstName()).to.equal('LUISA');
+    });
+  })
+ describe('findWeeklyFriendActivityData', function () {
+   it('should find friend\'s weekly activity information for a given date', function () {
 
-  it('should have a method that calculates daily calories burned', function() {
-    user.activityRecord = [{date: "2019/09/16", activityRecord: 78}, {date: "2019/09/17", minutesActive: 100}, {date: "2019/09/17", minutesActive: 20}];
-    expect(user.calculateDailyCalories("2019/09/17")).to.equal(912)
+    user.findWeeklyFriendActivityData(activityData, date1);
+    
+    expect(user.friendsWeeklyActivityRecords.length).to.equal(1);
+    expect(user.friendsWeeklyActivityRecords[0].length).to.equal(7);
+    expect(user.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
+      "userID": 3,
+      "date": "2019/03/06",
+      "numSteps": 3987,
+      "minutesActive": 45,
+      "flightsOfStairs": 0
+    }); 
+   });
+   it('should find friend\'s most recent weekly activity information if date doesn\'t exist', function () {
+
+    user.findWeeklyFriendActivityData(activityData, date2);
+
+    expect(user.friendsWeeklyActivityRecords.length).to.equal(1);
+    expect(user.friendsWeeklyActivityRecords[0].length).to.equal(7);
+    expect(user.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
+      "userID": 3,
+      "date": "2019/03/06",
+      "numSteps": 3987,
+      "minutesActive": 45,
+      "flightsOfStairs": 0
+    }); 
+   });
   });
-  it('findFriendsNames should find the first names of friends', function() {
-    let user2 = new User({
-      'id': 16,
-      'name': 'Ben Nist',
-    })
-    let user3 = new User({
-      'id': 4,
-      'name': 'John Firth',
-    })
-    let user4 = new User({
-      'id': 8,
-      'name': 'Nick Adams',
-    })
-    let users = [user2, user3, user4];
-    user.findFriendsNames(users);
-    expect(user.friendsNames).to.deep.equal(['BEN', 'JOHN', 'NICK']);
+  describe('calcFriendsWeeklyStepAvg', function () {
+    it('should calculate friend\'s weekly average step count', function () {
+      user.findWeeklyFriendActivityData(activityData, date1);
+      user.calcFriendsWeeklyStepAvg();
+      expect(user.friendsSteps.length).to.equal(1);
+      expect(user.friendsSteps).to.deep.equal([{id: 3, totalWeeklySteps: 7488}])
+    });
   });
-  it('calculateTotalStepsThisWeek should add users steps for week', function() {
-    user.activityRecord = [{
-    "date": "2019/06/29", "steps": 2},
-    {"date": "2019/06/28", "steps": 1},
-    {"date": "2019/06/27", "steps": 4},
-    {"date": "2019/06/26", "steps": 3},
-    {"date": "2019/06/25", "steps": 1},
-    {"date": "2019/06/24", "steps": 12},
-    {"date": "2019/06/23", "steps": 11},
-    {"date": "2019/06/22", "steps": 10},
-    {"date": "2019/06/21", "steps": 9},
-    {"date": "2019/06/20", "steps": 8},
-    {"date": "2019/06/19", "steps": 11},
-    {"date": "2019/06/18", "steps": 10}];
-    user.calculateTotalStepsThisWeek('2019/06/29');
-    expect(user.totalStepsThisWeek).to.equal(34);
+  describe('updateRecord', function () {
+    it('should update health records', function () {
+      const activityRecord = []
+      user.updateRecord(activityData, activityRecord); 
+      expect(activityRecord.length).to.equal(14); 
+      expect(activityRecord[0]).to.deep.equal({
+        "userID": 1,
+        "date": "2019/03/06",
+        "numSteps": 13532,
+        "minutesActive": 34,
+        "flightsOfStairs": 30
+      });
+    });
   });
-  it('findFriendsTotalStepsForWeek should find friends\' total steps', function() {
-    let user2 = new User({
-      'id': 16,
-      'name': 'Ben Nist',
+  describe('findTodayData', function() {
+    it('should find daily health data', function () {
+      
     })
-    let user3 = new User({
-      'id': 4,
-      'name': 'John Firth',
-    })
-    let user4 = new User({
-      'id': 8,
-      'name': 'Nick Adams',
-    })
-    user2.activityRecord = [{
-    "date": "2019/06/29", "steps": 25},
-    {"date": "2019/06/28", "steps": 1},
-    {"date": "2019/06/27", "steps": 43},
-    {"date": "2019/06/26", "steps": 35},
-    {"date": "2019/06/25", "steps": 1},
-    {"date": "2019/06/24", "steps": 132},
-    {"date": "2019/06/23", "steps": 11},
-    {"date": "2019/06/22", "steps": 1025},
-    {"date": "2019/06/21", "steps": 9},
-    {"date": "2019/06/20", "steps": 85},
-    {"date": "2019/06/19", "steps": 11},
-    {"date": "2019/06/18", "steps": 10}];
-   user3.activityRecord = [{
-    "date": "2019/06/29", "steps": 2},
-    {"date": "2019/06/28", "steps": 21},
-    {"date": "2019/06/27", "steps": 24},
-    {"date": "2019/06/26", "steps": 23},
-    {"date": "2019/06/25", "steps": 31},
-    {"date": "2019/06/24", "steps": 512},
-    {"date": "2019/06/23", "steps": 121},
-    {"date": "2019/06/22", "steps": 120},
-    {"date": "2019/06/21", "steps": 92},
-    {"date": "2019/06/20", "steps": 82},
-    {"date": "2019/06/19", "steps": 141},
-    {"date": "2019/06/18", "steps": 10}];
-   user4.activityRecord = [{
-    "date": "2019/06/29", "steps": 2},
-    {"date": "2019/06/28", "steps": 1},
-    {"date": "2019/06/27", "steps": 4},
-    {"date": "2019/06/26", "steps": 3},
-    {"date": "2019/06/25", "steps": 1},
-    {"date": "2019/06/24", "steps": 12},
-    {"date": "2019/06/23", "steps": 11},
-    {"date": "2019/06/22", "steps": 10},
-    {"date": "2019/06/21", "steps": 9},
-    {"date": "2019/06/20", "steps": 8},
-    {"date": "2019/06/19", "steps": 11},
-    {"date": "2019/06/18", "steps": 10}];
-    let users = [user2, user3, user4];
-    user.findFriendsTotalStepsForWeek(users, '2019/06/29');
-    expect(user.friendsActivityRecords).to.deep.equal([{"id": 4, "totalWeeklySteps": 734}, {"id": 16, "totalWeeklySteps": 248}, {"id": 8, "totalWeeklySteps": 34}]);
-  });
+  })
+  
 });
