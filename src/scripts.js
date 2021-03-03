@@ -20,7 +20,7 @@ const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://loca
 Promise.all(apiData)
 .then(responses => Promise.all(responses.map(response => response.json())))
 .then(data => {
-  console.log(data);
+  // console.log(data);
 
   //have an array of resolved promises, an array of all the data we need
    const [userData, hydrationData, sleepData, activityData] = data
@@ -61,8 +61,8 @@ let user = userRepository.users[0];
 
 //sleep
 const sleep = new Sleep(user, todayDate);
-sleep.findTodaySleepData(sleepData);
 sleep.updateRecord(sleepData, sleep.sleepRecord);
+sleep.findTodaySleepData(sleepData);
 sleep.calcAvgSleepData();
 sleep.calcWeeklyAvgData(todayDate);
 
@@ -79,14 +79,14 @@ hydration.findTodayHydrationData();
 
 //activity
 const activity = new Activity(user, todayDate);
-activity.findTodayActivityData(activityData);
 activity.updateRecord(activityData, activity.activityRecord);
+activity.findTodayActivityData(activityData);
 activity.calcWeeklyAverageActive(todayDate);
-console.log(userRepository)
-console.log(user);
-console.log(activity);
-console.log(sleep);
-console.log(hydration);
+// console.log(userRepository)
+// console.log(user);
+// console.log(activity);
+// console.log(sleep);
+// console.log(hydration);
 
 
 user.findFriendsNames(userRepository.users);
@@ -169,10 +169,12 @@ let failedSubmit = document.querySelector(".failed-submit");
 let clearButton = document.querySelector(".clear-button");
 let errorMessage = document.querySelector(".error-message");
 
+// window.addEventListener('load', createDropdown, createActivity, createSleep, createHydration);
+window.addEventListener('load', createActivity)
 mainPage.addEventListener('click', showInfo);
 profileButton.addEventListener('click', showDropdown);
-// stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
-// stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
+stairsTrendingButton.addEventListener('click', updateTrendingStairsDays());
+stepsTrendingButton.addEventListener('click', updateTrendingStepDays());
 
 submitButton.addEventListener('click', postSleepHelper );
 hydrationSubmitButton.addEventListener('click', postHydrationHelper);
@@ -312,39 +314,59 @@ function updateTrendingStepDays() {
   trendingStepsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOU'VE MET YOUR STEPS GOAL ${activity.findGoalMatchDays()} TIMES</h5>`;
 }
 
-dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
+function createDropdown() {
+  dropdownGoal.innerText = `DAILY STEP GOAL | ${user.dailyStepGoal}`;
 
-dropdownEmail.innerText = `EMAIL | ${user.email}`;
+  dropdownEmail.innerText = `EMAIL | ${user.email}`;
 
-dropdownName.innerText = user.name.toUpperCase();
+  dropdownName.innerText = user.name.toUpperCase();
 
-headerName.innerText = `${user.getFirstName()}'S `;
+  headerName.innerText = `${user.getFirstName()}'S `;
 
-for (var i = 0; i < dailyOz.length; i++) {
-  dailyOz[i].innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1]
 }
 
-hydrationUserOuncesToday.innerText = hydration.totalOunces;
+function createHydration() {
+  for (var i = 0; i < dailyOz.length; i++) {
+    dailyOz[i].innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1]
+  }
 
-hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+  hydrationUserOuncesToday.innerText = hydration.totalOunces;
 
-hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
-  return hydration.userID === user.id && hydration.date === todayDate;
-}).numOunces / 8;
+  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
+
+  hydrationInfoGlassesToday.innerText = hydrationData.find(hydration => {
+    return hydration.userID === user.id && hydration.date === todayDate;
+  }).numOunces / 8;
+
+}
+
 
 // sleep info here
-sleepCalendarHoursAverageWeekly.innerText = sleep.weeklySlept;
+function createSleep() {
+  sleepCalendarHoursAverageWeekly.innerText = sleep.weeklySlept;
 
-sleepCalendarQualityAverageWeekly.innerText = sleep.weeklyQuality;
+  sleepCalendarQualityAverageWeekly.innerText = sleep.weeklyQuality;
 
-displaySleepComparison();
-function displaySleepComparison() {
-  const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
-  longestSleepers.forEach(sleeper => {
-    const bestSleeper = userRepository.getUser(sleeper.userID)
-    sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
-  });
+  displaySleepComparison();
+  function displaySleepComparison() {
+    const longestSleepers = userRepository.dailyLongestSleepers(todayDate, sleepData);
+    longestSleepers.forEach(sleeper => {
+      const bestSleeper = userRepository.getUser(sleeper.userID)
+      sleepFriendLongestSleeper.innerText += `${bestSleeper.getFirstName()} `;
+    });
+  }
+  sleepInfoHoursAverageAlltime.innerText = sleep.averageSlept;
+
+  stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
+
+  sleepInfoQualityAverageAlltime.innerText = `${sleep.averageQuality}/5`;
+
+  sleepInfoQualityToday.innerText = `${sleep.sleepQuality}/5`
+
+  sleepUserHoursToday.innerText = sleep.hoursSlept
+
 }
+
 
 //Refactor above
 // sleepFriendLongestSleeper.innerText = userRepository.users.find(user => {
@@ -355,76 +377,70 @@ function displaySleepComparison() {
 //   return user.id === userRepository.getWorstSleepers(todayDate, sleepData)
 // }).getFirstName();
 
-sleepInfoHoursAverageAlltime.innerText = sleep.averageSlept;
-
-stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
-
-sleepInfoQualityAverageAlltime.innerText = `${sleep.averageQuality}/5`;
-
-sleepInfoQualityToday.innerText = `${sleep.sleepQuality}/5`
-
-sleepUserHoursToday.innerText = sleep.hoursSlept
-
 //stair info here
-stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(todayDate);
+function createActivity() {
+  console.log('test')
+  stairsCalendarFlightsAverageWeekly.innerText = activity.calcAvgWeeklyFlights(todayDate);
 
-stairsCalendarStairsAverageWeekly.innerText = (activity.calcAvgWeeklyFlights(todayDate) * 12).toFixed(0);
+  stairsCalendarStairsAverageWeekly.innerText = (activity.calcAvgWeeklyFlights(todayDate) * 12).toFixed(0);
 
-stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
+  stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 
-stairsInfoFlightsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs;
+  stairsInfoFlightsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs;
 
-stairsUserStairsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).flightsOfStairs * 12;
+  stairsUserStairsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).flightsOfStairs * 12;
 
-//I think duplicated
-// stairsCalendarFlightsAverageWeekly.innerText = activity.calculateAverageFlightsThisWeek(todayDate);
-// stairsCalendarStairsAverageWeekly.innerText = (activity.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
+  //I think duplicated
+  // stairsCalendarFlightsAverageWeekly.innerText = activity.calculateAverageFlightsThisWeek(todayDate);
+  // stairsCalendarStairsAverageWeekly.innerText = (activity.calculateAverageFlightsThisWeek(todayDate) * 12).toFixed(0);
 
-//step info here
-stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive;
+  //step info here
+  stepsCalendarTotalActiveMinutesWeekly.innerText = activity.weeklyAverageActive;
 
-stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps;
+  stepsCalendarTotalStepsWeekly.innerText = activity.weeklyAverageSteps;
 
-stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
 
-stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
+  stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
 
-stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
+  stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 
-stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).minutesActive;
+  stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;
 
-stepsUserStepsToday.innerText = activityData.find(activity => {
-  return activity.userID === user.id && activity.date === todayDate;
-}).numSteps;
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;
 
-// user friend's list and steps info
-// user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
+  // user friend's list and steps info
+  // user.findFriendsTotalStepsForWeek(userRepository.users, todayDate);
 
-user.friendsActivityRecords.forEach(friend => {
-  dropdownFriendsStepsContainer.innerHTML += `
-  <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
-  `;
-});
+  user.friendsActivityRecords.forEach(friend => {
+    dropdownFriendsStepsContainer.innerHTML += `
+    <p class='dropdown-p friends-steps'>${friend.firstName} |  ${friend.totalWeeklySteps}</p>
+    `;
+  });
 
-let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
+  let friendsStepsParagraphs = document.querySelectorAll('.friends-steps');
 
-friendsStepsParagraphs.forEach(paragraph => {
-  if (friendsStepsParagraphs[0] === paragraph) {
-    paragraph.classList.add('green-text');
-  }
-  if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
-    paragraph.classList.add('red-text');
-  }
-  if (paragraph.innerText.includes('YOU')) {
-    paragraph.classList.add('yellow-text');
-  }
-});
+  friendsStepsParagraphs.forEach(paragraph => {
+    if (friendsStepsParagraphs[0] === paragraph) {
+      paragraph.classList.add('green-text');
+    }
+    if (friendsStepsParagraphs[friendsStepsParagraphs.length - 1] === paragraph) {
+      paragraph.classList.add('red-text');
+    }
+    if (paragraph.innerText.includes('YOU')) {
+      paragraph.classList.add('yellow-text');
+    }
+  });
+}
+
 function postSleepHelper() {
   event.preventDefault();
   const correctDate = sleepDate.value.replaceAll("-", "/")
