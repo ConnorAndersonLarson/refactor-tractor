@@ -11,7 +11,11 @@ import Sleep from './Sleep';
 
 
 let todayDate = "2019/09/22";
-
+let user;
+let userRepository; 
+let activity; 
+let sleep; 
+let hydration; 
 let dailyOz;
 
 const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
@@ -41,52 +45,86 @@ function getDomNodes() {
 function populateDomNodes() {
   //functionto display DOM elements
 }
+ 
+function initializeUsers(userData, activityData, sleepData, hydrationData) {
+  const userList = userData.map(user => {
+    return user = new User(user, todayDate);
+  });
+  userRepository = new UserRepository(userList);
+  userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
+  user = userRepository.users[0];
+  user.findWeeklyFriendActivityData(activityData, todayDate);
+  user.calcFriendsWeeklyStepAvg()
+}
+
+function initializeSleep(sleepData) {
+  sleep = new Sleep(user, todayDate);
+  sleep.updateRecord(sleepData, sleep.sleepRecord);
+  sleep.findTodaySleepData(sleepData);
+  sleep.calcAvgSleepData();
+  sleep.calcWeeklyAvgData(todayDate);
+  }
+
+function initializeHydration(hydrationData) {
+  const hydration = new Hydration(user, todayDate);
+  hydration.updateRecord(hydrationData, hydration.hydrationRecord);
+  hydration.calcOuncesAverage();
+  hydration.findTodayHydrationData();
+}
+
+function initializeActivity(activityData) {
+  const activity = new Activity(user, todayDate);
+  activity.updateRecord(activityData, activity.activityRecord);
+  activity.findTodayActivityData(activityData);
+  activity.calcWeeklyAverageActive(todayDate);
+}
+
+// function updateTrendingStairsDays(activity) {
+//   trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
+// }
+  
 
 function initialize (userData, hydrationData, sleepData, activityData) {
-let todayDate = "2019/09/22";
 
 //call helper functions
 populateDomNodes();
-
-
-const userList = userData.map(user => {
-  return user = new User(user, todayDate);
-});
-const userRepository = new UserRepository(userList);
-let user = userRepository.users[0];
-user.findWeeklyFriendActivityData(activityData, todayDate);
-user.calcFriendsWeeklyStepAvg()
-
+initializeUsers(userData, activityData, sleepData, hydrationData); 
+initializeSleep(sleepData, user); 
+initializeHydration(hydrationData);
+initializeActivity(activityData);  
 
 //sleep
-const sleep = new Sleep(user, todayDate);
-sleep.updateRecord(sleepData, sleep.sleepRecord);
-sleep.findTodaySleepData(sleepData);
-sleep.calcAvgSleepData();
-sleep.calcWeeklyAvgData(todayDate);
+// function initializeSleep() {
+// sleep = new Sleep(user, todayDate);
+// sleep.updateRecord(sleepData, sleep.sleepRecord);
+// sleep.findTodaySleepData(sleepData);
+// sleep.calcAvgSleepData();
+// sleep.calcWeeklyAvgData(todayDate);
+// }
+
 
 //userRepo
-userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-const averageSleepQuality = userRepository.dailyUsersQualityAvg(); 
-console.log(averageSleepQuality)
+// userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
+// const averageSleepQuality = userRepository.dailyUsersQualityAvg(); 
 
-//hydration
-const hydration = new Hydration(user, todayDate);
-hydration.updateRecord(hydrationData, hydration.hydrationRecord);
-hydration.calcOuncesAverage();
-hydration.findTodayHydrationData();
+// function initializeHydration(hydrationData) {
+//   const hydration = new Hydration(user, todayDate);
+//   hydration.updateRecord(hydrationData, hydration.hydrationRecord);
+//   hydration.calcOuncesAverage();
+//   hydration.findTodayHydrationData();
+// }
+
 
 
 //activity
-const activity = new Activity(user, todayDate);
-activity.updateRecord(activityData, activity.activityRecord);
-activity.findTodayActivityData(activityData);
-activity.calcWeeklyAverageActive(todayDate);
-console.log(userRepository)
-console.log(user);
-console.log(activity);
-console.log(sleep);
-console.log(hydration);
+// function initializeActivity(activityData) {
+//   const activity = new Activity(user, todayDate);
+//   activity.updateRecord(activityData, activity.activityRecord);
+//   activity.findTodayActivityData(activityData);
+//   activity.calcWeeklyAverageActive(todayDate);
+// }
+
+
 
 let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
@@ -278,8 +316,8 @@ function showInfo() {
   }
 }
 
-updateTrendingStairsDays()
-function updateTrendingStairsDays() {
+updateTrendingStairsDays(activity)
+function updateTrendingStairsDays(activity) {
   trendingStairsPhraseContainer.innerHTML = `<h5 class='trend-line'>YOUR FLIGHT CLIMBING RECORD TO BEAT:${activity.findMostFlightsClimbed()} FLIGHTS</h5>`;
 }
 
