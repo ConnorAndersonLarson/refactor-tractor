@@ -16,10 +16,10 @@ Promise.all(apiData)
 
 let todayDate = "2019/09/22";
 let user;
-let userRepository; 
-let activity; 
-let sleep; 
-let hydration; 
+let userRepository;
+let activity;
+let sleep;
+let hydration;
 let dailyOz = document.querySelectorAll('.daily-oz');
 let dropdownEmail = document.querySelector('#dropdown-email');
 let dropdownFriendsStepsContainer = document.querySelector('#dropdown-friends-steps-container');
@@ -104,15 +104,15 @@ showFormButtons.addEventListener('click', showForm);
 clearButton.addEventListener('click', hideForms);
 
 function initialize (userData, hydrationData, sleepData, activityData) {
-  initializeUsers(userData, activityData, sleepData, hydrationData); 
-  initializeSleep(sleepData, user); 
+  initializeUsers(userData, activityData, sleepData, hydrationData);
+  initializeSleep(sleepData, user);
   initializeHydration(hydrationData);
-  initializeActivity(activityData); 
+  initializeActivity(activityData);
   createDropdown();
   createStepsCard(activityData);
-  createStairsCard(activityData); 
+  createStairsCard(activityData);
   createSleepCard(sleepData);
-  createHydrationCard(hydrationData); 
+  createHydrationCard(hydrationData);
 }
 
 function showErrorMessage() {
@@ -171,7 +171,7 @@ function showCardInfo() {
   if(cardA && cardB) {
     flipCard(cardB.card, cardA.card)
   }
-  
+
   if (event.target.id ==='steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
@@ -185,14 +185,14 @@ function showCardInfo() {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
- 
+
 function initializeUsers(userData, activityData, sleepData, hydrationData) {
   const userList = userData.map(user => {
     return user = new User(user, todayDate);
   });
   userRepository = new UserRepository(userList);
   userRepository.calcDailyUserData(todayDate, activityData, sleepData, hydrationData)
-  user = userRepository.users[0];
+  user = userRepository.users[Math.floor(Math.random() * userRepository.users.length)];
   user.findWeeklyFriendActivityData(activityData, todayDate);
   user.calcFriendsWeeklyStepAvg()
 }
@@ -240,8 +240,8 @@ function populateFriendSteps (users) {
 
 function createStairsCard(activityData) {
   displayStairStreak();
-  displayWeeklyStairData(); 
-  displayDailyStairInfo(activityData); 
+  displayWeeklyStairData();
+  displayDailyStairInfo(activityData);
    stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 }
 function displayDailyStairInfo(activityData) {
@@ -264,9 +264,9 @@ function displayStairStreak() {
 }
 
 function createStepsCard(activityData) {
-  displayWeeklyActivity(); 
+  displayWeeklyActivity();
   displayAllUserActivity();
-  displayDailyActivity(activityData);  
+  displayDailyActivity(activityData);
   displayStepStreak();
 }
 
@@ -275,7 +275,7 @@ function displayDailyActivity(activityData) {
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
       return activity.userID === user.id && activity.date === todayDate;
     }).minutesActive;
-  
+
     stepsUserStepsToday.innerText = activityData.find(activity => {
       return activity.userID === user.id && activity.date === todayDate;
     }).numSteps;
@@ -297,7 +297,7 @@ function displayStepStreak() {
 }
 
 function createSleepCard(sleepData) {
-  displayUserSleep(); 
+  displayUserSleep();
   displayLongestSleepers(sleepData);
   displayUserWeeklySleep();
   sleepAllUsersQualityAverage.innerText =  userRepository.dailyUsersQualityAvg()
@@ -323,9 +323,9 @@ function displayLongestSleepers(sleepData) {
 }
 
 function createHydrationCard(hydrationData) {
-  displayWeeklyHydration(); 
-  displayDailyHydration(hydrationData); 
-  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate); 
+  displayWeeklyHydration();
+  displayDailyHydration(hydrationData);
+  hydrationFriendOuncesToday.innerText = userRepository.calculateAverageDailyWater(todayDate);
 }
 
 function displayDailyHydration(hydrationData) {
@@ -425,4 +425,3 @@ const checkForError = response => {
     return response.json();
   }
 }
-
