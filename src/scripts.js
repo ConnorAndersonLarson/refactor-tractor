@@ -132,6 +132,9 @@ function hideForms() {
   hide(hydrationInputForm);
   hide(sleepInputForm);
   hide(clearButton);
+  hide(errorMessage);
+  hide(successfulSubmit);
+  hide(failedSubmit);
 }
 
 function showDropdown() {
@@ -347,6 +350,7 @@ function postSleepHelper() {
     failedSubmit.classList.add("hide")
   } else {
     failedSubmit.classList.remove("hide")
+    successfulSubmit.classList.add('hide')
   }
 }
 
@@ -360,6 +364,7 @@ function postHydrationHelper() {
     failedSubmit.classList.add("hide")
   } else {
     failedSubmit.classList.remove("hide")
+    successfulSubmit.classList.add('hide')
   }
 }
 
@@ -375,6 +380,7 @@ function postActivityHelper() {
     failedSubmit.classList.add("hide")
   } else {
     failedSubmit.classList.remove("hide")
+    successfulSubmit.classList.add('hide')
   }
 }
 
