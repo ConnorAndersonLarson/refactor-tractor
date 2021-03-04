@@ -40,15 +40,15 @@ Overall this project was a great learning experience. We were able to take time 
 
 ## Site Features
 
-<img src="/.github/desktop-view.gif" alt="Gif of Desktop view of site">
+<img src="./.github/readme_images/desktop-view.gif" alt="Gif of Desktop view of site">
 
 * Desktop View
 
-<img src="/.github/mobile-view.gif" alt="Gif of Mobile view of site">
+<img src="./.github/readme_images/mobile-view.gif" alt="Gif of Mobile view of site">
 
 * Mobile View
 
-<img src="/.github/view-card-info.gif" alt="Gif of Navigating Cards">
+<img src="./.github/readme_images/view-card-info.gif" alt="Gif of Navigating Cards">
 
 * Navigating Cards
 
