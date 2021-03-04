@@ -165,10 +165,6 @@ function flipCard(cardToHide, cardToShow) {
   cardToShow.classList.remove('hide');
 }
 
-function showDropdown() {
-  userInfoDropdown.classList.toggle('hide');
-}
-
 function showCardInfo() {
   let cardA = cards.find(card => card.name === event.target.getAttribute("data-cardAName"));
   let cardB = cards.find(card => card.name === event.target.getAttribute("data-cardBName"));
@@ -235,10 +231,10 @@ function populateFriendSteps (users) {
   user.friendsSteps.forEach(friend => {
     const friendInfo = users.find(userData => userData.id === friend.id)
     dropdownFriendsStepsContainer.innerHTML += `
-  <p class=‘dropdown-p friends-steps green-text’>${friendInfo.name} |  ${friend.totalWeeklySteps}</p>
+  <p class="dropdown-p friends-steps green-text">${friendInfo.name} |  ${friend.totalWeeklySteps}</p>
   `;
   })
-  dropdownFriendsStepsContainer.innerHTML += `<p class=‘dropdown-p friends-steps yellow-text’>YOU |  ${activity.weeklyAverageSteps}</p>
+  dropdownFriendsStepsContainer.innerHTML += `<p class="dropdown-p friends-steps yellow-text">YOU |  ${activity.weeklyAverageSteps}</p>
   `
 }
 
