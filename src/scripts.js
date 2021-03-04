@@ -387,7 +387,7 @@ function postSleep(sleepDate, hours, quality) {
     body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
   })
     .then(checkForError)
-    .catch(showErrorMessage());
+    .catch(err => showErrorMessage());
 }
 
 function postHydrate(hydrationDate, ouncesDrank) {
@@ -399,7 +399,7 @@ function postHydrate(hydrationDate, ouncesDrank) {
     body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
   })
     .then(checkForError)
-    .catch(showErrorMessage());
+    .catch(err => showErrorMessage());
 }
 
 function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
@@ -411,7 +411,7 @@ function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flig
     body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
   })
     .then(checkForError)
-    .catch(showErrorMessage());
+    .catch(err => showErrorMessage());
 }
 
 const checkForError = response => {
