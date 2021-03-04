@@ -55,9 +55,6 @@ class UserRepository {
      return Math.round(dailyUsersActiveTotal/this.dailyUsersActivities.length);
   }
 
-  //don't think this is getting used
-  //calc average for all users on current day
-  //will need to get this working and then display on the UI
   dailyUsersQualityAvg() {
     const sumSleepQuality = this.dailyUsersSleep.reduce((qualitySum, user) => {
       return qualitySum += user.sleepQuality
