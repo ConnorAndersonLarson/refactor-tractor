@@ -8,7 +8,7 @@ import hydrationData from '../src/data/hydration-test-data';
 
 
 describe.only('UserRepository', function() {
-  let user1, user2, user3, users, date, userRepository;
+  let user1, user2, users, date, userRepository;
   beforeEach(() => {
     date = "2021/02/27";
     user1 = new User({
@@ -48,7 +48,7 @@ describe.only('UserRepository', function() {
   it('should be an instance of user repository', function() {
     expect(userRepository).to.be.an.instanceof(UserRepository);
   });
-  it('should take in an array as an argument' , function() {
+  it('should take in an array as an argument', function() {
     expect(Array.isArray(users)).to.equal(true)
     let testUserRepo = new UserRepository(users);
     expect(testUserRepo.users).to.deep.equal(users);
@@ -67,103 +67,103 @@ describe.only('UserRepository', function() {
       const foundUser = userRepository.getUser(2); 
       expect(foundUser).to.equal(user2);
     });
- });
- describe('calculateDailyUserData', function () {
-  it('should find the daily user data for activity and sleep', function () {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
-    expect(userRepository.dailyUsersActivities).to.deep.equal([{
-      "userID": 1,
-      "date": "2021/02/27",
-      "numSteps": 9303,
-      "minutesActive": 27,
-      "flightsOfStairs": 14
-    },
-    {
-      "userID": 2,
-      "date": "2021/02/27",
-      "numSteps": 8024,
-      "minutesActive": 216,
-      "flightsOfStairs": 32
-    }, {
-      "userID": 3,
-      "date": "2021/02/27",
-      "numSteps": 6524,
-      "minutesActive": 216,
-      "flightsOfStairs": 32
-    }])
-    expect(userRepository.dailyUsersSleep).to.deep.equal([{
-      "userID": 1,
-      "date": "2021/02/27",
-      "hoursSlept": 6.1,
-      "sleepQuality": 1.3
-    },
-    {
-      "userID": 2,
-      "date": "2021/02/27",
-      "hoursSlept": 4.4,
-      "sleepQuality": 2.3
-    }]);
   });
-});
-describe('calculateAverageStepGoal', function () {
-  it('should return average step goal for all users', function() {
-    const averageStepGoal = userRepository.calculateAverageStepGoal();
+  describe('calculateDailyUserData', function () {
+    it('should find the daily user data for activity and sleep', function () {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
+      expect(userRepository.dailyUsersActivities).to.deep.equal([{
+        "userID": 1,
+        "date": "2021/02/27",
+        "numSteps": 9303,
+        "minutesActive": 27,
+        "flightsOfStairs": 14
+      },
+      {
+        "userID": 2,
+        "date": "2021/02/27",
+        "numSteps": 8024,
+        "minutesActive": 216,
+        "flightsOfStairs": 32
+      }, {
+        "userID": 3,
+        "date": "2021/02/27",
+        "numSteps": 6524,
+        "minutesActive": 216,
+        "flightsOfStairs": 32
+      }])
+      expect(userRepository.dailyUsersSleep).to.deep.equal([{
+        "userID": 1,
+        "date": "2021/02/27",
+        "hoursSlept": 6.1,
+        "sleepQuality": 1.3
+      },
+      {
+        "userID": 2,
+        "date": "2021/02/27",
+        "hoursSlept": 4.4,
+        "sleepQuality": 2.3
+      }]);
+    });
+  });
+  describe('calculateAverageStepGoal', function () {
+    it('should return average step goal for all users', function() {
+      const averageStepGoal = userRepository.calculateAverageStepGoal();
      
-    expect(averageStepGoal).to.equal(7500);
+      expect(averageStepGoal).to.equal(7500);
+    });
   });
-});
-describe('calculateAverageSteps', function () {
-  it('should calculate daily average steps for all users', function () {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
-    const averageSteps = userRepository.calculateAverageSteps();
+  describe('calculateAverageSteps', function () {
+    it('should calculate daily average steps for all users', function () {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
+      const averageSteps = userRepository.calculateAverageSteps();
     
-    expect(averageSteps).to.equal(7950)
+      expect(averageSteps).to.equal(7950)
+    });
   });
-});
-describe('calculateAverageStairs', function () {
-  it('should calculate daily average stairs climbed for all users', function () {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
-    const averageStairs = userRepository.calculateAverageStairs(); 
-    expect(averageStairs).to.equal(312)
+  describe('calculateAverageStairs', function () {
+    it('should calculate daily average stairs climbed for all users', function () {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
+      const averageStairs = userRepository.calculateAverageStairs(); 
+      expect(averageStairs).to.equal(312)
+    });
   });
-});
-describe('calculateAverageMinutesActive', function () {
-  it('should calculate average number of active minutes for users', function() {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
-    const averageMinutes = userRepository.calculateAverageMinutesActive(); 
-    expect(averageMinutes).to.equal(153);
+  describe('calculateAverageMinutesActive', function () {
+    it('should calculate average number of active minutes for users', function() {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
+      const averageMinutes = userRepository.calculateAverageMinutesActive(); 
+      expect(averageMinutes).to.equal(153);
+    });
   });
-});
-describe('dailyUsersQualityAvg', function () {
-  it('should return daily average sleep quality for all users', function() {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
-    const avgQuality = userRepository.dailyUsersQualityAvg();
-    expect(avgQuality).to.equal(1.8);
+  describe('dailyUsersQualityAvg', function () {
+    it('should return daily average sleep quality for all users', function() {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData);
+      const avgQuality = userRepository.dailyUsersQualityAvg();
+      expect(avgQuality).to.equal(1.8);
+    });
   });
-});
-describe('calculateAverageStairs', function () {
-  it('should have a method that calculates average number of stairs for users', function() {
-   userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
-   const avgStairs = userRepository.calculateAverageStairs();
-   expect(avgStairs).to.equal(312);
+  describe('calculateAverageStairs', function () {
+    it('should have a method that calculates average number of stairs for users', function() {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
+      const avgStairs = userRepository.calculateAverageStairs();
+      expect(avgStairs).to.equal(312);
+    });
   });
-});
-describe('dailyLongestSleepers', function () {
-  it('should have a method that finds the longest sleepers', function() {
-   userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
-   const longestSleepers = userRepository.dailyLongestSleepers(); 
-   expect(longestSleepers).to.deep.equal([{
-    "userID": 1,
-    "date": "2021/02/27",
-    "hoursSlept": 6.1,
-    "sleepQuality": 1.3}]);
+  describe('dailyLongestSleepers', function () {
+    it('should have a method that finds the longest sleepers', function() {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
+      const longestSleepers = userRepository.dailyLongestSleepers(); 
+      expect(longestSleepers).to.deep.equal([{
+        "userID": 1,
+        "date": "2021/02/27",
+        "hoursSlept": 6.1,
+        "sleepQuality": 1.3}]);
+    });
   });
-});
-describe('calculateAverageDailyWater', function () {
-  it('should have a method that calculates friends average ounces of water', function() {
-    userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
-    const averageOunces = userRepository.calculateAverageDailyWater(); 
-    expect(averageOunces).to.equal(64) 
-  });
- })
+  describe('calculateAverageDailyWater', function () {
+    it('should have a method that calculates friends average ounces of water', function() {
+      userRepository.calcDailyUserData(date, activityData, sleepData, hydrationData); 
+      const averageOunces = userRepository.calculateAverageDailyWater(); 
+      expect(averageOunces).to.equal(64) 
+    });
+  })
 });

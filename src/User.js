@@ -1,4 +1,4 @@
- class User {
+class User {
   constructor(userData, date) {
     this.id = userData.id;
     this.name = userData.name;
@@ -19,29 +19,29 @@
   findWeeklyFriendActivityData(activityData, date) {
     const friendActivityRecords = activityData.reduce((friendRecords, dataItem) => {
       this.friends.forEach(friendId => {
-        if(!friendRecords[friendId] && dataItem.userID === friendId) {
-            friendRecords[friendId] = [dataItem];
-      } else if(dataItem.userID === friendId) {
-            friendRecords[friendId].unshift(dataItem); 
+        if (!friendRecords[friendId] && dataItem.userID === friendId) {
+          friendRecords[friendId] = [dataItem];
+        } else if (dataItem.userID === friendId) {
+          friendRecords[friendId].unshift(dataItem); 
         }
-        });
-        return friendRecords; 
+      });
+      return friendRecords; 
     }, {});
     Object.values(friendActivityRecords).forEach(record => {
-     this.friendsWeeklyActivityRecords.push(this.findWeeklyData(date, record))
+      this.friendsWeeklyActivityRecords.push(this.findWeeklyData(date, record))
     });
   }
 
   calcFriendsWeeklyStepAvg() {
     this.friendsWeeklyActivityRecords.forEach(record => {
-     const avgSteps = record.reduce((steps, day) => {
-       steps += day.numSteps;
-       return steps; 
-     }, 0);
-     const friendsStepInfo = {id: 0, totalWeeklySteps: 0};
-     friendsStepInfo.id = record[0].userID;
-     friendsStepInfo.totalWeeklySteps = this.calcAverage(avgSteps, 7, 0); 
-     this.friendsSteps.push(friendsStepInfo);
+      const avgSteps = record.reduce((steps, day) => {
+        steps += day.numSteps;
+        return steps; 
+      }, 0);
+      const friendsStepInfo = {id: 0, totalWeeklySteps: 0};
+      friendsStepInfo.id = record[0].userID;
+      friendsStepInfo.totalWeeklySteps = this.calcAverage(avgSteps, 7, 0); 
+      this.friendsSteps.push(friendsStepInfo);
     });
   }
 
@@ -51,26 +51,26 @@
     });
     currentData.sort((dataItemA, dataItemB) => {
       return dataItemA.date - dataItemB.date;
-   });
+    });
     currentData.forEach(dataItem => healthRecord.unshift(dataItem));  
   }
 
   findTodayData(healthRecord) {
-  const todaysData = healthRecord.find(healthItem => {
-    return this.id === healthItem.userID && this.date === healthItem.date;
-  }) 
-    if(!todaysData) {
+    const todaysData = healthRecord.find(healthItem => {
+      return this.id === healthItem.userID && this.date === healthItem.date;
+    }) 
+    if (!todaysData) {
       return healthRecord[0]
-  } else {
-    return todaysData; 
-  }
+    } else {
+      return todaysData; 
+    }
   }
 
   findWeeklyData(date, healthRecord) {
     let currentDateIndex = healthRecord.findIndex(dataItem => {
       return dataItem.date === date; 
     });
-    if(currentDateIndex === -1) {
+    if (currentDateIndex === -1) {
       currentDateIndex = 0; 
     } 
     const currentWeekData = healthRecord.slice(currentDateIndex, currentDateIndex + 7); 
@@ -78,7 +78,7 @@
   }
   
   calcAverage(healthData, total, decimalPlace) {
-    return Number((healthData/total).toFixed(decimalPlace));
+    return Number((healthData / total).toFixed(decimalPlace));
   }
 }
 

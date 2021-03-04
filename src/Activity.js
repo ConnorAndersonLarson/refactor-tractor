@@ -25,10 +25,10 @@ class Activity extends User {
 
   calcWeeklyAverageActive(date) {
     const lastWeekData = this.findWeeklyData(date, this.activityRecord);
-      const averageWeeklyData = {steps: 0, minutesActive: 0};
-      lastWeekData.forEach(day => {
-        averageWeeklyData.steps += day.numSteps;
-        averageWeeklyData.minutesActive += day.minutesActive;
+    const averageWeeklyData = {steps: 0, minutesActive: 0};
+    lastWeekData.forEach(day => {
+      averageWeeklyData.steps += day.numSteps;
+      averageWeeklyData.minutesActive += day.minutesActive;
     });
     this.weeklyAverageSteps = this.calcAverage(averageWeeklyData.steps, 7, 0); 
     this.weeklyAverageActive = this.calcAverage(averageWeeklyData.minutesActive, 7, 0); 
@@ -55,7 +55,7 @@ class Activity extends User {
   calcAvgWeeklyFlights(date) {
     const currentWeekData = this.findWeeklyData(date, this.activityRecord); 
     const averageWeeklyFlights = currentWeekData.reduce((average, day) => {
-        return average += day.flightsOfStairs;
+      return average += day.flightsOfStairs;
     }, 0); 
     return this.calcAverage(averageWeeklyFlights, 7, 0); 
   }
