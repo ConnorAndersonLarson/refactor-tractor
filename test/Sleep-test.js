@@ -7,9 +7,9 @@ describe('Sleep', function() {
   let user1, user2, date1, date2, sleep1, sleep2; 
    
   beforeEach(() => {
-   date1 = '2021/02/27';
-   date2 = '2021/03/07';
-   user1 = new User({
+    date1 = '2021/02/27';
+    date2 = '2021/03/07';
+    user1 = new User({
       'id': 1,
       'name': 'Luisa Hane',
       'address': '15195 Nakia Tunnel, Erdmanport VA 19901-1697',

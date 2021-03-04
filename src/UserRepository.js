@@ -1,5 +1,5 @@
 class UserRepository {
-  constructor(users, date) {
+  constructor(users) {
     this.users = users;
     this.dailyUsersActivities = [];
     this.dailyUsersSleep = [];
@@ -12,10 +12,10 @@ class UserRepository {
   }
   calculateAverageStepGoal() {
     const avgStepGoal = this.users.reduce((average, user) => {
-       average += user.dailyStepGoal
-       return average
+      average += user.dailyStepGoal
+      return average
     }, 0);
-    return Math.round(avgStepGoal/this.users.length);
+    return Math.round(avgStepGoal / this.users.length);
   }
 
   calcDailyUserData (date, activityData, sleepData, hydrationData) {
@@ -37,29 +37,29 @@ class UserRepository {
     const dailyUserStepTotal = this.dailyUsersActivities.reduce((stepSum, user) => {
       return stepSum += user.numSteps
     }, 0);
-    return Math.round(dailyUserStepTotal/this.dailyUsersActivities.length);
+    return Math.round(dailyUserStepTotal / this.dailyUsersActivities.length);
   }
 
   calculateAverageStairs() {
     const dailyUserStairsTotal = this.dailyUsersActivities.reduce((sumFlights, user) => {
-       sumFlights += user.flightsOfStairs
-       return sumFlights
+      sumFlights += user.flightsOfStairs
+      return sumFlights
     }, 0);
-    return Math.round(dailyUserStairsTotal * 12/this.dailyUsersActivities.length);
+    return Math.round(dailyUserStairsTotal * 12 / this.dailyUsersActivities.length);
   }
 
   calculateAverageMinutesActive() {
     const dailyUsersActiveTotal = this.dailyUsersActivities.reduce((sumMinutes, user) => {
       return sumMinutes += user.minutesActive
     }, 0);
-     return Math.round(dailyUsersActiveTotal/this.dailyUsersActivities.length);
+    return Math.round(dailyUsersActiveTotal / this.dailyUsersActivities.length);
   }
 
   dailyUsersQualityAvg() {
     const sumSleepQuality = this.dailyUsersSleep.reduce((qualitySum, user) => {
       return qualitySum += user.sleepQuality
     }, 0);
-    return Number((sumSleepQuality/this.dailyUsersSleep.length).toFixed(1));
+    return Number((sumSleepQuality / this.dailyUsersSleep.length).toFixed(1));
   }
  
   dailyLongestSleepers() {
@@ -76,7 +76,7 @@ class UserRepository {
     const averageOuncesTotal = this.dailyUsersHydration.reduce((sumOunces, user) => {
       return sumOunces += user.numOunces;
     }, 0);
-    return Math.round(averageOuncesTotal/this.dailyUsersHydration.length);
+    return Math.round(averageOuncesTotal / this.dailyUsersHydration.length);
   }
 }
 

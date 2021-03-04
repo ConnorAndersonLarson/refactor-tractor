@@ -6,8 +6,8 @@ import activityData from '../src/data/activity-test-data';
 describe('User', function() {
   let user1, user2, date1, date2;
   beforeEach(() => {
-     date1 = '2019/03/06';
-     date2 = '2019/03/07';
+    date1 = '2019/03/06';
+    date2 = '2019/03/07';
     user1 = new User({
       'id': 1,
       'name': 'Luisa Hane',
@@ -60,35 +60,35 @@ describe('User', function() {
       expect(user1.getFirstName()).to.equal('LUISA');
     });
   })
- describe('findWeeklyFriendActivityData', function () {
-   it('should find friend\'s weekly activity information for a given date', function () {
+  describe('findWeeklyFriendActivityData', function () {
+    it('should find friend\'s weekly activity information for a given date', function () {
 
-    user1.findWeeklyFriendActivityData(activityData, date1);
+      user1.findWeeklyFriendActivityData(activityData, date1);
     
-    expect(user1.friendsWeeklyActivityRecords.length).to.equal(1);
-    expect(user1.friendsWeeklyActivityRecords[0].length).to.equal(7);
-    expect(user1.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
-      "userID": 3,
-      "date": "2019/03/06",
-      "numSteps": 3987,
-      "minutesActive": 45,
-      "flightsOfStairs": 0
-    }); 
-   });
-   it('should find friend\'s most recent weekly activity information if date doesn\'t exist', function () {
+      expect(user1.friendsWeeklyActivityRecords.length).to.equal(1);
+      expect(user1.friendsWeeklyActivityRecords[0].length).to.equal(7);
+      expect(user1.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
+        "userID": 3,
+        "date": "2019/03/06",
+        "numSteps": 3987,
+        "minutesActive": 45,
+        "flightsOfStairs": 0
+      }); 
+    });
+    it('should find friend\'s most recent weekly activity information if date doesn\'t exist', function () {
 
-    user1.findWeeklyFriendActivityData(activityData, date2);
+      user1.findWeeklyFriendActivityData(activityData, date2);
 
-    expect(user1.friendsWeeklyActivityRecords.length).to.equal(1);
-    expect(user1.friendsWeeklyActivityRecords[0].length).to.equal(7);
-    expect(user1.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
-      "userID": 3,
-      "date": "2019/03/06",
-      "numSteps": 3987,
-      "minutesActive": 45,
-      "flightsOfStairs": 0
-    }); 
-   });
+      expect(user1.friendsWeeklyActivityRecords.length).to.equal(1);
+      expect(user1.friendsWeeklyActivityRecords[0].length).to.equal(7);
+      expect(user1.friendsWeeklyActivityRecords[0][0]).to.deep.equal({
+        "userID": 3,
+        "date": "2019/03/06",
+        "numSteps": 3987,
+        "minutesActive": 45,
+        "flightsOfStairs": 0
+      }); 
+    });
   });
   describe('calcFriendsWeeklyStepAvg', function () {
     it('should calculate friend\'s weekly average step count', function () {

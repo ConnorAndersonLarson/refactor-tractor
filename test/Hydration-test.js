@@ -64,7 +64,7 @@ describe('Hydration', function() {
         "userID": 1,
         "date": "2021/03/06",
         "numOunces": 87
-       });
+      });
     });
   });
   describe('findTodayHydrationData', function () {
@@ -95,9 +95,9 @@ describe('Hydration', function() {
       expect(weeklyData).to.deep.equal([87, 40, 32, 23, 62, 60, 85])
     });
     it('should return the most recently recorded 6 days of date doesn\'t exist', function () {
-        hydration2.updateRecord(hydrationData, hydration2.hydrationRecord); 
-        const weeklyData = hydration2.findWeeklyDailyOunces(date2); 
-        expect(weeklyData).to.deep.equal([98, 56, 52, 54, 23, 30, 40 ]);
+      hydration2.updateRecord(hydrationData, hydration2.hydrationRecord); 
+      const weeklyData = hydration2.findWeeklyDailyOunces(date2); 
+      expect(weeklyData).to.deep.equal([98, 56, 52, 54, 23, 30, 40 ]);
     });
   });
 });

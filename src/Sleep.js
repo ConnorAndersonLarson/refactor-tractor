@@ -2,7 +2,7 @@ import User from './User';
 
 class Sleep extends User {
   constructor(userdata, date) {
-  super(userdata, date)
+    super(userdata, date)
     this.hoursSlept = 0;
     this.sleepQuality = 0;
     this.averageSlept = 0;
@@ -23,7 +23,7 @@ class Sleep extends User {
     this.sleepRecord.forEach(day => {
       averageDailyData.hours += day.hoursSlept;
       averageDailyData.quality += day.sleepQuality; 
-  });
+    });
     this.averageSlept = this.calcAverage(averageDailyData.hours, this.sleepRecord.length, 1); 
     this.averageQuality = this.calcAverage(averageDailyData.quality, this.sleepRecord.length, 1); 
   }
@@ -34,7 +34,7 @@ class Sleep extends User {
     lastWeekData.forEach(day => {
       averageWeeklyData.hours += day.hoursSlept;
       averageWeeklyData.quality += day.sleepQuality;
-  });
+    });
     this.weeklySlept = this.calcAverage(averageWeeklyData.hours, 7, 1);
     this.weeklyQuality = this.calcAverage(averageWeeklyData.quality, 7, 1);
   }

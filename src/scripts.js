@@ -5,14 +5,14 @@ import Activity from './Activity';
 import Hydration from './Hydration';
 import Sleep from './Sleep';
 
-const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"),fetch("http://localhost:3001/api/v1/sleep"),fetch("http://localhost:3001/api/v1/activity")]
+const apiData = [fetch("http://localhost:3001/api/v1/users"), fetch("http://localhost:3001/api/v1/hydration"), fetch("http://localhost:3001/api/v1/sleep"), fetch("http://localhost:3001/api/v1/activity")]
 
 Promise.all(apiData)
-.then(responses => Promise.all(responses.map(response => response.json())))
-.then(data => {
-  const [userData, hydrationData, sleepData, activityData] = data;
-  initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData);
-});
+  .then(responses => Promise.all(responses.map(response => response.json())))
+  .then(data => {
+    const [userData, hydrationData, sleepData, activityData] = data;
+    initialize(userData.userData, hydrationData.hydrationData, sleepData.sleepData, activityData.activityData);
+  });
 
 let todayDate = "2019/09/22";
 let user;
@@ -39,7 +39,6 @@ let sleepCalendarCard = document.querySelector('#sleep-calendar-card');
 let sleepCalendarHoursAverageWeekly = document.querySelector('#sleep-calendar-hours-average-weekly');
 let sleepCalendarQualityAverageWeekly = document.querySelector('#sleep-calendar-quality-average-weekly');
 let sleepFriendLongestSleeper = document.querySelector('#sleep-friend-longest-sleeper');
-let sleepFriendsCard = document.querySelector('#sleep-friends-card');
 const sleepAllUsersQualityAverage = document.querySelector('#sleep-friend-quality-average');
 let sleepInfoCard = document.querySelector('#sleep-info-card');
 let sleepInfoHoursAverageAlltime = document.querySelector('#sleep-info-hours-average-alltime');
@@ -93,7 +92,7 @@ let successfulSubmit = document.querySelector(".successful-submit");
 let failedSubmit = document.querySelector(".failed-submit");
 let clearButton = document.querySelector(".clear-button");
 let errorMessage = document.querySelector(".error-message");
-let cards = [{ name:"main-steps-card", card: stepsMainCard}, {name:"info-button", card: stepsInfoCard}, {name: "friends-button", card: stepsFriendsCard},{name:"trending-button", card: stepsTrendingCard}, {name: "calendar-button", card: stepsCalendarCard}, {name:"hydration-main-card", card: hydrationMainCard}, {name:"hydration-info-button", card: hydrationInfoCard}, {name:"hydration-friends-button", card: hydrationFriendsCard}, {name:"hydration-calendar-button", card: hydrationCalendarCard}, {name:"stairs-main-card", card: stairsMainCard}, {name:"stairs-info-button", card: stairsInfoCard}, {name:"stairs-friends-button", card: stairsFriendsCard}, {name:"stairs-trending-button", card: stairsTrendingCard}, {name:"stairs-calendar-button", card: stairsCalendarCard}, {name:"sleep-main-card", card: sleepMainCard}, {name:"sleep-info-button", card: sleepInfoCard}, {name:"sleep-friends-button", card: sleepInfoCard}, {name:"sleep-calendar-button", card: sleepCalendarCard}]
+let cards = [{ name: "main-steps-card", card: stepsMainCard}, {name: "info-button", card: stepsInfoCard}, {name: "friends-button", card: stepsFriendsCard}, {name: "trending-button", card: stepsTrendingCard}, {name: "calendar-button", card: stepsCalendarCard}, {name: "hydration-main-card", card: hydrationMainCard}, {name: "hydration-info-button", card: hydrationInfoCard}, {name: "hydration-friends-button", card: hydrationFriendsCard}, {name: "hydration-calendar-button", card: hydrationCalendarCard}, {name: "stairs-main-card", card: stairsMainCard}, {name: "stairs-info-button", card: stairsInfoCard}, {name: "stairs-friends-button", card: stairsFriendsCard}, {name: "stairs-trending-button", card: stairsTrendingCard}, {name: "stairs-calendar-button", card: stairsCalendarCard}, {name: "sleep-main-card", card: sleepMainCard}, {name: "sleep-info-button", card: sleepInfoCard}, {name: "sleep-friends-button", card: sleepInfoCard}, {name: "sleep-calendar-button", card: sleepCalendarCard}]
 
 mainPage.addEventListener('click', showCardInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -121,7 +120,7 @@ function showErrorMessage() {
 }
 
 function show(element) {
-element.classList.remove('hide');
+  element.classList.remove('hide');
 }
 
 function hide(element) {
@@ -140,19 +139,19 @@ function showDropdown() {
 }
 
 function showForm(event) {
-  if(event.target.id ===  'show-activity-button') {
+  if (event.target.id ===  'show-activity-button') {
     show(activityInputForm);
     show(clearButton)
     hide(hydrationInputForm)
     hide(sleepInputForm);
   }
-  if(event.target.id === 'show-hydration-button') {
+  if (event.target.id === 'show-hydration-button') {
     show(hydrationInputForm);
     show(clearButton);
     hide(activityInputForm);
     hide(sleepInputForm);
   }
-  if(event.target.id === 'show-sleep-button') {
+  if (event.target.id === 'show-sleep-button') {
     show(sleepInputForm);
     show(clearButton);
     hide(activityInputForm);
@@ -168,20 +167,20 @@ function flipCard(cardToHide, cardToShow) {
 function showCardInfo() {
   let cardA = cards.find(card => card.name === event.target.getAttribute("data-cardAName"));
   let cardB = cards.find(card => card.name === event.target.getAttribute("data-cardBName"));
-  if(cardA && cardB) {
+  if (cardA && cardB) {
     flipCard(cardB.card, cardA.card)
   }
   
-  if (event.target.id ==='steps-return') {
+  if (event.target.id === 'steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
-  if (event.target.id ==='hydrate-return') {
+  if (event.target.id === 'hydrate-return') {
     flipCard(event.target.parentNode, hydrationMainCard);
   }
-  if (event.target.id ==='stairs-return') {
+  if (event.target.id === 'stairs-return') {
     flipCard(event.target.parentNode, stairsMainCard);
   }
-  if (event.target.id ==='sleep-return') {
+  if (event.target.id === 'sleep-return') {
     flipCard(event.target.parentNode, sleepMainCard);
   }
 }
@@ -203,7 +202,7 @@ function initializeSleep(sleepData) {
   sleep.findTodaySleepData(sleepData);
   sleep.calcAvgSleepData();
   sleep.calcWeeklyAvgData(todayDate);
-  }
+}
 
 function initializeHydration(hydrationData) {
   hydration = new Hydration(user, todayDate);
@@ -242,7 +241,7 @@ function createStairsCard(activityData) {
   displayStairStreak();
   displayWeeklyStairData(); 
   displayDailyStairInfo(activityData); 
-   stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
+  stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 }
 function displayDailyStairInfo(activityData) {
   stairsInfoFlightsToday.innerText = activityData.find(activity => {
@@ -273,12 +272,12 @@ function createStepsCard(activityData) {
 function displayDailyActivity(activityData) {
   stepsInfoMilesWalkedToday.innerText = activity.calculateMiles();
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
-      return activity.userID === user.id && activity.date === todayDate;
-    }).minutesActive;
+    return activity.userID === user.id && activity.date === todayDate;
+  }).minutesActive;
   
-    stepsUserStepsToday.innerText = activityData.find(activity => {
-      return activity.userID === user.id && activity.date === todayDate;
-    }).numSteps;
+  stepsUserStepsToday.innerText = activityData.find(activity => {
+    return activity.userID === user.id && activity.date === todayDate;
+  }).numSteps;
 }
 
 function displayWeeklyActivity() {
@@ -287,7 +286,7 @@ function displayWeeklyActivity() {
 }
 
 function displayAllUserActivity() {
- stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
+  stepsFriendActiveMinutesAverageToday.innerText = userRepository.calculateAverageMinutesActive(todayDate);
   stepsFriendAverageStepGoal.innerText = `${userRepository.calculateAverageStepGoal()}`;
   stepsFriendStepsAverageToday.innerText = userRepository.calculateAverageSteps(todayDate);
 }
@@ -344,78 +343,78 @@ function displayWeeklyHydration() {
 function postSleepHelper() {
   event.preventDefault();
   const correctDate = sleepDate.value.replaceAll("-", "/")
-  const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value))? 0 : parseFloat(hoursSleptInput.value);
-  if(sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)){
-      postSleep(correctDate, hoursSleptVal, parseInt(sleepQualityInput.value))
-      successfulSubmit.classList.remove("hide")
-      failedSubmit.classList.add("hide")
-    } else {
-      failedSubmit.classList.remove("hide")
-    }
+  const hoursSleptVal = isNaN(parseFloat(hoursSleptInput.value)) ? 0 : parseFloat(hoursSleptInput.value);
+  if (sleepDate.value && hoursSleptVal && parseInt(sleepQualityInput.value)) {
+    postSleep(correctDate, hoursSleptVal, parseInt(sleepQualityInput.value))
+    successfulSubmit.classList.remove("hide")
+    failedSubmit.classList.add("hide")
+  } else {
+    failedSubmit.classList.remove("hide")
   }
+}
 
-  function postHydrationHelper() {
-    event.preventDefault();
-    const correctDate = hydrationDateInput.value.replaceAll("-", "/")
-    const ouncesDrankInputVal= isNaN(parseFloat(ouncesDrankInput.value))? 0 : parseFloat(ouncesDrankInput.value);
-    if(hydrationDateInput.value && ouncesDrankInputVal) {
-      postHydrate(correctDate, ouncesDrankInputVal)
-      successfulSubmit.classList.remove("hide")
-      failedSubmit.classList.add("hide")
-    } else {
-        failedSubmit.classList.remove("hide")
-    }
+function postHydrationHelper() {
+  event.preventDefault();
+  const correctDate = hydrationDateInput.value.replaceAll("-", "/")
+  const ouncesDrankInputVal = isNaN(parseFloat(ouncesDrankInput.value)) ? 0 : parseFloat(ouncesDrankInput.value);
+  if (hydrationDateInput.value && ouncesDrankInputVal) {
+    postHydrate(correctDate, ouncesDrankInputVal)
+    successfulSubmit.classList.remove("hide")
+    failedSubmit.classList.add("hide")
+  } else {
+    failedSubmit.classList.remove("hide")
   }
+}
 
-  function postActivityHelper() {
-    event.preventDefault();
-    const correctDate = activityDateInput.value.replaceAll("-", "/")
-    const numberOfStepsVal= isNaN(parseFloat(numberOfStepsInput.value))? 0 : parseFloat(numberOfStepsInput.value);
-    const minutesActiveVal= isNaN(parseFloat(minutesActiveInput.value))? 0 : parseFloat(minutesActiveInput.value);
-    const flightsOfStairsVal= isNaN(parseFloat(flightsOfStairsInput.value))? 0 : parseFloat(flightsOfStairsInput.value);
-    if(activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
-      postActivity(correctDate, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
-      successfulSubmit.classList.remove("hide")
-      failedSubmit.classList.add("hide")
-    } else {
-        failedSubmit.classList.remove("hide")
-    }
+function postActivityHelper() {
+  event.preventDefault();
+  const correctDate = activityDateInput.value.replaceAll("-", "/")
+  const numberOfStepsVal = isNaN(parseFloat(numberOfStepsInput.value)) ? 0 : parseFloat(numberOfStepsInput.value);
+  const minutesActiveVal = isNaN(parseFloat(minutesActiveInput.value)) ? 0 : parseFloat(minutesActiveInput.value);
+  const flightsOfStairsVal = isNaN(parseFloat(flightsOfStairsInput.value)) ? 0 : parseFloat(flightsOfStairsInput.value);
+  if (activityDateInput && numberOfStepsVal && minutesActiveVal && flightsOfStairsVal) {
+    postActivity(correctDate, numberOfStepsVal, minutesActiveVal, flightsOfStairsVal)
+    successfulSubmit.classList.remove("hide")
+    failedSubmit.classList.add("hide")
+  } else {
+    failedSubmit.classList.remove("hide")
   }
+}
 
-  function postSleep(sleepDate, hours, quality) {
-    fetch(`http://localhost:3001/api/v1/sleep`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
-})
-  .then(checkForError)
-  .catch(err => showErrorMessage());
+function postSleep(sleepDate, hours, quality) {
+  fetch(`http://localhost:3001/api/v1/sleep`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": sleepDate, "hoursSlept": hours, "sleepQuality": quality})
+  })
+    .then(checkForError)
+    .catch(showErrorMessage());
 }
 
 function postHydrate(hydrationDate, ouncesDrank) {
-    fetch(`http://localhost:3001/api/v1/hydration`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
-})
-  .then(checkForError)
-  .catch(err => showErrorMessage());
+  fetch(`http://localhost:3001/api/v1/hydration`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": hydrationDate, "numOunces": ouncesDrank})
+  })
+    .then(checkForError)
+    .catch(showErrorMessage());
 }
 
 function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flightsOfStairsInput) {
-    fetch(`http://localhost:3001/api/v1/activity`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
-})
-  .then(checkForError)
-  .catch(err => showErrorMessage());
+  fetch(`http://localhost:3001/api/v1/activity`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"userID": user.id, "date": activityDate, "numSteps": numberOfStepsInput, "minutesActive": minutesActiveInput, "flightsOfStairs": flightsOfStairsInput})
+  })
+    .then(checkForError)
+    .catch(showErrorMessage());
 }
 
 const checkForError = response => {
