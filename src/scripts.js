@@ -93,6 +93,7 @@ let successfulSubmit = document.querySelector(".successful-submit");
 let failedSubmit = document.querySelector(".failed-submit");
 let clearButton = document.querySelector(".clear-button");
 let errorMessage = document.querySelector(".error-message");
+let cards = [{ name:"main-steps-card", card: stepsMainCard}, {name:"info-button", card: stepsInfoCard}, {name: "friends-button", card: stepsFriendsCard},{name:"trending-button", card: stepsTrendingCard}, {name: "calendar-button", card: stepsCalendarCard}, {name:"hydration-main-card", card: hydrationMainCard}, {name:"hydration-info-button", card: hydrationInfoCard}, {name:"hydration-friends-button", card: hydrationFriendsCard}, {name:"hydration-calendar-button", card: hydrationCalendarCard}, {name:"stairs-main-card", card: stairsMainCard}, {name:"stairs-info-button", card: stairsInfoCard}, {name:"stairs-friends-button", card: stairsFriendsCard}, {name:"stairs-trending-button", card: stairsTrendingCard}, {name:"stairs-calendar-button", card: stairsCalendarCard}, {name:"sleep-main-card", card: sleepMainCard}, {name:"sleep-info-button", card: sleepInfoCard}, {name:"sleep-friends-button", card: sleepInfoCard}, {name:"sleep-calendar-button", card: sleepCalendarCard}]
 
 mainPage.addEventListener('click', showCardInfo);
 profileButton.addEventListener('click', showDropdown);
@@ -164,49 +165,17 @@ function flipCard(cardToHide, cardToShow) {
   cardToShow.classList.remove('hide');
 }
 
+function showDropdown() {
+  userInfoDropdown.classList.toggle('hide');
+}
+
 function showCardInfo() {
-  if (event.target.id ==='steps-info-button') {
-    flipCard(stepsMainCard, stepsInfoCard);
+  let cardA = cards.find(card => card.name === event.target.getAttribute("data-cardAName"));
+  let cardB = cards.find(card => card.name === event.target.getAttribute("data-cardBName"));
+  if(cardA && cardB) {
+    flipCard(cardB.card, cardA.card)
   }
-  if (event.target.id ==='steps-friends-button') {
-    flipCard(stepsMainCard, stepsFriendsCard);
-  }
-  if (event.target.id === 'steps-trending-button') {
-    flipCard(stepsMainCard, stepsTrendingCard);
-  }
-  if (event.target.id ==='steps-calendar-button') {
-    flipCard(stepsMainCard, stepsCalendarCard);
-  }
-  if (event.target.id ==='hydration-info-button') {
-    flipCard(hydrationMainCard, hydrationInfoCard);
-  }
-  if (event.target.id ==='hydration-friends-button') {
-    flipCard(hydrationMainCard, hydrationFriendsCard);
-  }
-  if (event.target.id ==='hydration-calendar-button') {
-    flipCard(hydrationMainCard, hydrationCalendarCard);
-  }
-  if (event.target.id ==='stairs-info-button') {
-    flipCard(stairsMainCard, stairsInfoCard);
-  }
-  if (event.target.id ==='stairs-friends-button') {
-    flipCard(stairsMainCard, stairsFriendsCard);
-  }
-  if (event.target.id === 'stairsTrendingButton') {
-    flipCard(stairsMainCard, stairsTrendingCard);
-  }
-  if (event.target.id ==='stairs-calendar-button') {
-    flipCard(stairsMainCard, stairsCalendarCard);
-  }
-  if (event.target.id ==='sleep-info-button') {
-    flipCard(sleepMainCard, sleepInfoCard);
-  }
-  if (event.target.id ==='sleep-friends-button') {
-    flipCard(sleepMainCard, sleepFriendsCard);
-  }
-  if (event.target.id ==='sleep-calendar-button') {
-    flipCard(sleepMainCard, sleepCalendarCard);
-  }
+  
   if (event.target.id ==='steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
@@ -452,18 +421,6 @@ function postActivity(activityDate, numberOfStepsInput, minutesActiveInput, flig
   .then(checkForError)
   .catch(err => showErrorMessage());
 }
-
-// function initialize (userData, hydrationData, sleepData, activityData) {
-//   initializeUsers(userData, activityData, sleepData, hydrationData); 
-//   initializeSleep(sleepData, user); 
-//   initializeHydration(hydrationData);
-//   initializeActivity(activityData); 
-//   createDropdown();
-//   createStepsCard(activityData);
-//   createStairsCard(activityData); 
-//   createSleepCard(sleepData);
-//   createHydrationCard(hydrationData); 
-// }
 
 const checkForError = response => {
   if (!response.ok) {
