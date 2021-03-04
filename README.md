@@ -27,11 +27,6 @@ Overall this project was a great learning experience. We were able to take time 
 * Git
 * Atom/vsCode
 
-
-## Deploy Link:
-
-* [Click here to open FitLit]()
-
 ## Initial Setup:
 
 * Clone this repo down, `cd` into it and run `npm i` and `npm start`.
@@ -40,19 +35,15 @@ Overall this project was a great learning experience. We were able to take time 
 
 ## Site Features
 
-<img src="" alt="Desktop view of site">
+<img src="./.github/readme_images/desktop-view.gif" alt="Gif of Desktop view of site">
 
 * Desktop View
 
-<img src="" alt="Mobile view of site">
+<img src="./.github/readme_images/mobile-view.gif" alt="Gif of Mobile view of site">
 
 * Mobile View
 
-<img src="" alt="Gif of Input Options">
-
-* Input Options
-
-<img src="" alt="Gif of Navigating Cards">
+<img src="./.github/readme_images/view-card-info.gif" alt="Gif of Navigating Cards">
 
 * Navigating Cards
 
@@ -60,3 +51,6 @@ Overall this project was a great learning experience. We were able to take time 
 ### Future Additions
 
 * Improve site responsiveness
+* Add login Page with a date, populate data based on date
+* Utilize Parent/Child HTML with querySelectors/eventListeners
+* Restructure HTML to improve back button positioning

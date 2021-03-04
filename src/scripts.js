@@ -169,7 +169,7 @@ function showCardInfo() {
   let cardB = cards.find(card => card.name === event.target.getAttribute("data-cardBName"));
   if (cardA && cardB) {
     flipCard(cardB.card, cardA.card)
-  }  
+  }
   if (event.target.id === 'steps-return') {
     flipCard(event.target.parentNode, stepsMainCard);
   }
@@ -238,8 +238,8 @@ function populateFriendSteps (users) {
 
 function createStairsCard(activityData) {
   displayStairStreak();
-  displayWeeklyStairData(); 
-  displayDailyStairInfo(activityData); 
+  displayWeeklyStairData();
+  displayDailyStairInfo(activityData);
   stairsFriendFlightsAverageToday.innerText = userRepository.calculateAverageStairs(todayDate);
 }
 function displayDailyStairInfo(activityData) {
@@ -273,7 +273,7 @@ function displayDailyActivity(activityData) {
   stepsInfoActiveMinutesToday.innerText = activityData.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
   }).minutesActive;
-  
+
   stepsUserStepsToday.innerText = activityData.find(activity => {
     return activity.userID === user.id && activity.date === todayDate;
   }).numSteps;
@@ -334,9 +334,7 @@ function displayDailyHydration(hydrationData) {
 }
 
 function displayWeeklyHydration() {
-  for (var i = 0; i < dailyOz.length; i++) {
-    dailyOz[i].innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1]
-  }
+  dailyOz.forEach((item, i) => item.innerText = hydration.findWeeklyDailyOunces(todayDate)[i + 1])
 }
 
 function postSleepHelper() {
